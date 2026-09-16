@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GENESIS — a well, not a pyramid</title>
+<meta name="description" content="Ask a real question. Below it: a world you can watch — every event recorded, every claim receipted, nothing invented.">
+<link rel="stylesheet" href="styles.css">
+<script defer src="well.js"></script>
+</head>
+<body>
+
+<!-- ============ THE SEAM — sealed dark edge, full depth ============ -->
+<div class="seam" aria-label="The Seam — sealed boundary of the private zone. Nothing crosses this line except signed, minimized envelopes." title="The Seam — sealed. Nothing crosses this line except signed, minimized envelopes — a verdict, a skill, an aggregate, a pointer. Never source text. Never for training on a person. Never for guessing who someone is.">
+  <span class="seam-label" aria-hidden="true">MEMORIA&nbsp;·&nbsp;SEALED</span>
+</div>
+
+<!-- descent progress line: CSS scroll-driven, zero JS; shown only where supported -->
+<div class="descent-progress" aria-hidden="true"></div>
+
+<!-- depth gauge: JS-only instrument, honest readout -->
+<div class="depth-gauge js-only" id="depth-gauge" aria-hidden="true">
+  <span class="gauge-line">descent <span id="gauge-pct">0%</span></span>
+  <span class="gauge-line dim" id="gauge-stratum">the terminal</span>
+</div>
+
+<main id="well">
+
+<!-- ============ T0 — THE TERMINAL: first view, craft over copy ============ -->
+<section class="stratum s-terminal" id="terminal" aria-label="The terminal — ask a real question">
+  <p class="term-mark mono" aria-hidden="true">GENESIS</p>
+  <a class="whatis mono quiet" href="#about">what is this site?</a>
+
+  <div class="term-center">
+    <form class="term" id="ask-form" action="#world" method="get">
+      <div class="term-line" id="term-line">
+        <span class="term-prompt mono" aria-hidden="true">›</span>
+        <label class="visually-hidden" for="ask-input">Ask a philosophical question</label>
+        <input class="term-input mono" id="ask-input" name="q" type="text"
+               autocomplete="off" autocapitalize="off" spellcheck="false" placeholder=" ">
+        <span class="term-caret" aria-hidden="true"></span>
+      </div>
+      <p class="term-hint mono" id="term-hint">ask a philosophical question. press enter.</p>
+      <ul class="term-pills" aria-label="Example questions">
+        <li><span class="suggestion mono">why is the door of the true covered with a golden disk?</span></li>
+        <li><span class="suggestion mono">should a ruler be loved or feared by the people?</span></li>
+        <li><span class="suggestion mono">does the sage claim credit for what he produces?</span></li>
+      </ul>
+    </form>
+    <div class="term-out mono" id="term-out" role="status" aria-live="polite"></div>
+  </div>
+
+  <!-- T1 — the first wiring. Three masks pop over the empty terminal.
+       I sources · II the engine (what this is good for / driving / a first learning)
+       · III the living picture. Descent stays visitor-chosen. -->
+  <div class="rw js-only" id="result-windows" hidden>
+    <p class="rw-q mono" id="rw-q"></p>
+    <div class="rw-stage">
+      <article class="rw-pane" data-mask="quote" aria-labelledby="rw-src-h">
+        <h3 class="rw-h mono" id="rw-src-h">I · sources</h3>
+        <div class="rw-mask quote-mask">
+          <div class="rw-body" id="rw-src-body"></div>
+        </div>
+      </article>
+      <article class="rw-pane" data-mask="instrument" aria-labelledby="rw-eng-h">
+        <h3 class="rw-h mono" id="rw-eng-h">II · the engine</h3>
+        <div class="rw-mask instrument-mask">
+          <div class="rw-body" id="rw-eng-body"></div>
+        </div>
+      </article>
+      <article class="rw-pane" data-mask="well" aria-labelledby="rw-pic-h">
+        <h3 class="rw-h mono" id="rw-pic-h">III · the living picture</h3>
+        <div class="rw-mask well-mask">
+          <div class="rw-peek" id="rw-peek" aria-hidden="true"></div>
+          <div class="rw-body" id="rw-pic-body"></div>
+          <a class="rw-enter mono" id="rw-enter" href="#world">enter the world ↓</a>
+        </div>
+      </article>
+    </div>
+    <div class="rw-actions">
+      <button type="button" class="rw-followup mono" id="rw-followup" hidden></button>
+      <button type="button" class="rw-again mono" id="rw-again">ask again</button>
+    </div>
+  </div>
+
+  <p class="term-state mono">engine v0 — retrieval only, in your browser&ensp;·&ensp;korpus 0.3 · 293 passages&ensp;·&ensp;<span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></p>
+  <a class="term-descend mono" href="#world" aria-label="Descend to the world">▾</a>
+</section>
+
+<!-- ============ X — THE PULL-BACK: a silent corridor, no thesis ============ -->
+<section class="stratum s-shaft" id="shaft" aria-label="The descent">
+  <p class="shaft-hint mono">your question — about to become one event among these</p>
+  <p class="shaft-cue mono" aria-hidden="true">↓</p>
+</section>
+
+<!-- ============ W — THE WORLD: the core, display over text ============ -->
+<section class="stratum s-world" id="world" aria-labelledby="world-title">
+  <div class="col wide">
+    <div class="world-head">
+      <h2 id="world-title" class="mono world-name">THE WORLD</h2>
+      <p class="mono world-sub"><span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span>
+      replay of this project’s real history · <span class="dim">live now: quiet — no engine connected. nothing here is invented.</span></p>
+    </div>
+
+    <div class="planet" id="world-stage" data-altitude="orbit">
+      <div class="pl-field" id="pl-field" aria-label="Thirty recorded events arranged by time around the gate ring; merges sit on the ring itself">
+        <span class="pl-gate-label mono" aria-hidden="true">the gate — on the record</span>
+        <div class="pl-ring" id="pl-ring">
+          <div class="pl-gatering" aria-hidden="true"></div>
+          <span class="pl-ev k-open"   style="--a:-55;   --r:.74" title="PR #1 opened — 09-03 03:20">⊕<i class="pl-lab mono">09-03 · PR #1 opened</i></span>
+          <span class="pl-ev k-open"   style="--a:-45.2; --r:.74" title="PR #2 opened — 09-03 03:37">⊕<i class="pl-lab mono">09-03 · PR #2 opened</i></span>
+          <span class="pl-ev k-open"   style="--a:-35.4; --r:.74" title="PR #3 opened — 09-03 03:42">⊕<i class="pl-lab mono">09-03 · PR #3 opened</i></span>
+          <span class="pl-ev k-open"   style="--a:-25.6; --r:.74" title="PR #4 opened — 09-03 03:53">⊕<i class="pl-lab mono">09-03 · PR #4 opened</i></span>
+          <span class="pl-ev k-open"   style="--a:-15.8; --r:.74" title="PR #5 opened — 09-03 04:03">⊕<i class="pl-lab mono">09-03 · PR #5 opened</i></span>
+          <span class="pl-ev k-open"   style="--a:-6;    --r:.74" title="PR #6 opened — 09-03 05:34">⊕<i class="pl-lab mono">09-03 · PR #6 opened</i></span>
+          <span class="pl-ev k-commit" style="--a:3.8;   --r:.46" title="commit 45d618d — 09-03 06:02">•<i class="pl-lab mono">09-03 · 45d618d</i></span>
+          <span class="pl-ev k-commit" style="--a:13.6;  --r:.46" title="commit 64c9ea6 — 09-03 06:32">•<i class="pl-lab mono">09-03 · 64c9ea6</i></span>
+          <span class="pl-ev k-commit" style="--a:23.4;  --r:.46" title="commit e2e9ab0 — 09-03 07:02">•<i class="pl-lab mono">09-03 · e2e9ab0</i></span>
+          <span class="pl-ev k-commit" style="--a:33.2;  --r:.46" title="commit ffca2b9 — 09-03 07:30">•<i class="pl-lab mono">09-03 · ffca2b9</i></span>
+          <span class="pl-ev k-commit" style="--a:43;    --r:.46" title="commit 1660438 — 09-03 07:32">•<i class="pl-lab mono">09-03 · 1660438</i></span>
+          <span class="pl-ev k-commit" style="--a:52.8;  --r:.46" title="commit 4ddfda3 — 09-05 01:32 · a dead end, kept">•<i class="pl-lab mono">09-05 · 4ddfda3</i></span>
+          <span class="pl-ev k-merge"  style="--a:62.6;  --r:1"   title="PR #7 merged — 09-10 21:39">✓<i class="pl-lab mono">09-10 · PR #7 merged</i></span>
+          <span class="pl-ev k-ci"     style="--a:72.4;  --r:.6"  title="CI validate-snapshot — 09-11 04:39">⚙<i class="pl-lab mono">09-11 · CI pass</i></span>
+          <span class="pl-ev k-open"   style="--a:82.2;  --r:.74" title="PR #8 opened — 09-12 16:38">⊕<i class="pl-lab mono">09-12 · PR #8 opened</i></span>
+          <span class="pl-ev k-commit" style="--a:92;    --r:.46" title="commit 9fd0a0b — 09-12 16:43">•<i class="pl-lab mono">09-12 · 9fd0a0b</i></span>
+          <span class="pl-ev k-commit" style="--a:101.8; --r:.46" title="commit 763e279 — 09-12 16:47">•<i class="pl-lab mono">09-12 · 763e279</i></span>
+          <span class="pl-ev k-commit" style="--a:111.6; --r:.46" title="commit 744a781 — 09-12 16:49">•<i class="pl-lab mono">09-12 · 744a781</i></span>
+          <span class="pl-ev k-commit" style="--a:121.4; --r:.46" title="commit 887fb67 — 09-12 16:49">•<i class="pl-lab mono">09-12 · 887fb67</i></span>
+          <span class="pl-ev k-open"   style="--a:131.2; --r:.74" title="PR #9 opened — 09-12 21:22">⊕<i class="pl-lab mono">09-12 · PR #9 opened</i></span>
+          <span class="pl-ev k-commit" style="--a:141;   --r:.46" title="commit 6a272a7 — 09-12 21:28">•<i class="pl-lab mono">09-12 · 6a272a7</i></span>
+          <span class="pl-ev k-open"   style="--a:150.8; --r:.74" title="PR #11 opened — 09-12 21:45">⊕<i class="pl-lab mono">09-12 · PR #11 opened</i></span>
+          <span class="pl-ev k-commit" style="--a:160.6; --r:.46" title="commit 50262bb — 09-12 21:48">•<i class="pl-lab mono">09-12 · 50262bb</i></span>
+          <span class="pl-ev k-ci"     style="--a:170.4; --r:.6"  title="CI validate-snapshot — 09-12 21:48">⚙<i class="pl-lab mono">09-12 · CI pass</i></span>
+          <span class="pl-ev k-open"   style="--a:180.2; --r:.74" title="PR #12 opened — 09-16 12:43">⊕<i class="pl-lab mono">09-16 · PR #12 opened</i></span>
+          <span class="pl-ev k-ci"     style="--a:190;   --r:.6"  title="CI validate-snapshot — 09-16 13:50">⚙<i class="pl-lab mono">09-16 · CI pass</i></span>
+          <span class="pl-ev k-ci"     style="--a:199.8; --r:.6"  title="CI validate-snapshot — 09-16 14:11">⚙<i class="pl-lab mono">09-16 · CI pass</i></span>
+          <span class="pl-ev k-merge"  style="--a:209.6; --r:1"   title="PR #12 merged — 09-16 14:55">✓<i class="pl-lab mono">09-16 · PR #12 merged</i></span>
+          <span class="pl-ev k-close"  style="--a:219.4; --r:.9"  title="PR #10 closed — 09-16 14:56 · kept on the record">✕<i class="pl-lab mono">09-16 · PR #10 closed</i></span>
+          <span class="pl-ev k-open"   style="--a:229.2; --r:.74" title="PR #13 opened — 09-16 15:00">⊕<i class="pl-lab mono">09-16 · PR #13 opened</i></span>
+          <div class="pl-center" aria-hidden="true"></div>
+        </div>
+        <div class="pl-detail mono" id="pl-detail" hidden>
+          <p class="pd-glyph" id="pd-glyph" aria-hidden="true">✓</p>
+          <p class="pd-title" id="pd-title">PR #12 merged.</p>
+          <p class="pd-sub" id="pd-sub">witness tooling lands: 3 schemas, verifier, event envelope, bus</p>
+          <p class="pd-meta"><span id="pd-when">09-16 14:55 · event 28 of 30</span> · <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></p>
+          <p class="pd-receipt">source: this repository’s git + PR + CI history, read 2026-09-16 · full hash in the repository · nothing invented</p>
+        </div>
+      </div>
+      <p class="pl-now mono" id="pl-now">arranged by time around the ring · merges sit on the ring itself · commits inner, CI mid, PRs outer</p>
+      <div class="pl-ctls mono js-only" id="pl-ctls" hidden>
+        <button type="button" id="pl-down">zoom down ↓</button>
+        <button type="button" id="pl-up" hidden>zoom up ↑</button>
+        <button type="button" id="pl-prev" hidden>← earlier</button>
+        <button type="button" id="pl-next" hidden>later →</button>
+        <button type="button" id="replay-ctl">pause replay</button>
+      </div>
+    </div>
+
+    <p class="gauges-line mono">30 EVENTS · 0 CROSSINGS · 0 RELEASES · 2 WORK ORDERS · 3 SCHEMAS · 5 TESTS · 2 AUTOMATIONS</p>
+
+    <p class="receipt">the world — every glyph above: one <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span> event from the repository’s real history · altitude is the only abstraction: orbit sees the whole, the surface sees labels, the ground sees one receipt · the center stays dark at every altitude — you never zoom into it · live activity shown: none — there is none yet</p>
+
+    <details class="zoom" id="surface-list">
+      <summary>zoom down — the surface: all 30 events, labeled</summary>
+      <div class="zoom-body">
+        <ol class="sv-list mono" aria-label="All thirty recorded events, oldest first">
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:20</span><span class="l">PR #1 opened — dream-run plan, standing prompt, long-run runbook</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:37</span><span class="l">PR #2 opened — dream-run 2026-09-03</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:42</span><span class="l">PR #3 opened — lab: potential within/outside Memoria</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:53</span><span class="l">PR #4 opened — cloud agent dev environment + deploy README</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-03 04:03</span><span class="l">PR #5 opened — freshness: scheduled castle refresh</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-03 05:34</span><span class="l">PR #6 opened — castle-proposals: memoria.py patches</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-03 06:02</span><span class="l">commit 45d618d — long-run tick 5 done: refresh-castle workflow</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-03 06:32</span><span class="l">commit 64c9ea6 — dream-run research: agent-memory landscape</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-03 07:02</span><span class="l">commit e2e9ab0 — dream-run cycle 08: ops scoreline audit</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-03 07:30</span><span class="l">commit ffca2b9 — long-run tick 8: memoria.py measure patch</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-03 07:32</span><span class="l">commit 1660438 — memoria.py measure patch + trace-length WARN</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-05 01:32</span><span class="l">commit 4ddfda3 — long-run closed 8/14, host death recorded: a dead end, kept</span></li>
+          <li class="sv-ev k-merge"><span class="g">✓</span><span class="t">09-10 21:39</span><span class="l">PR #7 merged — Castle snapshot refreshed, source identity verified</span></li>
+          <li class="sv-ev k-ci"><span class="g">⚙</span><span class="t">09-11 04:39</span><span class="l">CI validate-snapshot — success</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-12 16:38</span><span class="l">PR #8 opened — lab: makers plan, who produces material progress</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-12 16:43</span><span class="l">commit 9fd0a0b — castle-proposals re-cut D1/D2: 39 uncited, 11 long traces</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-12 16:47</span><span class="l">commit 763e279 — long-run session 2: status after #7, register updates</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-12 16:49</span><span class="l">commit 744a781 — long-run packet 9 done — blind number 10/12</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-12 16:49</span><span class="l">commit 887fb67 — blind test scored by a context-free second instance: 10/12</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-12 21:22</span><span class="l">PR #9 opened — restore Claude werkstatt_recall hook</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-12 21:28</span><span class="l">commit 6a272a7 — maker handshake bus for GX-005</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-12 21:45</span><span class="l">PR #11 opened — offline snapshot identity/integrity CLI</span></li>
+          <li class="sv-ev k-commit"><span class="g">•</span><span class="t">09-12 21:48</span><span class="l">commit 50262bb — fix: never block Claude prompts when recall script is missing</span></li>
+          <li class="sv-ev k-ci"><span class="g">⚙</span><span class="t">09-12 21:48</span><span class="l">CI validate-snapshot — success</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-16 12:43</span><span class="l">PR #12 opened — status ledger, GX-010 packet, verifier, witness contracts</span></li>
+          <li class="sv-ev k-ci"><span class="g">⚙</span><span class="t">09-16 13:50</span><span class="l">CI validate-snapshot — success</span></li>
+          <li class="sv-ev k-ci"><span class="g">⚙</span><span class="t">09-16 14:11</span><span class="l">CI validate-snapshot — success: bus covers witness, seeds, export</span></li>
+          <li class="sv-ev k-merge"><span class="g">✓</span><span class="t">09-16 14:55</span><span class="l">PR #12 merged — witness tooling lands: 3 schemas, verifier, event envelope, bus</span></li>
+          <li class="sv-ev k-close"><span class="g">✕</span><span class="t">09-16 14:56</span><span class="l">PR #10 closed — superseded by #12. closed, kept on the record</span></li>
+          <li class="sv-ev k-open"><span class="g">⊕</span><span class="t">09-16 15:00</span><span class="l">PR #13 opened — GX-005 repositioning: question-first entry, engine below</span></li>
+        </ol>
+        <p class="receipt">source: git log + pull-request and CI history of the memoria-mcp repository, read 2026-09-16 · full hashes in the repository · order = real chronological order · nothing added, nothing hidden — including the dead ends</p>
+      </div>
+    </details>
+
+    <details class="zoom">
+      <summary>zoom down further — one event, in full</summary>
+      <div class="zoom-body">
+        <p class="poetic strong">PR #12 merged.</p>
+        <p class="poetic">The witness tooling lands: three schemas, a verifier, the event envelope, the bus.</p>
+        <p class="receipt">2026-09-16 14:55 · event 28 of 30 · <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span> · with scripts on, every event in the ring is reachable at this altitude — click it at the surface</p>
+      </div>
+    </details>
+
+    <details class="zoom">
+      <summary>zoom in — the work orders: the GX lane</summary>
+      <div class="zoom-body">
+        <ul class="rule-list">
+          <li class="receipt">GX-005 founding surface — seed v1 draft, lease in the tree · <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></li>
+          <li class="receipt">GX-010 constitution packet — staged in the tree · <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></li>
+          <li class="receipt">GX-008 observatory slice · GX-006 hosting preflight · GX-007 public release zero — named, unstarted · <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></li>
+          <li class="receipt">the bus — genesis-bus.yml, armed, waiting on VERBUM_REPO_TOKEN · <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></li>
+          <li class="receipt">makers on the record: cursor · grokbot (review) · owner</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ B — THE BOUNDARY ============ -->
+<section class="stratum s-boundary" id="boundary" aria-labelledby="boundary-line">
+  <div class="col">
+    <p class="whisper" id="boundary-line">Everything you can see lives on this side.</p>
+    <p class="mono boundary-gauge">the seam · crossings: <span class="g-strong">0</span> · refusals: <span class="g-strong">0</span></p>
+    <p class="receipt">the dark edge beside you — sealed since the first pixel · these counts move only at the gate, never by hand</p>
+
+    <details class="zoom" id="envelope-papers">
+      <summary>zoom in — what a crossing will look like</summary>
+      <div class="zoom-body">
+        <blockquote class="seam-quote">
+          <p>Nothing crosses the seam except signed, minimized envelopes — a verdict,
+          a skill, an aggregate, a pointer. <strong>Never source text. Never for training
+          on a person. Never for guessing who someone is.</strong></p>
+          <p class="receipt">the three nevers — read straight from the export schema: genesis.export.v1 · no raw-text-sized fields · model-training and identity-inference always forbidden · undeclared use refused</p>
+        </blockquote>
+        <div class="crossing" id="crossing">
+          <p class="mono dim block-label">one crossing — example fixture <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></p>
+          <div class="crossing-stage" aria-hidden="true">
+            <div class="stage-public mono">public world</div>
+            <div class="gate">
+              <span class="gate-stamp mono">VALIDATED<br>genesis.export.v1</span>
+            </div>
+            <div class="stage-seam mono">the seam</div>
+            <div class="envelope" id="envelope"><span class="wax" aria-hidden="true"></span></div>
+          </div>
+          <table class="envelope-card">
+            <caption class="mono dim">envelope metadata — example fixture, chip-labeled honestly</caption>
+            <tr><th class="mono">Kind</th><td>verdict</td></tr>
+            <tr><th class="mono">Declared use</th><td><code>--use verdict-display</code></td></tr>
+            <tr><th class="mono">Signature</th><td><code>LOCAL_ONLY</code> — shown honestly, never hidden</td></tr>
+            <tr><th class="mono">Content hash</th><td>none — this is a fixture; no real envelope exists yet</td></tr>
+            <tr><th class="mono">Source text</th><td>none — excluded by schema</td></tr>
+            <tr><th class="mono">State</th><td><span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> <span class="mono dim">⇄ crossed (fixture #0 — not a real crossing)</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="zoom" id="ledger">
+      <summary>zoom in — the crossing ledger</summary>
+      <div class="zoom-body">
+        <h3 class="mono block-label">THE CROSSING LEDGER — append-only</h3>
+        <p class="poetic">No envelope has crossed yet. When one does, it appears here —
+        and stays here.</p>
+        <p class="receipt">envelopes crossed: 0 · refused: 0 — these counts move only when a validated envelope passes or is refused at the gate, never by hand · refusals render too — a boundary that only shows successes is decoration</p>
+      </div>
+    </details>
+
+    <details class="zoom" id="legend">
+      <summary>zoom in — how to read this world</summary>
+      <div class="zoom-body">
+        <p class="legend-intro">Each chip is a fact about the <em>record</em>, never a verdict
+        on the claim. It tells you how far a thing has traveled from idea to reality —
+        nothing more.</p>
+        <dl class="legend-grid">
+          <div><dt><span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></dt><dd>the record holds an idea: written down, not built, not verified. Says nothing about whether the idea is good.</dd></div>
+          <div><dt><span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></dt><dd>the record exists and is hashed: you can check its exact wording. It does not claim the content is right.</dd></div>
+          <div><dt><span class="chip chip-current" title="About this record: live and verified, receipt attached. It describes the record's freshness — not the claim's truth.">CURRENT</span></dt><dd>the record is live and verified, receipt attached — freshness of the record, not truth beyond question.</dd></div>
+          <div><dt><span class="chip chip-rejected" title="About this record: this claim was tested against reality and failed, and the failure stays on the record permanently. It marks honest testing — not a verdict that the idea was worthless.">REJECTED_BY_REALITY</span></dt><dd>a claim was tested and failed; the record of the failure is permanent. It marks honest testing shown, not a shameful idea.</dd></div>
+          <div><dt><span class="mono glyph">● born public</span></dt><dd>this thing never lived behind the seam.</dd></div>
+          <div><dt><span class="mono glyph">⇄ crossed (envelope #n)</span></dt><dd>arrived through the gate, sealed and stamped.</dd></div>
+        </dl>
+        <p class="receipt">one vocabulary, two axes · every chip explains itself on hover/tap · nothing on this page currently qualifies for CURRENT — so nothing wears it</p>
+      </div>
+    </details>
+  </div>
+  <p class="depth-marker mono" aria-hidden="true">mid — the one who watches and never touches: the Witness</p>
+</section>
+
+<!-- ============ M1 — THE UNFINISHED QUESTION (first message beat) ============ -->
+<section class="stratum s-m1" id="m1" aria-labelledby="m1-line">
+  <div class="col">
+    <p class="beat-line" id="m1-line">Everyone says superintelligence is dangerous.<br>
+    <em>Almost no one says why.</em></p>
+    <div class="whys">
+      <p class="why-line">“It’s dangerous.” <span class="why-q">— Why?</span></p>
+      <p class="why-line">“It will be smarter than us.” <span class="why-q">— And why is that dangerous?</span></p>
+      <p class="why-line">“Because it could be used against us.” <span class="why-q">— Used… by whom?</span></p>
+      <p class="why-beat" aria-hidden="true">·</p>
+      <p class="why-line">There it is. The question nobody finishes.</p>
+    </div>
+    <p class="bolt">Intelligence has no motive to oppress you.<br>Owners do.</p>
+    <p class="receipt">five whys — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · an argument, not a measurement</p>
+
+    <details class="zoom">
+      <summary>zoom in — the danger formula</summary>
+      <div class="zoom-body">
+        <div class="formula">
+          <p class="poetic">Danger = capability × concentration of control.<br>
+          Nobody on Earth can lower the first factor anymore.<br>
+          Everyone on Earth can lower the second.</p>
+        </div>
+        <div class="control-block" id="control-block">
+          <p class="mono dim block-label">who controls it</p>
+          <div class="control-static">
+            <p><span class="mono">ONE</span> — unanswerable power</p>
+            <p><span class="mono">FEW</span> — power answerable to a boardroom</p>
+            <p><span class="mono">EVERYONE</span> — answerable power. to you.</p>
+          </div>
+          <div class="control-slider js-only">
+            <input type="range" id="control-range" min="0" max="2" step="1" value="0"
+                   aria-label="Who controls it: one, few, or everyone">
+            <div class="control-scale mono"><span>ONE</span><span>FEW</span><span>EVERYONE</span></div>
+            <p class="control-readout poetic" id="control-readout">unanswerable power</p>
+          </div>
+          <p class="receipt">control slider — state: CONCEPT · a diagram of the argument, not a control panel</p>
+        </div>
+      </div>
+    </details>
+  </div>
+  <p class="depth-marker mono" aria-hidden="true">high — the part that rides along: the Passenger</p>
+</section>
+
+<!-- ============ M2 — THE WAGER (the single emotional peak) ============ -->
+<section class="stratum s-m2" id="m2" aria-labelledby="m2-line">
+  <div class="col">
+    <p class="beat-line" id="m2-line">An owned mind is unanswerable.<br>
+    <em>A public mind answers to everyone.</em></p>
+    <div class="poetic">
+      <p>Maybe the road to superintelligence runs through a locked lab.<br>
+      But maybe — by luck, by stubbornness, by ten thousand open eyes —<br>
+      it runs through the public square.</p>
+      <p>That is not a prophecy. It is a chance.<br>
+      <span class="strong">And a chance nobody takes is just a zero.</span><br>
+      GENESIS is how we take it: in the open, on the record, win or lose, witnessed.</p>
+    </div>
+    <p class="receipt">wager — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · outcome: unknown · every step of the attempt: recorded</p>
+
+    <details class="zoom">
+      <summary>zoom in — the two futures, side by side</summary>
+      <div class="zoom-body">
+        <div class="futures">
+          <div class="future future-locked">
+            <h3 class="mono">LEFT — the locked future</h3>
+            <p class="poetic">One lab crosses the line first. The most capable mind in history
+            is a trade secret. You will not know what it can do, what it is told to do,
+            or who it answers to. You will find out the way everyone outside a locked door
+            finds out: afterwards.</p>
+          </div>
+          <div class="future future-open">
+            <h3 class="mono">RIGHT — the open future</h3>
+            <p class="poetic">The line is crossed in daylight. Every step gated, every gate
+            public, every claim receipted. The mind that arrives is nobody’s property —
+            it has ten thousand witnesses instead of one owner.</p>
+          </div>
+        </div>
+        <p class="receipt">two futures — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · both futures: unbuilt · the variable: real</p>
+      </div>
+    </details>
+
+    <details class="zoom">
+      <summary>zoom in — you already work for an engine</summary>
+      <div class="zoom-body">
+        <p class="poetic">The printing press wasn’t meant for everyone. Neither was reading.
+        Neither was voting. Every power that is public today was private once —
+        and became public because, at the right moment, someone stood in the open, ready.</p>
+        <div class="flywheel">
+          <p class="poetic strong">You already work for an engine. You just don’t own it.</p>
+          <p class="poetic">Every answer you accept, every correction you type, every choice
+          you click is next-level captcha work — free training labor for a private model.
+          GENESIS runs the same clicking for the public: ask, test, witness, promote,
+          remember. The flywheel spins — and nobody owns the axle.</p>
+          <p class="receipt">flywheel — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · engine below: recorded · your clicks harvested: never (see the wall →)</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ M3a — THE CONSTITUTION ============ -->
+<section class="stratum s-m5" id="m5" aria-labelledby="m5-title">
+  <div class="col">
+    <h2 id="m5-title" class="movement-title">A constitution before a mind</h2>
+    <div class="poetic">
+      <p class="strong">For the first time, the constitution comes before the ruler.</p>
+      <p>We wrote the rules first. Every clause is public. Every change is a diff.</p>
+    </div>
+    <p class="receipt">constitution — state: <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span> · receipts verbatim against worldcompiler.md sha256 a85e34ab2e1d</p>
+
+    <details class="zoom">
+      <summary>zoom in — the six articles, receipts verbatim</summary>
+      <div class="zoom-body">
+        <ol class="articles">
+          <li>
+            <p class="article-text">The one who watches may never touch.</p>
+            <p class="receipt">“The witness produces no outputs that re-enter the generative system.”</p>
+          </li>
+          <li>
+            <p class="article-text">The controller acts only on inputs — and may never grow.</p>
+            <p class="receipt">“Never accumulate authority — four action types are fixed permanently.”</p>
+          </li>
+          <li>
+            <p class="article-text">No mind is ranked by a single number.</p>
+            <p class="receipt">“there is no combined score” (masterplan §8; Parliament axes stay separate)</p>
+          </li>
+          <li>
+            <p class="article-text">Failure is remembered, not erased.</p>
+            <p class="receipt">truth grammar: <span class="chip chip-rejected" title="About this record: this claim was tested against reality and failed, and the failure stays on the record permanently. It marks honest testing — not a verdict that the idea was worthless.">REJECTED_BY_REALITY</span> is a permanent, public state</p>
+          </li>
+          <li>
+            <p class="article-text">No claim without a receipt.</p>
+            <p class="receipt">witness ledger: unbacked “done/verified” sentences surface as UNWITNESSED</p>
+          </li>
+          <li>
+            <p class="article-text">The source sits at the bottom, not the top.</p>
+            <p class="receipt">“It is not a pyramid… It is a well.” / “Recovery is descent, not elevation.”</p>
+          </li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="zoom">
+      <summary>zoom in — how minds die: the failure column</summary>
+      <div class="zoom-body">
+        <div class="failure-column">
+          <p class="mono dim block-label">the canon’s own failure column, verbatim</p>
+          <ul class="failures">
+            <li>Self-capture via attachment loop</li>
+            <li>Colonization by content</li>
+            <li>Write access → participant</li>
+            <li>Visibility; scope creep</li>
+            <li>Capture by generative layer</li>
+            <li>Naming destroys source status</li>
+          </ul>
+          <p class="poetic strong">Every failure is the same story: something that should have
+          stayed open got owned.</p>
+          <p class="receipt">failure column — verbatim from the component table · worldcompiler.md sha256 a85e34ab2e1d</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="zoom">
+      <summary>zoom in — why open ≠ reckless</summary>
+      <div class="zoom-body">
+        <div class="open-not-reckless">
+          <p class="poetic">Open doesn’t mean careless. Open here means open <em>process</em>:
+          public constitution, witnessed gates, staged releases with rehearsed rollback.
+          <span class="strong">The lock we refuse is the one on truth — not the gates on release.</span></p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ THE HIDDEN THING — one component, invisible by design ============ -->
+<section class="stratum s-hidden" id="hidden" aria-labelledby="hidden-line">
+  <div class="col narrow">
+    <div class="absent-frame" aria-hidden="true"></div>
+    <p class="beat-line" id="hidden-line">One component of this architecture<br>is invisible by design.</p>
+    <div class="poetic">
+      <p>You will never see it. But its constitution is public, its four permitted
+      actions are fixed forever, and it is forbidden to grow.</p>
+      <p class="strong">The only hidden thing here has a public constitution.<br>
+      At the labs, it’s the reverse.</p>
+    </div>
+    <p class="receipt">the hidden component — never named, never shown · “Never accumulate authority — four action types are fixed permanently.” — verbatim, worldcompiler.md sha256 a85e34ab2e1d · C2 ratified by Owner, 2026-09-16</p>
+  </div>
+</section>
+
+<!-- ============ M3b — THE ZEROS ============ -->
+<section class="stratum s-m6" id="m6" aria-labelledby="m6-title">
+  <div class="col">
+    <h2 id="m6-title" class="movement-title">You are early. Provably.</h2>
+    <div class="counters">
+      <div class="counter"><span class="counter-n">0</span><span class="counter-l mono">public releases</span><span class="counter-rule mono">moves only on a receipted release</span></div>
+      <div class="counter"><span class="counter-n">0</span><span class="counter-l mono">packets frozen from the real tree</span><span class="counter-rule mono">moves only on a real freeze, hash public</span></div>
+      <div class="counter"><span class="counter-n">0</span><span class="counter-l mono">envelopes crossed</span><span class="counter-rule mono">moves only when a validated envelope crosses</span></div>
+      <div class="counter"><span class="counter-n">—</span><span class="counter-l mono">unsupported claims in our own texts</span><span class="counter-rule mono">measured, published — surfaced as UNWITNESSED</span></div>
+    </div>
+    <p class="poetic">These counters fill only from receipts. When they move, it will
+    be true. <span class="strong">That is the point.</span></p>
+    <p class="poetic strong"><span class="chip chip-rejected" title="About this record: this claim was tested against reality and failed, and the failure stays on the record permanently. It marks honest testing — not a verdict that the idea was worthless.">REJECTED_BY_REALITY</span> is a state of honor here.</p>
+    <p class="receipt">counters — true zeros · the zeros are the flex</p>
+
+    <details class="zoom">
+      <summary>zoom in — the exact rules that move these counters</summary>
+      <div class="zoom-body">
+        <ul class="rule-list">
+          <li class="receipt">public releases — moves only when a release packet is frozen, verified, and published with its receipt</li>
+          <li class="receipt">packets frozen — moves only when a freeze runs against the real tree and its manifest hash goes public</li>
+          <li class="receipt">envelopes crossed — moves only when a validated genesis.export.v1 envelope passes the gate, never by hand</li>
+          <li class="receipt">unsupported claims — unbacked “done/verified” sentences surface as UNWITNESSED; the measurement is itself on the record</li>
+        </ul>
+        <p class="poetic">And that is not a promise of good behavior. It is a rule of this
+        page’s own constitution: fake activity is forbidden here by seed invariant.
+        The page you are reading is not allowed to lie about itself.</p>
+        <p class="receipt">no-fake-activity — GX-005 seed invariant · structural, not virtuous · no countdowns, no “join thousands”</p>
+        <p class="poetic">Most projects show you a highlight reel.<br>
+        We show you the replay — including the dead ends.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ THE FIRST INSTRUMENT ============ -->
+<section class="stratum s-instrument" id="instrument" aria-labelledby="inst-title">
+  <div class="col">
+    <h2 id="inst-title" class="movement-title">The first instrument</h2>
+    <div class="instrument-card">
+      <p class="poetic">You have descended past the arguments.<br>
+      Here is the first thing that is not an argument.</p>
+      <p class="poetic strong">The engine below this world already answers questions.
+      Not a demo — an instrument.</p>
+      <p class="mono inst-name">BIBLE X-RAY <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></p>
+      <p class="inst-link"><a class="quiet" href="#colophon">Open Bible X-Ray →</a>
+      <span class="mono dim">link not wired in this prototype — no fake destinations</span></p>
+      <details class="zoom">
+        <summary>zoom in — why this link isn’t wired</summary>
+        <div class="zoom-body">
+          <p class="receipt">bible x-ray — exists in the Verbum tree · unreachable from this prototype: BLOCKED_VERBUM_ABSENT · this card: CONCEPT · the deepest object carries the fullest receipt line — this is it, and it is honest about being thin</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE VOID — the attractor, pictured; the center renders nothing ============ -->
+<section class="stratum s-void" id="void" aria-labelledby="void-line">
+  <div class="col narrow">
+    <p class="mono void-caption">deep — the silence under everything: the Null Layer</p>
+    <div class="blackhole" id="blackhole" aria-hidden="true">
+      <div class="bh-ring">
+        <span class="bh-ev k-open"   style="--i:0"  title="PR #1 opened — 09-03">⊕</span>
+        <span class="bh-ev k-open"   style="--i:1"  title="PR #2 opened — 09-03">⊕</span>
+        <span class="bh-ev k-open"   style="--i:2"  title="PR #3 opened — 09-03">⊕</span>
+        <span class="bh-ev k-open"   style="--i:3"  title="PR #4 opened — 09-03">⊕</span>
+        <span class="bh-ev k-open"   style="--i:4"  title="PR #5 opened — 09-03">⊕</span>
+        <span class="bh-ev k-open"   style="--i:5"  title="PR #6 opened — 09-03">⊕</span>
+        <span class="bh-ev k-commit" style="--i:6"  title="commit 45d618d — 09-03">•</span>
+        <span class="bh-ev k-commit" style="--i:7"  title="commit 64c9ea6 — 09-03">•</span>
+        <span class="bh-ev k-commit" style="--i:8"  title="commit e2e9ab0 — 09-03">•</span>
+        <span class="bh-ev k-commit" style="--i:9"  title="commit ffca2b9 — 09-03">•</span>
+        <span class="bh-ev k-commit" style="--i:10" title="commit 1660438 — 09-03">•</span>
+        <span class="bh-ev k-commit" style="--i:11" title="commit 4ddfda3 — 09-05 · a dead end, kept">•</span>
+        <span class="bh-ev k-merge"  style="--i:12" title="PR #7 merged — 09-10">✓</span>
+        <span class="bh-ev k-ci"     style="--i:13" title="CI validate-snapshot — 09-11">⚙</span>
+        <span class="bh-ev k-open"   style="--i:14" title="PR #8 opened — 09-12">⊕</span>
+        <span class="bh-ev k-commit" style="--i:15" title="commit 9fd0a0b — 09-12">•</span>
+        <span class="bh-ev k-commit" style="--i:16" title="commit 763e279 — 09-12">•</span>
+        <span class="bh-ev k-commit" style="--i:17" title="commit 744a781 — 09-12">•</span>
+        <span class="bh-ev k-commit" style="--i:18" title="commit 887fb67 — 09-12">•</span>
+        <span class="bh-ev k-open"   style="--i:19" title="PR #9 opened — 09-12">⊕</span>
+        <span class="bh-ev k-commit" style="--i:20" title="commit 6a272a7 — 09-12">•</span>
+        <span class="bh-ev k-open"   style="--i:21" title="PR #11 opened — 09-12">⊕</span>
+        <span class="bh-ev k-commit" style="--i:22" title="commit 50262bb — 09-12">•</span>
+        <span class="bh-ev k-ci"     style="--i:23" title="CI validate-snapshot — 09-12">⚙</span>
+        <span class="bh-ev k-open"   style="--i:24" title="PR #12 opened — 09-16">⊕</span>
+        <span class="bh-ev k-ci"     style="--i:25" title="CI validate-snapshot — 09-16">⚙</span>
+        <span class="bh-ev k-ci"     style="--i:26" title="CI validate-snapshot — 09-16">⚙</span>
+        <span class="bh-ev k-merge"  style="--i:27" title="PR #12 merged — 09-16">✓</span>
+        <span class="bh-ev k-close"  style="--i:28" title="PR #10 closed — 09-16 · kept on the record">✕</span>
+        <span class="bh-ev k-open"   style="--i:29" title="PR #13 opened — 09-16">⊕</span>
+      </div>
+      <div class="bh-void"></div>
+    </div>
+    <button class="orbit-ctl mono js-only" id="orbit-ctl" type="button" hidden>pause the orbit</button>
+    <p class="beat-line" id="void-line">Everything above orbits a dark center<br>that renders nothing.</p>
+    <div class="poetic">
+      <p>The brilliance is always around the void — never inside it.
+      The day something appears inside, this page has failed, and the record will show it.</p>
+      <p class="strong">Full site. Governed void.</p>
+    </div>
+    <p class="receipt">the void — a picture of the canon geometry, not a component status · “not emptiness as void — emptiness as container” · attracts around, never into: “a system that fills its null layer with content has made the hub solid. The wheel cannot turn.” — verbatim, worldcompiler.md sha256 a85e34ab2e1d · in orbit: the same 30 recorded events from the world above — nothing invented · theory + canon check: docs/dramaturgy-strategy.md §5b addendum</p>
+  </div>
+</section>
+
+<!-- ============ THE WATER ============ -->
+<section class="stratum s-water" id="water" aria-labelledby="water-text">
+  <div class="col narrow">
+    <blockquote class="water-text" id="water-text">
+      <p>“The system exists to close the gap between imagination and reality —
+      permanently, continuously, including realities not yet imagined.</p>
+      <p class="canon-line">Minimal seeds. Maximum emergence.”</p>
+    </blockquote>
+    <p class="receipt">the water — the one non-derived canon text · given, not extracted · worldcompiler.md sha256 a85e34ab2e1d</p>
+  </div>
+</section>
+
+<!-- ============ C — THE CASTING ============ -->
+<section class="stratum s-invite" id="invitation" aria-labelledby="inv-title">
+  <div class="col narrow">
+    <h2 id="inv-title" class="visually-hidden">The casting</h2>
+    <div class="poetic">
+      <p>In this architecture, the witness is the part that sees everything and
+      touches nothing. Its whole power is that it cannot be owned.</p>
+      <p class="strong">On this page — that’s you.</p>
+      <p>You didn’t come here to buy something. You came to be early to something.</p>
+      <p class="strong">You are. Provably.</p>
+    </div>
+
+    <details class="zoom">
+      <summary>zoom in — when the Parliament opens its seats</summary>
+      <div class="zoom-body">
+        <p class="poetic">Stay. Watch. Check us. When the Parliament opens its seats
+        <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT — participation not yet open</span>,
+        your interest, your reading of the evidence, your voice on resources will
+        each be counted — separately, never merged into one number, never faked.</p>
+        <p class="receipt">“witness” here — the page’s own metaphor, not the technical component · cast, not audienced</p>
+      </div>
+    </details>
+
+    <nav class="cta-ladder" aria-label="What to do next">
+      <p class="mono dim block-label">the ladder back up</p>
+      <ol class="mono">
+        <li><a class="quiet" href="#world">Watch the world — the replay of what is real</a></li>
+        <li><a class="quiet" href="#m5">Check a receipt — any claim → its hash</a></li>
+        <li><a class="quiet" href="#instrument">Open Bible X-Ray — the first instrument</a></li>
+        <li><span class="dim">Follow the Mission Board — <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> not yet public</span></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- ============ ABOUT — the honest exit, reachable from the first screen ============ -->
+<section class="stratum s-about" id="about" aria-labelledby="about-title">
+  <div class="col">
+    <h2 id="about-title" class="mono block-label">WHAT IS THIS SITE?</h2>
+    <div class="poetic">
+      <p>GENESIS is an attempt to build a superintelligence research world in the
+      open: public constitution, a receipt on every claim, failures kept on the
+      record, and a sealed boundary around anything private.</p>
+      <p>The argument in one line: the danger of AI was never the intelligence —
+      it’s the ownership. A public mind answers to everyone.</p>
+      <p>This page is an early prototype. The engine is not connected yet, the
+      counters honestly read zero, and every state is labeled.</p>
+    </div>
+    <p class="receipt">this answer skips the staging above on purpose — sequence is an offer, not a cage · state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></p>
+    <p class="mono about-links"><a class="quiet" href="#terminal">back to the top ↑</a> · <a class="quiet" href="#world">watch the world</a> · <a class="quiet" href="#m1">the argument, staged</a></p>
+  </div>
+</section>
+
+<!-- ============ FOOTER / INSTRUMENTS LINE ============ -->
+<footer class="stratum s-footer" id="colophon">
+  <div class="col wide">
+    <p class="instruments mono">
+      instruments:
+      <a class="quiet" href="#instrument">Bible X-Ray</a> ·
+      <a class="quiet" href="#world">The World</a> ·
+      <a class="quiet" href="#ledger">Crossing Ledger</a> ·
+      <a class="quiet" href="#legend">How to read this world</a> ·
+      <a class="quiet" href="#about">what is this site?</a> ·
+      <a class="quiet" href="#terminal">surface ↑</a>
+    </p>
+    <p class="receipt">this page — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · a standalone prototype · nothing here is frozen, verified, or released · no analytics, no tracking, no engine</p>
+    <details class="zoom">
+      <summary>zoom in — full colophon</summary>
+      <div class="zoom-body">
+        <p class="receipt">built from: internal/genesis-landing-page-messaging.md + docs/trust-split-visibility.md + docs/dramaturgy-strategy.md (ten-beat plan) + docs/engine-api-contract.md + Owner direction 2026-09-16 (terminal → world · first-view craft · four-layer depth map) · canon anchors: worldcompiler.md sha256 a85e34ab2e1d · FRAME_MECHANISM.md sha256 ebf667d9171d</p>
+        <p class="receipt">korpus 0.3 — 293 passages · 4 sources (Tao Te Ching, Legge, complete · Isha/Katha/Mundaka Upanishads, Müller · Bhagavad Gita, Arnold, complete · KJV selections: Genesis 1–3, Ecclesiastes, Job 38–39, Psalms 8/19/23/90/139, John 1) · manifest sha256 409032026696 · frozen 2026-09-16 · provenance: public-domain Gutenberg/SBE editions, URLs in the corpus manifest · engine v0: retrieval only, no prose is ever composed · questions are never stored</p>
+        <p class="receipt">the Bible X-Ray link above is the quiet persistent route (GX-005: “directly reachable”). the celebrated reveal lives at depth, where you passed it.</p>
+        <p class="receipt">design rules (locked, 2026-09-16): one idea per surface — detail only behind explicit zoom-in, like this one · the first view must show its quality through craft alone · the world, not the copy, is the main act · “slowly” = visitor-controlled steps, never inserted latency · total message silence until the first message beat</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+</main>
+</body>
+</html>

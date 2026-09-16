@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GENESIS — the world, variant C: one event at a time</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Variant C — one event at a time. The world as a stage with a single actor:
+   the current event in water-scale serif on a gold gate line; the past recedes
+   upward as a faint column; everything else is air. */
+.vc-world {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: radial-gradient(120% 90% at 50% 55%, #0d0f13 0%, #08090c 62%, #060708 100%);
+  padding: 8vh 6vw;
+}
+.vc-col { width: min(72ch, 88vw); }
+.vc-head {
+  font-size: 0.8rem;
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  margin: 0 0 0.9rem;
+}
+.vc-sub { font-size: 0.64rem; letter-spacing: 0.04em; opacity: 0.75; margin: 0 0 4rem; }
+/* the past: recedes upward, faintest first */
+.vc-past { margin: 0 0 2.6rem; }
+.vc-past p {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  line-height: 2;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vc-past p:nth-child(1) { opacity: 0.16; }
+.vc-past p:nth-child(2) { opacity: 0.24; }
+.vc-past p:nth-child(3) { opacity: 0.33; }
+.vc-past p:nth-child(4) { opacity: 0.44; }
+.vc-past p:nth-child(5) { opacity: 0.56; }
+/* the gate: one gold hairline the current event stands on */
+.vc-gate-wrap { position: relative; margin: 0 0 3.4rem; }
+.vc-gate {
+  border: 0;
+  height: 1px;
+  margin: 0;
+  background: linear-gradient(90deg, transparent, rgba(216, 178, 74, 0.55) 22%, rgba(216, 178, 74, 0.55) 78%, transparent);
+}
+.vc-gate-label {
+  position: absolute;
+  left: 50%; top: 0.8em;
+  transform: translateX(-50%);
+  font-size: 0.56rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(216, 178, 74, 0.55);
+  white-space: nowrap;
+}
+.vc-glyph {
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  color: var(--chip-current);
+  margin: 0 0 1.2rem;
+  text-shadow: 0 0 22px rgba(133, 207, 155, 0.35);
+}
+.vc-now {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 1.3rem + 3.2vw, 3.2rem);
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+.vc-now-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1rem, 0.9rem + 0.9vw, 1.3rem);
+  opacity: 0.8;
+  margin: 0 0 1.8rem;
+}
+.vc-meta { font-size: 0.62rem; letter-spacing: 0.14em; opacity: 0.65; margin: 0 0 4.5rem; }
+.vc-gauges { font-size: 0.6rem; letter-spacing: 0.14em; opacity: 0.5; margin: 0; }
+.vc-note { font-size: 0.56rem; letter-spacing: 0.1em; opacity: 0.35; margin-top: 1.2rem; }
+</style>
+</head>
+<body>
+<div class="seam" aria-label="The Seam — sealed boundary of the private zone." title="The Seam — sealed. Nothing crosses this line except signed, minimized envelopes.">
+  <span class="seam-label" aria-hidden="true">MEMORIA&nbsp;·&nbsp;SEALED</span>
+</div>
+<main>
+<section class="stratum vc-world">
+  <div class="vc-col">
+    <p class="vc-head mono">THE WORLD</p>
+    <p class="vc-sub mono"><span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span>
+    replay of real history, one event at a time · live now: quiet — nothing invented</p>
+
+    <div class="vc-past mono" aria-label="The five events before this one, receding">
+      <p>⚙ 09-12 21:48 · CI validate-snapshot — success</p>
+      <p>⊕ 09-16 12:43 · PR #12 opened — status ledger, GX-010 packet, verifier, witness contracts</p>
+      <p>⚙ 09-16 13:50 · CI validate-snapshot — success</p>
+      <p>⚙ 09-16 14:11 · CI validate-snapshot — success: bus covers witness, seeds, export</p>
+      <p>✕ 09-16 14:56 · PR #10 closed — superseded by #12. closed, kept on the record</p>
+    </div>
+
+    <div class="vc-gate-wrap" aria-hidden="true"><hr class="vc-gate"><span class="vc-gate-label mono">the gate — on the record</span></div>
+
+    <p class="vc-glyph" aria-hidden="true">✓</p>
+    <p class="vc-now">PR #12 merged.</p>
+    <p class="vc-now-sub">The witness tooling lands: three schemas, a verifier,
+    the event envelope, the bus.</p>
+    <p class="vc-meta mono">2026-09-16 14:55 · event 28 of 30 · <span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></p>
+
+    <p class="vc-gauges mono">30 EVENTS · 0 CROSSINGS · 0 RELEASES · 2 WORK ORDERS · 3 SCHEMAS · 5 TESTS · 2 AUTOMATIONS</p>
+    <p class="vc-note mono">design variant C — static preview · the served build is unchanged</p>
+  </div>
+</section>
+</main>
+</body>
+</html>

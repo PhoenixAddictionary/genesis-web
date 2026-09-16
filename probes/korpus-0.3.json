@@ -1,0 +1,106 @@
+{
+  "_about": "First engine-learning artifact for the well prototype (GENESIS/web, build plan W5). Frozen probe set for korpus 0.3 — curated questions with expected retrieval outcomes, replayed at freeze time against the real well.js engine (no reimplemented scoring). See probes/freeze_probes.mjs for the freeze step and probes/receipt-korpus-0.3.json for the last run's actual-vs-expected receipt.",
+  "korpusVersion": "0.3",
+  "manifestSha256": "409032026696ae4afb3b085c637f7a8b6e0a3de91842bb60693c363d061803d8",
+  "manifestSha256Source": "corpus.json top-level field `manifestSha256`, read verbatim (also independently re-read at freeze time by freeze_probes.mjs, not hardcoded there)",
+  "engineVersion": "well.js v0 — retrieval only, BM25-ish (K1=1.5, B=0.75), tokenize() with light stemming + stopword removal",
+  "solidnessRule": "a hit is ANSWERED only if top[0].matched >= ceil(nonExpandedQueryTokenCount / 2) AND top[0].score >= 2.0 (see well.js search()/submit handler) — otherwise NO_SOURCES",
+  "abstentionTypesImplemented": [
+    "NO_SOURCES — solid-hit test fails after a real corpus search",
+    "AMBIGUOUS — question has zero meaningful tokens after stopword/length filtering, or is empty/whitespace after trim (checked before any corpus search, synchronous)",
+    "ENGINE_UNREACHABLE — corpus.json fetch fails/rejects (network/server failure, not a question-content case — not exercised by a probe here since it depends on transport state, not retrieval quality)"
+  ],
+  "passageIdScheme": "corpus.json passages[].id, e.g. \"tao:tao-te-ching-8\" (sourceId:slug). The engine's own rendered receipt line shows id@sha256[0:8]; expectedPassageIds below use the bare id, expectedLocators use the human-readable passages[].loc field.",
+  "probes": [
+    {
+      "probeId": "pill-1",
+      "question": "what crosses the seam?",
+      "source": "terminal-pill (verbatim, index.html .term-pills)",
+      "expectedOutcome": "NO_SOURCES",
+      "rationale": "Real example question shown in the UI. Verified against the real engine before freezing this file: the two meaningful tokens (\"crosses\", \"seam\") do not clear the solid-hit threshold against korpus 0.3 — the site's own front-door example does not retrieve from this corpus. Recorded as a genuine finding, not a probe-design error."
+    },
+    {
+      "probeId": "pill-2",
+      "question": "who controls the most capable minds today?",
+      "source": "terminal-pill (verbatim, index.html .term-pills)",
+      "expectedOutcome": "NO_SOURCES",
+      "rationale": "Real example question. Verified: tokens (\"controls\", \"capable\", \"minds\", \"today\") do not clear the solid-hit threshold against korpus 0.3 (ancient-text corpus has no vocabulary overlap with this modern framing)."
+    },
+    {
+      "probeId": "pill-3",
+      "question": "can a public thing stay un-owned?",
+      "source": "terminal-pill (verbatim, index.html .term-pills)",
+      "expectedOutcome": "NO_SOURCES",
+      "rationale": "Real example question. Verified: tokens (\"public\", \"thing\", \"stay\", \"un\", \"owned\") do not clear the solid-hit threshold against korpus 0.3."
+    },
+    {
+      "probeId": "hit-tao-water",
+      "question": "what does the tao say about water?",
+      "source": "curated",
+      "expectedOutcome": "ANSWERED",
+      "expectedPassageIds": [
+        "tao:tao-te-ching-8",
+        "tao:tao-te-ching-41",
+        "tao:tao-te-ching-56"
+      ],
+      "expectedLocators": [
+        "Tao Te Ching 8",
+        "Tao Te Ching 41",
+        "Tao Te Ching 56"
+      ],
+      "rationale": "Tao Te Ching 8 opens with the well-known water passage (\"The highest excellence is like (that of) water…\"). Verified as a clear, high-score (9.2) top hit against the real engine before freezing this file."
+    },
+    {
+      "probeId": "hit-upanishad-soul-death",
+      "question": "what happens to the soul after death?",
+      "source": "curated",
+      "expectedOutcome": "ANSWERED",
+      "expectedPassageIds": [
+        "upanishad:katha-upanishad-5-6-10",
+        "upanishad:katha-upanishad-1-26-29",
+        "upanishad:katha-upanishad-4-1-5"
+      ],
+      "expectedLocators": [
+        "Katha Upanishad 5.6-10",
+        "Katha Upanishad 1.26-29",
+        "Katha Upanishad 4.1-5"
+      ],
+      "rationale": "Katha Upanishad is centrally about this question (Nachiketas asks Death directly). Verified as a strong hit (top score 15.5) against the real engine before freezing this file."
+    },
+    {
+      "probeId": "no-match-kubernetes",
+      "question": "how do I configure a kubernetes cluster?",
+      "source": "curated",
+      "expectedOutcome": "NO_SOURCES",
+      "rationale": "Guaranteed-no-match control probe: modern infrastructure vocabulary with zero overlap with the frozen public-domain corpus. Verified NO_SOURCES against the real engine before freezing this file."
+    },
+    {
+      "probeId": "no-match-pizza",
+      "question": "what's the best pizza topping?",
+      "source": "curated",
+      "expectedOutcome": "NO_SOURCES",
+      "rationale": "Second guaranteed-no-match control probe (off-topic, everyday vocabulary). Verified NO_SOURCES against the real engine before freezing this file."
+    },
+    {
+      "probeId": "ambiguous-stopwords-only",
+      "question": "is it?",
+      "source": "curated",
+      "expectedOutcome": "AMBIGUOUS",
+      "rationale": "Every word (\"is\", \"it\") is in well.js's stopword list, so tokenize(question, false) yields zero meaningful tokens and the synchronous AMBIGUOUS branch fires before any corpus search. Verified against the real engine before freezing this file."
+    },
+    {
+      "probeId": "ambiguous-empty",
+      "question": "   ",
+      "source": "curated",
+      "expectedOutcome": "AMBIGUOUS",
+      "rationale": "Whitespace-only input; question.trim() is empty so the `!question` branch fires the AMBIGUOUS abstention immediately, without tokenizing. Verified against the real engine before freezing this file."
+    },
+    {
+      "probeId": "near-miss-genesis",
+      "question": "what happened in the beginning according to genesis?",
+      "source": "curated",
+      "expectedOutcome": "NO_SOURCES",
+      "rationale": "Deliberate near-topic edge case: the corpus literally contains \"kjv:genesis-1\" (\"In the beginning God created the heaven and the earth…\"), and the question shares real vocabulary with it (\"beginning\", \"genesis\"), yet the BM25 solid-hit threshold is not cleared. Verified NO_SOURCES against the real engine before freezing this file — kept as a documented negative-space case (topically adjacent but scored a genuine miss), not a probe-design bug."
+    }
+  ]
+}

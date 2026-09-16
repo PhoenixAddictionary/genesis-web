@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GENESIS — the world, variant A: the river of record</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Variant A — the river of record. No boxes: the ledger as a bare typographic
+   column falling through one gold gate line. Old events fade with depth-in-time;
+   one real event sits mid-crossing. */
+.va-world {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(120% 90% at 50% 30%, #0d0f13 0%, #08090c 62%, #060708 100%);
+  padding: 8vh 6vw;
+}
+.va-col { width: min(74ch, 88vw); }
+.va-head {
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  margin: 0 0 0.9rem;
+}
+.va-sub {
+  text-align: center;
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+  margin: 0 0 4.5rem;
+}
+.va-river { position: relative; }
+.va-ev {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.03em;
+  line-height: 2.1;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.va-ev .g { display: inline-block; width: 1.6em; }
+.va-ev .t { opacity: 0.55; margin-right: 0.9em; }
+/* time-depth: the older, the fainter */
+.va-ev:nth-child(1)  { opacity: 0.22; } .va-ev:nth-child(2)  { opacity: 0.24; }
+.va-ev:nth-child(3)  { opacity: 0.26; } .va-ev:nth-child(4)  { opacity: 0.28; }
+.va-ev:nth-child(5)  { opacity: 0.30; } .va-ev:nth-child(6)  { opacity: 0.33; }
+.va-ev:nth-child(7)  { opacity: 0.36; } .va-ev:nth-child(8)  { opacity: 0.39; }
+.va-ev:nth-child(9)  { opacity: 0.42; } .va-ev:nth-child(10) { opacity: 0.45; }
+.va-ev:nth-child(11) { opacity: 0.48; } .va-ev:nth-child(12) { opacity: 0.51; }
+.va-ev:nth-child(13) { opacity: 0.54; } .va-ev:nth-child(14) { opacity: 0.57; }
+.va-ev:nth-child(15) { opacity: 0.60; } .va-ev:nth-child(16) { opacity: 0.63; }
+.va-ev:nth-child(17) { opacity: 0.66; } .va-ev:nth-child(18) { opacity: 0.69; }
+.va-ev:nth-child(19) { opacity: 0.72; } .va-ev:nth-child(20) { opacity: 0.75; }
+.va-ev:nth-child(21) { opacity: 0.78; } .va-ev:nth-child(22) { opacity: 0.81; }
+.va-ev:nth-child(23) { opacity: 0.84; } .va-ev:nth-child(24) { opacity: 0.87; }
+.va-ev:nth-child(26) { opacity: 0.92; } .va-ev:nth-child(27) { opacity: 0.96; }
+.va-ev:nth-child(28) { opacity: 1; }
+.k-open .g { color: var(--gold); } .k-commit .g { color: #a7a396; }
+.k-merge .g { color: var(--chip-current); } .k-close .g { color: var(--chip-rejected); }
+.k-ci .g { color: var(--chip-recorded); }
+/* the gate: one gold hairline the river falls through */
+.va-gate-wrap { position: relative; margin: 1.8rem 0; }
+.va-gate {
+  border: 0;
+  height: 1px;
+  margin: 0;
+  background: linear-gradient(90deg, transparent, rgba(216, 178, 74, 0.55) 18%, rgba(216, 178, 74, 0.55) 82%, transparent);
+}
+.va-gate-label {
+  position: absolute;
+  right: 0; top: 0.6em;
+  font-size: 0.56rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(216, 178, 74, 0.6);
+}
+.va-ev { line-height: 1.9; }
+/* the one event mid-crossing: staged from the real replay order */
+.va-crossing {
+  color: var(--gold);
+  opacity: 1 !important;
+  font-size: 0.72rem;
+  margin: 1.1rem 0;
+  text-shadow: 0 0 16px rgba(216, 178, 74, 0.25);
+}
+.va-gauges {
+  text-align: center;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  opacity: 0.5;
+  margin: 4rem 0 0;
+}
+.va-note {
+  text-align: center;
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  opacity: 0.35;
+  margin-top: 1.2rem;
+}
+</style>
+</head>
+<body>
+<div class="seam" aria-label="The Seam — sealed boundary of the private zone." title="The Seam — sealed. Nothing crosses this line except signed, minimized envelopes.">
+  <span class="seam-label" aria-hidden="true">MEMORIA&nbsp;·&nbsp;SEALED</span>
+</div>
+<main>
+<section class="stratum va-world">
+  <div class="va-col">
+    <p class="va-head mono">THE WORLD</p>
+    <p class="va-sub mono"><span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span>
+    replay of this project’s real history · live now: quiet — nothing here is invented</p>
+
+    <div class="va-river mono">
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:20</span>PR #1 opened — dream-run plan, standing prompt, long-run runbook</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:37</span>PR #2 opened — dream-run 2026-09-03</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:42</span>PR #3 opened — lab: potential within/outside Memoria</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-03 03:53</span>PR #4 opened — cloud agent dev environment + deploy README</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-03 04:03</span>PR #5 opened — freshness: scheduled castle refresh</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-03 05:34</span>PR #6 opened — castle-proposals: memoria.py patches</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-03 06:02</span>commit 45d618d — long-run tick 5 done: refresh-castle workflow</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-03 06:32</span>commit 64c9ea6 — dream-run research: agent-memory landscape</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-03 07:02</span>commit e2e9ab0 — dream-run cycle 08: ops scoreline audit</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-03 07:30</span>commit ffca2b9 — long-run tick 8: memoria.py measure patch</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-03 07:32</span>commit 1660438 — memoria.py measure patch + trace-length WARN</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-05 01:32</span>commit 4ddfda3 — long-run closed 8/14, host death recorded: a dead end, kept</p>
+      <p class="va-ev k-merge"><span class="g">✓</span><span class="t">09-10 21:39</span>PR #7 merged — Castle snapshot refreshed, source identity verified</p>
+      <p class="va-ev k-ci"><span class="g">⚙</span><span class="t">09-11 04:39</span>CI validate-snapshot — success</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-12 16:38</span>PR #8 opened — lab: makers plan, who produces material progress</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-12 16:43</span>commit 9fd0a0b — castle-proposals re-cut D1/D2: 39 uncited, 11 long traces</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-12 16:47</span>commit 763e279 — long-run session 2: status after #7, register updates</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-12 16:49</span>commit 744a781 — long-run packet 9 done — blind number 10/12</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-12 16:49</span>commit 887fb67 — blind test scored by a context-free second instance: 10/12</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-12 21:22</span>PR #9 opened — restore Claude werkstatt_recall hook</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-12 21:28</span>commit 6a272a7 — maker handshake bus for GX-005</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-12 21:45</span>PR #11 opened — offline snapshot identity/integrity CLI</p>
+      <p class="va-ev k-commit"><span class="g">•</span><span class="t">09-12 21:48</span>commit 50262bb — fix: never block Claude prompts when recall script is missing</p>
+      <p class="va-ev k-ci"><span class="g">⚙</span><span class="t">09-12 21:48</span>CI validate-snapshot — success</p>
+      <p class="va-ev k-open"><span class="g">⊕</span><span class="t">09-16 12:43</span>PR #12 opened — status ledger, GX-010 packet, verifier, witness contracts</p>
+      <p class="va-ev k-ci"><span class="g">⚙</span><span class="t">09-16 13:50</span>CI validate-snapshot — success</p>
+      <p class="va-ev k-ci"><span class="g">⚙</span><span class="t">09-16 14:11</span>CI validate-snapshot — success: bus covers witness, seeds, export</p>
+
+      <div class="va-gate-wrap" aria-hidden="true"><hr class="va-gate"><span class="va-gate-label mono">the gate — on the record</span></div>
+      <p class="va-ev k-merge va-crossing"><span class="g">✓</span><span class="t">09-16 14:55</span>PR #12 merged — witness tooling lands: 3 schemas, verifier, event envelope, bus</p>
+
+      <p class="va-ev k-close" style="opacity:.85"><span class="g">✕</span><span class="t">09-16 14:56</span>PR #10 closed — superseded by #12. closed, kept on the record</p>
+      <p class="va-ev k-open" style="opacity:.9"><span class="g">⊕</span><span class="t">09-16 15:00</span>PR #13 opened — GX-005 repositioning: question-first entry, engine below</p>
+    </div>
+
+    <p class="va-gauges mono">30 EVENTS · 0 CROSSINGS · 0 RELEASES · 2 WORK ORDERS · 3 SCHEMAS · 5 TESTS · 2 AUTOMATIONS</p>
+    <p class="va-note mono">design variant A — static preview · the served build is unchanged</p>
+  </div>
+</section>
+</main>
+</body>
+</html>

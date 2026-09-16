@@ -1,0 +1,181 @@
+{
+  "generatedAt": "2026-09-16T21:09:58.388Z",
+  "korpusVersion": "0.3",
+  "manifestSha256": "409032026696ae4afb3b085c637f7a8b6e0a3de91842bb60693c363d061803d8",
+  "manifestSha256Source": "corpus.json (read fresh from disk this run, not hardcoded in this script)",
+  "engineVersion": "well.js v0 (retrieval only, BM25-ish, unmodified)",
+  "freezeMethod": "headless Chrome via raw CDP against the live, unmodified index.html/well.js served locally; DOM-level submit + read-back only, no scoring logic reimplemented. requestAnimationFrame patched to fire via setTimeout(0) for this freeze run only, inside the throwaway CDP page context. well.js uses rAF purely to yield one paint frame before calling search() (see well.js comment 'yield one frame so reading N passages can paint; not inserted latency') -- it is scheduling, not scoring. Headless/offscreen pages routinely starve real rAF callbacks, so this keeps the freeze step deterministic without touching tokenize()/search() at all.",
+  "chromeExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "probesFile": "probes\\korpus-0.3.json",
+  "probes": [
+    {
+      "probeId": "pill-1",
+      "question": "what crosses the seam?",
+      "expectedOutcome": "NO_SOURCES",
+      "expectedPassageIds": null,
+      "actualOutcome": "NO_SOURCES",
+      "actualPassageIds": null,
+      "actualReceiptLine": "receipt — no passage matched solidly · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": "[NO_SOURCES] I found nothing solid for this. My sources are: The Holy Bible, King James Version (selections); The Song Celestial; Or, Bhagavad-Gita (from the Mahabharata); The Tao Teh King, or the Tao and its Characteristics; The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 — this question seems to live outside them.",
+      "actualSources": [],
+      "match": true
+    },
+    {
+      "probeId": "pill-2",
+      "question": "who controls the most capable minds today?",
+      "expectedOutcome": "NO_SOURCES",
+      "expectedPassageIds": null,
+      "actualOutcome": "NO_SOURCES",
+      "actualPassageIds": null,
+      "actualReceiptLine": "receipt — no passage matched solidly · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": "[NO_SOURCES] I found nothing solid for this. My sources are: The Holy Bible, King James Version (selections); The Song Celestial; Or, Bhagavad-Gita (from the Mahabharata); The Tao Teh King, or the Tao and its Characteristics; The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 — this question seems to live outside them.",
+      "actualSources": [],
+      "match": true
+    },
+    {
+      "probeId": "pill-3",
+      "question": "can a public thing stay un-owned?",
+      "expectedOutcome": "NO_SOURCES",
+      "expectedPassageIds": null,
+      "actualOutcome": "NO_SOURCES",
+      "actualPassageIds": null,
+      "actualReceiptLine": "receipt — no passage matched solidly · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": "[NO_SOURCES] I found nothing solid for this. My sources are: The Holy Bible, King James Version (selections); The Song Celestial; Or, Bhagavad-Gita (from the Mahabharata); The Tao Teh King, or the Tao and its Characteristics; The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 — this question seems to live outside them.",
+      "actualSources": [],
+      "match": true
+    },
+    {
+      "probeId": "hit-tao-water",
+      "question": "what does the tao say about water?",
+      "expectedOutcome": "ANSWERED",
+      "expectedPassageIds": [
+        "tao:tao-te-ching-8",
+        "tao:tao-te-ching-41",
+        "tao:tao-te-ching-56"
+      ],
+      "actualOutcome": "ANSWERED",
+      "actualPassageIds": [
+        "tao:tao-te-ching-8",
+        "tao:tao-te-ching-41",
+        "tao:tao-te-ching-56"
+      ],
+      "actualReceiptLine": "receipt — passages: tao:tao-te-ching-8@b1eb392e · tao:tao-te-ching-41@15f585e1 · tao:tao-te-ching-56@342fb6bf · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": null,
+      "actualSources": [
+        {
+          "excerpt": "“The highest excellence is like (that of) water. The excellence of water appears in its benefiting all things, and in its occupying, without striving (to the contrary), the low place which all men dislike. Hence (its way) is near to (that of) the Tao. The …”",
+          "meta": "— Tao Te Ching 8 · The Tao Teh King, or the Tao and its Characteristics · sha256 b1eb392e · score 9.2"
+        },
+        {
+          "excerpt": "“Scholars of the highest class, when they hear about the Tao, earnestly carry it into practice. Scholars of the middle class, when they have heard about it, seem now to keep it and now to lose it. Scholars of the lowest class, when they have heard about it, …”",
+          "meta": "— Tao Te Ching 41 · The Tao Teh King, or the Tao and its Characteristics · sha256 15f585e1 · score 6.9"
+        },
+        {
+          "excerpt": "“He who knows (the Tao) does not (care to) speak (about it); he who is (ever ready to) speak about it does not know it. He (who knows it) will keep his mouth shut and close the portals (of his nostrils). He will blunt his sharp points and unravel the …”",
+          "meta": "— Tao Te Ching 56 · The Tao Teh King, or the Tao and its Characteristics · sha256 342fb6bf · score 6.4"
+        }
+      ],
+      "match": true
+    },
+    {
+      "probeId": "hit-upanishad-soul-death",
+      "question": "what happens to the soul after death?",
+      "expectedOutcome": "ANSWERED",
+      "expectedPassageIds": [
+        "upanishad:katha-upanishad-5-6-10",
+        "upanishad:katha-upanishad-1-26-29",
+        "upanishad:katha-upanishad-4-1-5"
+      ],
+      "actualOutcome": "ANSWERED",
+      "actualPassageIds": [
+        "upanishad:katha-upanishad-5-6-10",
+        "upanishad:katha-upanishad-1-26-29",
+        "upanishad:katha-upanishad-4-1-5"
+      ],
+      "actualReceiptLine": "receipt — passages: upanishad:katha-upanishad-5-6-10@8194f745 · upanishad:katha-upanishad-1-26-29@66a4a9aa · upanishad:katha-upanishad-4-1-5@cba7161c · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": null,
+      "actualSources": [
+        {
+          "excerpt": "“6. 'Well then, O Gautama, I shall tell thee this mystery, the old Brahman, and what happens to the Self, after reaching death.' 7. 'Some enter the womb in order to have a body, as organic beings, others go into inorganic matter, according to their work and …”",
+          "meta": "— Katha Upanishad 5.6-10 · The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 · sha256 8194f745 · score 15.5"
+        },
+        {
+          "excerpt": "“26. Nakiketas said: 'These things last till tomorrow, O Death, for they wear out this vigour of all the senses. Even the whole of life is short. Keep thou thy horses, keep dance and song for thyself.' 27. 'No man can be made happy by wealth. Shall we possess …”",
+          "meta": "— Katha Upanishad 1.26-29 · The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 · sha256 66a4a9aa · score 6.0"
+        },
+        {
+          "excerpt": "“1. Death said: 'The Self-existent pierced the openings (of the senses) so that they turn forward: therefore man looks forward, not backward into himself. Some wise man, however,with his eyes closed and wishing for immortality, saw the Self behind! 2. …”",
+          "meta": "— Katha Upanishad 4.1-5 · The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 · sha256 cba7161c · score 5.9"
+        }
+      ],
+      "match": true
+    },
+    {
+      "probeId": "no-match-kubernetes",
+      "question": "how do I configure a kubernetes cluster?",
+      "expectedOutcome": "NO_SOURCES",
+      "expectedPassageIds": null,
+      "actualOutcome": "NO_SOURCES",
+      "actualPassageIds": null,
+      "actualReceiptLine": "receipt — no passage matched solidly · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": "[NO_SOURCES] I found nothing solid for this. My sources are: The Holy Bible, King James Version (selections); The Song Celestial; Or, Bhagavad-Gita (from the Mahabharata); The Tao Teh King, or the Tao and its Characteristics; The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 — this question seems to live outside them.",
+      "actualSources": [],
+      "match": true
+    },
+    {
+      "probeId": "no-match-pizza",
+      "question": "what's the best pizza topping?",
+      "expectedOutcome": "NO_SOURCES",
+      "expectedPassageIds": null,
+      "actualOutcome": "NO_SOURCES",
+      "actualPassageIds": null,
+      "actualReceiptLine": "receipt — no passage matched solidly · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": "[NO_SOURCES] I found nothing solid for this. My sources are: The Holy Bible, King James Version (selections); The Song Celestial; Or, Bhagavad-Gita (from the Mahabharata); The Tao Teh King, or the Tao and its Characteristics; The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 — this question seems to live outside them.",
+      "actualSources": [],
+      "match": true
+    },
+    {
+      "probeId": "ambiguous-stopwords-only",
+      "question": "is it?",
+      "expectedOutcome": "AMBIGUOUS",
+      "expectedPassageIds": null,
+      "actualOutcome": "AMBIGUOUS",
+      "actualPassageIds": null,
+      "actualReceiptLine": null,
+      "actualAbstainMsg": "[AMBIGUOUS] one clarifying question, instead of a weak answer: which thing should I look for — can you give me one concrete word?",
+      "actualSources": [],
+      "match": true
+    },
+    {
+      "probeId": "ambiguous-empty",
+      "question": "   ",
+      "expectedOutcome": "AMBIGUOUS",
+      "expectedPassageIds": null,
+      "actualOutcome": "AMBIGUOUS",
+      "actualPassageIds": null,
+      "actualReceiptLine": null,
+      "actualAbstainMsg": "[AMBIGUOUS] one clarifying question, instead of a weak answer: which thing should I look for — can you give me one concrete word?",
+      "actualSources": [],
+      "match": true
+    },
+    {
+      "probeId": "near-miss-genesis",
+      "question": "what happened in the beginning according to genesis?",
+      "expectedOutcome": "NO_SOURCES",
+      "expectedPassageIds": null,
+      "actualOutcome": "NO_SOURCES",
+      "actualPassageIds": null,
+      "actualReceiptLine": "receipt — no passage matched solidly · korpus 0.3 manifest 409032026696 · 293 passages · engine v0, retrieval only · your question is not stored",
+      "actualAbstainMsg": "[NO_SOURCES] I found nothing solid for this. My sources are: The Holy Bible, King James Version (selections); The Song Celestial; Or, Bhagavad-Gita (from the Mahabharata); The Tao Teh King, or the Tao and its Characteristics; The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15 — this question seems to live outside them.",
+      "actualSources": [],
+      "match": true
+    }
+  ],
+  "summary": {
+    "total": 10,
+    "hits": 10,
+    "misses": 0,
+    "label": "10/10 matched"
+  },
+  "chip": "RECORDED"
+}

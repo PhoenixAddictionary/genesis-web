@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GENESIS — the world, variant B: the well from above</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Variant B — the well, seen from above. One circular composition: a gold gate
+   ring around a dark center; every recorded event a glyph inside the ring
+   (it passed the gate); one real event staged mid-crossing on the ring. */
+.vb-world {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: radial-gradient(120% 90% at 50% 42%, #0d0f13 0%, #08090c 60%, #060708 100%);
+  padding: 8vh 6vw;
+}
+.vb-head {
+  font-size: 0.8rem;
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  margin: 0 0 0.9rem;
+}
+.vb-sub { font-size: 0.64rem; letter-spacing: 0.04em; opacity: 0.75; margin: 0 0 3.4rem; }
+.vb-field {
+  --R: min(225px, 34vw);
+  position: relative;
+  width: calc(var(--R) * 2 + 60px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+.vb-gatering {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: calc(var(--R) * 2);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(216, 178, 74, 0.4);
+  box-shadow: 0 0 60px rgba(216, 178, 74, 0.05), inset 0 0 90px rgba(0, 0, 0, 0.55);
+}
+.vb-gate-label {
+  position: absolute;
+  left: 50%; top: calc(50% - var(--R) - 1.9em);
+  transform: translateX(-50%);
+  font-size: 0.56rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(216, 178, 74, 0.6);
+  white-space: nowrap;
+}
+/* the dark center: the deepest point of the shaft — renders nothing */
+.vb-center {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 22%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #000;
+  box-shadow: 0 0 50px 14px rgba(0, 0, 0, 0.8);
+}
+/* events inside the ring: each one passed the gate; angle/radius per event */
+.vb-ev {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 1em; height: 1em;
+  margin: -0.5em;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  line-height: 1;
+  opacity: 0.85;
+  transform: rotate(calc(var(--a) * 1deg)) translateX(calc(var(--R) * var(--r))) rotate(calc(var(--a) * -1deg));
+}
+.vb-ev.k-open   { color: var(--gold); }
+.vb-ev.k-commit { color: #a7a396; }
+.vb-ev.k-merge  { color: var(--chip-current); }
+.vb-ev.k-close  { color: var(--chip-rejected); }
+.vb-ev.k-ci     { color: var(--chip-recorded); }
+/* the one event mid-crossing, on the ring itself */
+.vb-crossing {
+  font-size: 1.25rem;
+  opacity: 1;
+  text-shadow: 0 0 22px rgba(133, 207, 155, 0.65);
+}
+.vb-now {
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  margin: 2.2rem 0 0;
+}
+.vb-now .lead { color: var(--chip-current); }
+.vb-gauges { font-size: 0.6rem; letter-spacing: 0.14em; opacity: 0.5; margin: 2.2rem 0 0; }
+.vb-note { font-size: 0.56rem; letter-spacing: 0.1em; opacity: 0.35; margin-top: 1.2rem; }
+</style>
+</head>
+<body>
+<div class="seam" aria-label="The Seam — sealed boundary of the private zone." title="The Seam — sealed. Nothing crosses this line except signed, minimized envelopes.">
+  <span class="seam-label" aria-hidden="true">MEMORIA&nbsp;·&nbsp;SEALED</span>
+</div>
+<main>
+<section class="stratum vb-world">
+  <div>
+    <p class="vb-head mono">THE WORLD</p>
+    <p class="vb-sub mono"><span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span>
+    the well, seen from above · replay of real history — nothing invented · live now: quiet</p>
+
+    <div class="vb-field" aria-label="Thirty recorded events inside the gate ring; one mid-crossing">
+      <div class="vb-gatering" aria-hidden="true"></div>
+      <span class="vb-gate-label mono" aria-hidden="true">the gate — on the record</span>
+      <span class="vb-ev k-open"   style="--a:262; --r:.42" title="PR #1 opened — 09-03">⊕</span>
+      <span class="vb-ev k-open"   style="--a:288; --r:.55" title="PR #2 opened — 09-03">⊕</span>
+      <span class="vb-ev k-open"   style="--a:311; --r:.38" title="PR #3 opened — 09-03">⊕</span>
+      <span class="vb-ev k-open"   style="--a:337; --r:.61" title="PR #4 opened — 09-03">⊕</span>
+      <span class="vb-ev k-open"   style="--a:8;   --r:.47" title="PR #5 opened — 09-03">⊕</span>
+      <span class="vb-ev k-open"   style="--a:31;  --r:.66" title="PR #6 opened — 09-03">⊕</span>
+      <span class="vb-ev k-commit" style="--a:54;  --r:.41" title="commit 45d618d — 09-03">•</span>
+      <span class="vb-ev k-commit" style="--a:76;  --r:.58" title="commit 64c9ea6 — 09-03">•</span>
+      <span class="vb-ev k-commit" style="--a:99;  --r:.44" title="commit e2e9ab0 — 09-03">•</span>
+      <span class="vb-ev k-commit" style="--a:121; --r:.63" title="commit ffca2b9 — 09-03">•</span>
+      <span class="vb-ev k-commit" style="--a:144; --r:.5"  title="commit 1660438 — 09-03">•</span>
+      <span class="vb-ev k-commit" style="--a:166; --r:.68" title="commit 4ddfda3 — 09-05 · a dead end, kept">•</span>
+      <span class="vb-ev k-merge"  style="--a:189; --r:.46" title="PR #7 merged — 09-10">✓</span>
+      <span class="vb-ev k-ci"     style="--a:212; --r:.62" title="CI validate-snapshot — 09-11">⚙</span>
+      <span class="vb-ev k-open"   style="--a:235; --r:.5"  title="PR #8 opened — 09-12">⊕</span>
+      <span class="vb-ev k-commit" style="--a:275; --r:.74" title="commit 9fd0a0b — 09-12">•</span>
+      <span class="vb-ev k-commit" style="--a:299; --r:.79" title="commit 763e279 — 09-12">•</span>
+      <span class="vb-ev k-commit" style="--a:322; --r:.72" title="commit 744a781 — 09-12">•</span>
+      <span class="vb-ev k-commit" style="--a:346; --r:.81" title="commit 887fb67 — 09-12">•</span>
+      <span class="vb-ev k-open"   style="--a:12;  --r:.76" title="PR #9 opened — 09-12">⊕</span>
+      <span class="vb-ev k-commit" style="--a:36;  --r:.83" title="commit 6a272a7 — 09-12">•</span>
+      <span class="vb-ev k-open"   style="--a:59;  --r:.77" title="PR #11 opened — 09-12">⊕</span>
+      <span class="vb-ev k-commit" style="--a:82;  --r:.85" title="commit 50262bb — 09-12">•</span>
+      <span class="vb-ev k-ci"     style="--a:105; --r:.78" title="CI validate-snapshot — 09-12">⚙</span>
+      <span class="vb-ev k-open"   style="--a:129; --r:.86" title="PR #12 opened — 09-16">⊕</span>
+      <span class="vb-ev k-ci"     style="--a:152; --r:.8"  title="CI validate-snapshot — 09-16">⚙</span>
+      <span class="vb-ev k-ci"     style="--a:176; --r:.87" title="CI validate-snapshot — 09-16">⚙</span>
+      <span class="vb-ev k-merge vb-crossing" style="--a:210; --r:1" title="PR #12 merged — 09-16 14:55 · crossing the gate">✓</span>
+      <span class="vb-ev k-close"  style="--a:199; --r:.82" title="PR #10 closed — 09-16 · kept on the record">✕</span>
+      <span class="vb-ev k-open"   style="--a:223; --r:.9"  title="PR #13 opened — 09-16">⊕</span>
+      <div class="vb-center" aria-hidden="true"></div>
+    </div>
+
+    <p class="vb-now mono"><span class="lead">✓ crossing the gate:</span> PR #12 merged — witness tooling lands: 3 schemas, verifier, event envelope, bus · 09-16 14:55</p>
+    <p class="vb-gauges mono">30 EVENTS · 0 CROSSINGS · 0 RELEASES · 2 WORK ORDERS · 3 SCHEMAS · 5 TESTS · 2 AUTOMATIONS</p>
+    <p class="vb-note mono">design variant B — static preview · the served build is unchanged</p>
+  </div>
+</section>
+</main>
+</body>
+</html>
