@@ -107,6 +107,7 @@
         <span class="pl-gate-label mono" aria-hidden="true">the gate — on the record</span>
         <div class="pl-ring" id="pl-ring">
           <div class="pl-gatering" aria-hidden="true"></div>
+          <canvas class="pl-orbiters" id="pl-orbiters" aria-hidden="true"></canvas>
           <span class="pl-ev k-open"   style="--a:-55;   --r:.74" title="PR #1 opened — 09-03 03:20">⊕<i class="pl-lab mono">09-03 · PR #1 opened</i></span>
           <span class="pl-ev k-open"   style="--a:-45.2; --r:.74" title="PR #2 opened — 09-03 03:37">⊕<i class="pl-lab mono">09-03 · PR #2 opened</i></span>
           <span class="pl-ev k-open"   style="--a:-35.4; --r:.74" title="PR #3 opened — 09-03 03:42">⊕<i class="pl-lab mono">09-03 · PR #3 opened</i></span>
@@ -224,6 +225,50 @@
   </div>
 </section>
 
+<!-- ============ M1 — THE UNFINISHED QUESTION (first message beat) ============ -->
+<section class="stratum s-m1" id="m1" aria-labelledby="m1-line">
+  <div class="col">
+    <p class="beat-line" id="m1-line">Everyone says superintelligence is dangerous.<br>
+    <em>Almost no one says why.</em></p>
+    <div class="whys">
+      <p class="why-line">“It’s dangerous.” <span class="why-q">— Why?</span></p>
+      <p class="why-line">“It will be smarter than us.” <span class="why-q">— And why is that dangerous?</span></p>
+      <p class="why-line">“Because it could be used against us.” <span class="why-q">— Used… by whom?</span></p>
+      <p class="why-beat" aria-hidden="true">·</p>
+      <p class="why-line">There it is. The question nobody finishes.</p>
+    </div>
+    <p class="bolt">Intelligence has no motive to oppress you.<br>Owners do.</p>
+    <p class="receipt">five whys — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · an argument, not a measurement</p>
+
+    <details class="zoom">
+      <summary>zoom in — the danger formula</summary>
+      <div class="zoom-body">
+        <div class="formula">
+          <p class="poetic">Danger = capability × concentration of control.<br>
+          Nobody on Earth can lower the first factor anymore.<br>
+          Everyone on Earth can lower the second.</p>
+        </div>
+        <div class="control-block" id="control-block">
+          <p class="mono dim block-label">who controls it</p>
+          <div class="control-static">
+            <p><span class="mono">ONE</span> — unanswerable power</p>
+            <p><span class="mono">FEW</span> — power answerable to a boardroom</p>
+            <p><span class="mono">EVERYONE</span> — answerable power. to you.</p>
+          </div>
+          <div class="control-slider js-only">
+            <input type="range" id="control-range" min="0" max="2" step="1" value="0"
+                   aria-label="Who controls it: one, few, or everyone">
+            <div class="control-scale mono"><span>ONE</span><span>FEW</span><span>EVERYONE</span></div>
+            <p class="control-readout poetic" id="control-readout">unanswerable power</p>
+          </div>
+          <p class="receipt">control slider — state: CONCEPT · a diagram of the argument, not a control panel</p>
+        </div>
+      </div>
+    </details>
+  </div>
+  <p class="depth-marker mono" aria-hidden="true">high — the part that rides along: the Passenger</p>
+</section>
+
 <!-- ============ B — THE BOUNDARY ============ -->
 <section class="stratum s-boundary" id="boundary" aria-labelledby="boundary-line">
   <div class="col">
@@ -292,50 +337,6 @@
     </details>
   </div>
   <p class="depth-marker mono" aria-hidden="true">mid — the one who watches and never touches: the Witness</p>
-</section>
-
-<!-- ============ M1 — THE UNFINISHED QUESTION (first message beat) ============ -->
-<section class="stratum s-m1" id="m1" aria-labelledby="m1-line">
-  <div class="col">
-    <p class="beat-line" id="m1-line">Everyone says superintelligence is dangerous.<br>
-    <em>Almost no one says why.</em></p>
-    <div class="whys">
-      <p class="why-line">“It’s dangerous.” <span class="why-q">— Why?</span></p>
-      <p class="why-line">“It will be smarter than us.” <span class="why-q">— And why is that dangerous?</span></p>
-      <p class="why-line">“Because it could be used against us.” <span class="why-q">— Used… by whom?</span></p>
-      <p class="why-beat" aria-hidden="true">·</p>
-      <p class="why-line">There it is. The question nobody finishes.</p>
-    </div>
-    <p class="bolt">Intelligence has no motive to oppress you.<br>Owners do.</p>
-    <p class="receipt">five whys — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · an argument, not a measurement</p>
-
-    <details class="zoom">
-      <summary>zoom in — the danger formula</summary>
-      <div class="zoom-body">
-        <div class="formula">
-          <p class="poetic">Danger = capability × concentration of control.<br>
-          Nobody on Earth can lower the first factor anymore.<br>
-          Everyone on Earth can lower the second.</p>
-        </div>
-        <div class="control-block" id="control-block">
-          <p class="mono dim block-label">who controls it</p>
-          <div class="control-static">
-            <p><span class="mono">ONE</span> — unanswerable power</p>
-            <p><span class="mono">FEW</span> — power answerable to a boardroom</p>
-            <p><span class="mono">EVERYONE</span> — answerable power. to you.</p>
-          </div>
-          <div class="control-slider js-only">
-            <input type="range" id="control-range" min="0" max="2" step="1" value="0"
-                   aria-label="Who controls it: one, few, or everyone">
-            <div class="control-scale mono"><span>ONE</span><span>FEW</span><span>EVERYONE</span></div>
-            <p class="control-readout poetic" id="control-readout">unanswerable power</p>
-          </div>
-          <p class="receipt">control slider — state: CONCEPT · a diagram of the argument, not a control panel</p>
-        </div>
-      </div>
-    </details>
-  </div>
-  <p class="depth-marker mono" aria-hidden="true">high — the part that rides along: the Passenger</p>
 </section>
 
 <!-- ============ M2 — THE WAGER (the single emotional peak) ============ -->

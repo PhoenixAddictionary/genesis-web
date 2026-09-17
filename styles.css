@@ -910,6 +910,27 @@ html.js .rw.js-only[hidden] { display: none !important; }
   border-radius: 50%;
   border: 1px solid rgba(216, 178, 74, 0.4);
   box-shadow: 0 0 60px rgba(216, 178, 74, 0.05), inset 0 0 90px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+/* a slow single point of light chasing itself around the gate — the ring is a
+   real timeline, so the ring itself gets to look like one, not just its ticks */
+.pl-gatering::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg, rgba(216, 178, 74, 0.55) 3deg, transparent 26deg, transparent 360deg);
+  opacity: 0.9;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .pl-gatering::before { animation: gate-shimmer 22s linear infinite; }
+}
+@keyframes gate-shimmer { to { transform: rotate(360deg); } }
+.pl-orbiters {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 .pl-center {
   position: absolute;
@@ -938,7 +959,7 @@ html.js .rw.js-only[hidden] { display: none !important; }
 .pl-ev.k-merge  { color: var(--chip-current); }
 .pl-ev.k-close  { color: var(--chip-rejected); }
 .pl-ev.k-ci     { color: var(--chip-recorded); }
-.pl-ev.now { opacity: 1; text-shadow: 0 0 16px currentColor; }
+.pl-ev.now { opacity: 1; text-shadow: 0 0 16px currentColor, 0 0 30px currentColor; }
 .pl-ev.now::after {
   content: "";
   position: absolute;
@@ -946,6 +967,24 @@ html.js .rw.js-only[hidden] { display: none !important; }
   border: 1px solid currentColor;
   border-radius: 50%;
   opacity: 0.5;
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* the ring's actual pulse of attention: two rings ping outward from whichever
+     event just became "now" — echoing the real replay tick, not decorating it */
+  .pl-ev.now::after, .pl-ev.now::before {
+    content: "";
+    position: absolute;
+    inset: -0.5em;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    animation: pl-ping 900ms cubic-bezier(0.2, 0.6, 0.3, 1);
+  }
+  .pl-ev.now::before { animation-delay: 200ms; }
+}
+@keyframes pl-ping {
+  0%   { transform: scale(0.5); opacity: 0.9; }
+  100% { transform: scale(2.8); opacity: 0; }
 }
 .pl-lab {
   display: none;

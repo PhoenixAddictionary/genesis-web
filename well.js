@@ -940,10 +940,26 @@
       pdWhen.textContent = d.t + " · event " + (i + 1) + " of " + N;
     }
 
+    function posOf(el) {
+      var cs = getComputedStyle(el);
+      return { a: parseFloat(cs.getPropertyValue("--a")), r: parseFloat(cs.getPropertyValue("--r")) };
+    }
+    // tells the decorative orbiters canvas which two REAL events the replay just
+    // moved between, so it can trace that exact hop — never a new claim, just a
+    // nicer way to look at the same tick.
+    function emitStep(prevIdx, curIdx) {
+      if (altState.alt !== "orbit") return;
+      field.dispatchEvent(new CustomEvent("world:tick", { detail: {
+        from: posOf(evs[prevIdx]), to: posOf(evs[curIdx]), color: getComputedStyle(evs[curIdx]).color
+      }}));
+    }
+
     function stopReplay() { clearTimeout(st.timer); st.timer = null; }
     function tick() {
+      var prevI = st.i;
       st.i = (st.i + 1) % N;
       st.sel = st.i;
+      emitStep(prevI, st.i);
       highlight(st.i);
       st.timer = setTimeout(tick, st.i === N - 1 ? 3200 : 950);
     }
@@ -1025,6 +1041,152 @@
         stopReplay();
         bPlay.hidden = true;
       }
+    });
+  })();
+
+  /* ================= planet: decorative orbiters (purely cosmetic — carries no data,
+     unlike .pl-ev; never claims to be a recorded event) ================= */
+  (function () {
+    var canvas = document.getElementById("pl-orbiters");
+    var field = document.getElementById("pl-field");
+    if (!canvas || !field || !motionOK()) return;
+    var ctx = canvas.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resize() {
+      var r = field.getBoundingClientRect();
+      canvas.width = r.width * dpr;
+      canvas.height = r.height * dpr;
+      canvas.style.width = r.width + "px";
+      canvas.style.height = r.height + "px";
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    var moons = [
+      { radiusFrac: 0.92, speed: 0.045, phase: 0, size: 2.4, alpha: 0.65 },
+      { radiusFrac: 1.04, speed: -0.028, phase: 2.1, size: 1.7, alpha: 0.45 },
+      { radiusFrac: 0.80, speed: 0.07, phase: 4.2, size: 1.3, alpha: 0.5 }
+    ];
+    var streak = null; // occasional funny event: a small comet crossing the field
+
+    // the replay's own comet: traces the exact hop between two REAL consecutive
+    // events, colored by the kind it just landed on. Not a new fact — the same
+    // tick the text already announces, just drawn as motion instead of a jump.
+    var comet = null; // {x0,y0,x1,y1,start,dur,color}
+    field.addEventListener("world:tick", function (e) {
+      var d = e.detail;
+      var w = canvas.width / dpr, h = canvas.height / dpr;
+      var cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 6;
+      function toXY(p) {
+        var rad = p.a * Math.PI / 180;
+        return { x: cx + Math.cos(rad) * R * p.r, y: cy + Math.sin(rad) * R * p.r };
+      }
+      var p0 = toXY(d.from), p1 = toXY(d.to);
+      comet = { x0: p0.x, y0: p0.y, x1: p1.x, y1: p1.y, start: performance.now() / 1000, dur: 0.62, color: d.color };
+    });
+
+    function maybeSpawnStreak(tSec) {
+      if (streak || Math.random() > 0.0006) return;
+      var edge = Math.floor(rand(0, 4));
+      var w = canvas.width / dpr, h = canvas.height / dpr;
+      var pts = {
+        0: [[-10, rand(0, h)], [w + 10, rand(0, h)]],
+        1: [[w + 10, rand(0, h)], [-10, rand(0, h)]],
+        2: [[rand(0, w), -10], [rand(0, w), h + 10]],
+        3: [[rand(0, w), h + 10], [rand(0, w), -10]]
+      }[edge];
+      streak = { x0: pts[0][0], y0: pts[0][1], x1: pts[1][0], y1: pts[1][1], start: tSec, dur: rand(0.8, 1.4) };
+    }
+
+    var stopped = false;
+    function draw(tMs) {
+      if (stopped) return;
+      requestAnimationFrame(draw);
+      var tSec = tMs / 1000;
+      var w = canvas.width / dpr, h = canvas.height / dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      var cx = w / 2, cy = h / 2;
+      var R = Math.min(w, h) / 2 - 6;
+
+      moons.forEach(function (m) {
+        var a = tSec * m.speed + m.phase;
+        var x = cx + Math.cos(a) * R * m.radiusFrac;
+        var y = cy + Math.sin(a) * R * m.radiusFrac * 0.98;
+        ctx.beginPath();
+        ctx.arc(x, y, m.size, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(216,178,74," + m.alpha + ")";
+        ctx.fill();
+      });
+
+      if (comet) {
+        var ct = (tSec - comet.start) / comet.dur;
+        if (ct >= 1) {
+          comet = null;
+        } else {
+          var ce = 1 - Math.pow(1 - ct, 3); // ease-out cubic — arrives with a settle, not a snap
+          var hx = comet.x0 + (comet.x1 - comet.x0) * ce;
+          var hy = comet.y0 + (comet.y1 - comet.y0) * ce;
+          ctx.save();
+          ctx.globalAlpha = 0.4 * (1 - ct);
+          ctx.strokeStyle = comet.color;
+          ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          ctx.moveTo(comet.x0, comet.y0);
+          ctx.lineTo(hx, hy);
+          ctx.stroke();
+          ctx.globalAlpha = 0.85 * (1 - ct * 0.3);
+          ctx.beginPath();
+          ctx.arc(hx, hy, 2.3, 0, Math.PI * 2);
+          ctx.fillStyle = comet.color;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      maybeSpawnStreak(tSec);
+      if (streak) {
+        var lt = (tSec - streak.start) / streak.dur;
+        if (lt >= 1) { streak = null; }
+        else {
+          var sx = streak.x0 + (streak.x1 - streak.x0) * lt;
+          var sy = streak.y0 + (streak.y1 - streak.y0) * lt;
+          var tailLen = 22;
+          var dx = (streak.x1 - streak.x0) / Math.hypot(streak.x1 - streak.x0, streak.y1 - streak.y0);
+          var dy = (streak.y1 - streak.y0) / Math.hypot(streak.x1 - streak.x0, streak.y1 - streak.y0);
+          var grad = ctx.createLinearGradient(sx - dx * tailLen, sy - dy * tailLen, sx, sy);
+          grad.addColorStop(0, "rgba(230,238,246,0)");
+          grad.addColorStop(1, "rgba(230,238,246,0.85)");
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          ctx.moveTo(sx - dx * tailLen, sy - dy * tailLen);
+          ctx.lineTo(sx, sy);
+          ctx.stroke();
+        }
+      }
+    }
+    // lazy start: don't spend a single frame on this decoration until the ring
+    // is actually near the viewport — the terminal above shouldn't pay for it.
+    if ("IntersectionObserver" in window) {
+      var ioOrbiters = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            requestAnimationFrame(draw);
+            ioOrbiters.disconnect();
+          }
+        });
+      }, { threshold: 0.1 });
+      ioOrbiters.observe(field);
+    } else {
+      requestAnimationFrame(draw);
+    }
+
+    window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", function (m) {
+      if (m.matches) { stopped = true; comet = null; ctx.clearRect(0, 0, canvas.width, canvas.height); }
     });
   })();
 
