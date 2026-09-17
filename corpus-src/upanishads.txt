@@ -1,7 +1,7 @@
 SOURCE: upanishad
-TITLE: The Upanishads (Isha, Katha, Mundaka), Sacred Books of the East vols. 1 and 15
+TITLE: The Upanishads (Isha, Katha, Mundaka, Kena, Prasna), Sacred Books of the East vols. 1 and 15
 TRANSLATOR: F. Max Muller
-PROVENANCE: https://sacred-texts.com/hin/sbe01/sbe01243.htm; https://files.spiritmaji.com/books/Kriya%20Yoga/Upanishads/Upanishads_Vol2_Max-M%C3%BCller.pdf
+PROVENANCE: https://sacred-texts.com/hin/sbe01/sbe01243.htm; https://files.spiritmaji.com/books/Kriya%20Yoga/Upanishads/Upanishads_Vol2_Max-M%C3%BCller.pdf; https://en.wikisource.org/wiki/Sacred_Books_of_the_East/Volume_1/Talavak%C3%A2ra-upanishad (Kena/Talavakara, SBE vol. 1); https://en.wikisource.org/wiki/Sacred_Books_of_the_East/Volume_15/Pras%C3%B1a-upanishad (Prasna, SBE vol. 15)
 LICENSE: public domain
 
 ## Isha Upanishad 1-5
@@ -289,3 +289,155 @@ LICENSE: public domain
 9. He who knows that highest Brahman, becomes even Brahman. In his race no one is born ignorant of Brahman. He overcomes grief, he overcomes evil; free from the fetters of the heart, he becomes immortal.
 10. And this is declared by the following Rik-verse: 'Let a man tell this science of Brahman to those only who have performed all (necessary) acts, who are versed in the Vedas, and firmly established in (the lower) Brahman, who themselves offer as an oblation the one Rishi (Agni), full of faith, and by whom the rite of (carrying fire on) the head has been performed, according to the rule (of the Atharvanas).'
 11. The Rishi Angiras formerly told this true (science); a man who has not performed the (proper) rites, does not read it. Adoration to the highest Rishis! Adoration to the highest Rishis!
+
+## Kena Upanishad 1.1-5
+1 The Pupil asks: 'At whose wish does the mind sent forth proceed on its errand? At whose command does the first breath go forth? At whose wish do we utter this speech? What god directs the eye, or the ear?'
+2 The Teacher replies: It is the ear of the ear, the mind of the mind, the speech of speech, the breath of breath, and the eye of the eye. When freed (from the senses) the wise, on departing from this world, become immortal.
+3 'The eye does not go thither, nor speech, nor mind. We do not know, we do not understand, how any one can teach it.
+4 'It is different from the known, it is also above the unknown, thus we have heard from those of old, who taught us this.
+5 'That which is not expressed by speech and by which speech is expressed, that alone know as Brahman, not that which people here adore.
+
+## Kena Upanishad 1.6-9
+6 'That which does not think by mind, and by which, they say, mind is thought, that alone know as Brahman, not that which people here adore.
+7 'That which does not see by the eye, and by which one sees (the work of) the eyes, that alone know as Brahman, not that which people here adore.
+8 'That which does not hear by the ear, and by which the ear is heard, that alone know as Brahman, not that which people here adore.
+9 'That which does not breathe by breath, and by which breath is drawn, that alone know as Brahman, not that which people here adore.'
+
+## Kena Upanishad 2.1-5
+1 The Teacher says: 'If thou thinkest I know it well; then thou knowest surely but little, what is that form of Brahman known, it may be, to thee?'
+2 The Pupil says: 'I do not think I know it well, nor do I know that I do not know it. He among us who knows this, he knows it, nor does he know that he does not know it.
+3 'He by whom it (Brahman) is not thought, by him it is thought; he by whom it is thought, knows it not. It is not understood by those who understand it, it is understood by those who do not understand it.
+4 'It is thought to be known (as if) by awakening, and (then) we obtain immortality indeed. By the Self we obtain strength, by knowledge we obtain immortality.
+5 'If a man know this here, that is the true (end of life); if he does not know this here, then there is great destruction (new births). The wise who have thought on all things (and recognised the Self in them) become immortal, when they have departed from this world.'
+
+## Kena Upanishad 3.1-5
+1 Brahman obtained the victory for the Devas. The Devas became elated by the victory of Brahman, and they thought, this victory is ours only, this greatness is ours only.
+2 Brahman perceived this and appeared to them. But they did not know it, and said: 'What sprite (yaksha or yakshya) is this?'
+3 They said to Agni (fire): 'O Gatavedas, find out what sprite this is.' 'Yes,' he said.
+4 He ran toward it, and Brahman said to him: 'Who are you?' He replied: 'I am Agni, I am Gatavedas.'
+5 Brahman said: 'What power is in you?' Agni replied: 'I could burn all whatever there is on earth.'
+
+## Kena Upanishad 3.6-10
+6 Brahman put a straw before him, saying: 'Burn this.' He went towards it with all his might, but he could not burn it. Then he returned thence and said: 'I could not find out what sprite this is.'
+7 Then they said to Vayu (air): 'O Vayu, find out what sprite this is.' 'Yes,' he said.
+8 He ran toward it, and Brahman said to him: 'Who are you?' He replied: 'I am Vayu, I am Matarisvan.'
+9 Brahman said: 'What power is in you?' Vayu replied: 'I could take up all whatever there is on earth.'
+10 Brahman put a straw before him, saying: 'Take it up.' He went towards it with all his might, but he could not take it up. Then he returned thence and said: 'I could not find out what sprite this is.'
+
+## Kena Upanishad 3.11-12
+11 Then they said to Indra: 'O Maghavan, find out what sprite this is.' He went towards it, but it disappeared from before him.
+12 Then in the same space (ether) he came towards a woman, highly adorned: it was Uma, the daughter of Himavat. He said to her: 'Who is that sprite?'
+
+## Kena Upanishad 4.1-5
+1 She replied: 'It is Brahman. It is through the victory of Brahman that you have thus become great.' After that he knew that it was Brahman.
+2 Therefore these Devas, viz. Agni, Vayu, and Indra, are, as it were, above the other gods, for they touched it (the Brahman) nearest.
+3 And therefore Indra is, as it were, above the other gods, for he touched it nearest, he first knew it.
+4 This is the teaching of Brahman, with regard to the gods (mythological): It is that which now flashes forth in the lightning, and now vanishes again.
+5 And this is the teaching of Brahman, with regard to the body (psychological): It is that which seems to move as mind, and by it imagination remembers again and again.
+
+## Kena Upanishad 4.6-9
+6 That Brahman is called Tadvana, by the name of Tadvana it is to be meditated on. All beings have a desire for him who knows this.
+7 The Teacher: 'As you have asked me to tell you the Upanishad, the Upanishad has now been told you. We have told you the Brahmi Upanishad.
+8 'The feet on which that Upanishad stands are penance, restraint, sacrifice; the Vedas are all its limbs, the True is its abode.
+9 'He who knows this Upanishad, and has shaken off all evil, stands in the endless, unconquerable world of heaven, yea, in the world of heaven.'
+
+## Prasna Upanishad 1.1-5
+1 Sukesas Bharadvaga, and Saivya Satyakama, and Sauryayanin Gargya, and Kausalya Asvalayana, and Bhargava Vaidarbhi, and Kabandhin Katyayana, these were devoted to Brahman, firm in Brahman, seeking for the Highest Brahman. They thought that the venerable Pippalada could tell them all that, and they therefore took fuel in their hands (like pupils), and approached him.
+2 That Rishi said to them: "Stay here a year longer, with penance, abstinence, and faith; then you may ask questions according to your pleasure, and if we know them, we shall tell you all."
+3 Then Kabandhin Katyayana approached him and asked: "Sir, from whence may these creatures be born?"
+4 He replied: "Pragapati (the lord of creatures) was desirous of creatures (pragah). He performed penance, and having performed penance, he produces a pair, matter (rayi) and spirit (prana), thinking that they together should produce creatures for him in many ways.
+5 The sun is spirit, matter is the moon. All this, what has body and what has no body, is matter, and therefore body indeed is matter.
+
+## Prasna Upanishad 1.6-10
+6 Now Aditya, the sun, when he rises, goes toward the East, and thus receives the Eastern spirits into his rays. And when he illuminates the South, the West, the North, the Zenith, the Nadir, the intermediate quarters, and everything, he thus receives all spirits into his rays.
+7 Thus he rises, as Vaisvanara, (belonging to all men,) assuming all forms, as spirit, as fire. This has been said in the following verse:
+8 (They knew) him who assumes all forms, the golden, who knows all things, who ascends highest, alone in his splendour, and warms us; the thousand-rayed, who abides in a hundred places, the spirit of all creatures, the Sun, rises.
+9 The year indeed is Pragapati, and there are two paths thereof, the Southern and the Northern. Now those who here believe in sacrifices and pious gifts as work done, gain the moon only as their (future) world, and return again. Therefore the Rishis who desire offspring, go to the South, and that path of the Fathers is matter (rayi).
+10 But those who have sought the Self by penance, abstinence, faith, and knowledge, gain by the Northern path Aditya, the sun. This is the home of the spirits, the immortal, free from danger, the highest. From thence they do not return, for it is the end. Thus says the Sloka:
+
+## Prasna Upanishad 1.11-15
+11 Some call him the father with five feet (the five seasons), and with twelve shapes (the twelve months), the giver of rain in the highest half of heaven; others again say that the sage is placed in the lower half, in the chariot with seven wheels and six spokes.
+12 The month is Pragapati; its dark half is matter, its bright half spirit. Therefore some Rishis perform sacrifice in the bright half, others in the other half.
+13 Day and Night are Pragapati; its day is spirit, its night matter. Those who unite in love by day waste their spirit, but to unite in love by night is right.
+14 Food is Pragapati. Hence proceeds seed, and from it these creatures are born.
+15 Those therefore who observe this rule of Pragapati (as laid down in verse 13), produce a pair, and to them belongs this Brahma-world here. But those in whom dwell penance, abstinence, and truth,
+
+## Prasna Upanishad 1.16
+16 To them belongs that pure Brahma-world, to them, namely, in whom there is nothing crooked, nothing false, and no guile."
+
+## Prasna Upanishad 2.1-5
+1 Then Bhargava Vaidarbhi asked him: "Sir, How many gods keep what has thus been created, how many manifest this, and who is the best of them?"
+2 He replied: "The ether is that god, the wind, fire, water, earth, speech, mind, eye, and ear. These, when they have manifested (their power), contend and say: We (each of us) support this body and keep it.
+3 Then Prana (breath, spirit, life), as the best, said to them: Be not deceived, I alone, dividing myself fivefold, support this body and keep it.
+4 They were incredulous; so he, from pride, did as if he were going out from above. Thereupon, as he went out, all the others went out, and as he returned, all the others returned. As bees go out when their queen goes out, and return when she returns, thus (did) speech, mind, eye, and ear; and, being satisfied, they praise Prana, saying:
+5 He is Agni (fire), he shines as Surya (sun), he is Parganya (rain), the powerful (Indra), he is Vayu (wind), he is the earth, he is matter, he is God — he is what is and what is not, and what is immortal.
+
+## Prasna Upanishad 2.6-10
+6 As spokes in the nave of a wheel, everything is fixed in Prana, the verses of the Rig-veda, Yagur-veda, Sama-veda, the sacrifice, the Kshatriyas, and the Brahmans.
+7 As Pragapati (lord of creatures) thou movest about in the womb, thou indeed art born again. To thee, the Prana, these creatures bring offerings, to thee who dwellest with the other pranas (the organs of sense).
+8 Thou art the best carrier for the Gods, thou art the first offering to the Fathers. Thou art the true work of the Rishis, of the Atharvangiras.
+9 O Prana, thou art Indra by thy light, thou art Rudra, as a protector; thou movest in the sky, thou art the sun, the lord of lights.
+10 When thou showerest down rain, then, O Prana, these creatures of thine are delighted, hoping that there will be food, as much as they desire.
+
+## Prasna Upanishad 2.11-13
+11 Thou art a Vratya, O Prana, the only Rishi, the consumer of everything, the good lord. We are the givers of what thou hast to consume, thou, O Matarisva, art our father.
+12 Make propitious that body of thine which dwells in speech, in the ear, in the eye, and which pervades the mind; do not go away!
+13 All this is in the power of Prana, whatever exists in the three heavens. Protect us like a mother her sons, and give us happiness and wisdom."
+
+## Prasna Upanishad 3.1-5
+1 Then Kausalya Asvalayana asked: "Sir, whence is that Prana (spirit) born? How does it come into this body? And how does it abide, after it has divided itself? How does it go out? How does it support what is without, and how what is within?"
+2 He replied: "You ask questions more difficult, but you are very fond of Brahman, therefore I shall tell it you.
+3 This Prana (spirit) is born of the Self. Like the shadow thrown on a man, this (the prana) is spread out over it (the Brahman). By the work of the mind does it come into this body.
+4 As a king commands officials, saying to them: Rule these villages or those, so does that Prana (spirit) dispose the other pranas, each for their separate work.
+5 The Apana (the down-breathing) in the organs of excretion and generation; the Prana himself dwells in eye and ear, passing through mouth and nose. In the middle is the Samana (the on-breathing); it carries what has been sacrificed as food equally (over the body), and the seven lights proceed from it.
+
+## Prasna Upanishad 3.6-10
+6 The Self is in the heart. There are the 101 arteries, and in each of them there are a hundred (smaller veins), and for each of these branches there are 72,000. In these the Vyana (the back-breathing) moves.
+7 Through one of them, the Udana (the out-breathing) leads (us) upwards to the good world by good work, to the bad world by bad work, to the world of men by both.
+8 The sun rises as the external Prana, for it assists the Prana in the eye. The deity that exists in the earth, is there in support of man's Apana (down-breathing). The ether between (sun and earth) is the Samana (on-breathing), the air is Vyana (back-breathing).
+9 Light is the Udana (out-breathing), and therefore he whose light has gone out comes to a new birth with his senses absorbed in the mind.
+10 Whatever his thought (at the time of death) with that he goes back to Prana, and the Prana, united with light, together with the self (the givatma) leads on to the world, as deserved.
+
+## Prasna Upanishad 3.11-12
+11 He who, thus knowing, knows Prana, his offspring does not perish, and he becomes immortal. Thus says the Sloka:
+12 He who has known the origin, the entry, the place, the fivefold distribution, and the internal state of the Prana, obtains immortality, yes, obtains immortality."
+
+## Prasna Upanishad 4.1-5
+1 Then Sauryayanin Gargya asked: "Sir, What are they that sleep in this man, and what are they that are awake in him? What power (deva) is it that sees dreams? Whose is the happiness? On what do all these depend?"
+2 He replied: "O Gargya, As all the rays of the sun, when it sets, are gathered up in that disc of light, and as they, when the sun rises again and again, come forth, so is all this (all the senses) gathered up in the highest faculty (deva) the mind. Therefore at that time that man does not hear, see, smell, taste, touch, he does not speak, he does not take, does not enjoy, does not evacuate, does not move about. He sleeps, that is what people say.
+3 The fires of the pranas are, as it were, awake in that town (the body). The Apana is the Garhapatya fire, the Vyana the Anvaharyapakana fire; and because it is taken out of the Garhapatya fire, which is fire for taking out, therefore the Prana is the Ahavanlya fire.
+4 Because it carries equally these two oblations, the out-breathing and the in-breathing, the Samana is he (the Hotri priest). The mind is the sacrificer, the Udana is the reward of the sacrifice, and it leads the sacrificer every day (in deep sleep) to Brahman.
+5 There that god (the mind) enjoys in sleep greatness. What has been seen, he sees again; what has been heard, he hears again; what has been enjoyed in different countries and quarters, he enjoys again; what has been seen and not seen, heard and not heard, enjoyed and not enjoyed, he sees it all; he, being all, sees.
+
+## Prasna Upanishad 4.6-10
+6 And when he is overpowered by light, then that god sees no dreams, and at that time that happiness arises in his body.
+7 And, O friend, as birds go to a tree to roost, thus all this rests in the Highest Atman,—
+8 The earth and its subtile elements, the water and its subtile elements, the light and its subtile elements, the air and its subtile elements, the ether and its subtile elements; the eye and what can be seen, the ear and what can be heard, the nose and what can be smelled, the taste and what can be tasted, the skin and what can be touched, the voice and what can be spoken, the hands and what can be grasped, the feet and what can be walked, the mind and what can be perceived, intellect (buddhi) and what can be conceived, personality and what can be personified, thought and what can be thought, light and what can be lighted up, the Prana and what is to be supported by it.
+9 For he it is who sees, hears, smells, tastes, perceives, conceives, acts, he whose essence is knowledge, the person, and he dwells in the highest, indestructible Self,—
+10 He who knows that indestructible being, obtains (what is) the highest and indestructible, he without a shadow, without a body, without colour, bright,— yes, O friend, he who knows it, becomes all-knowing, becomes all. On this there is this Sloka:
+
+## Prasna Upanishad 4.11
+11 He, O friend, who knows that indestructible being wherein the true knower, the vital spirits (pranas), together with all the powers (deva), and the elements rest, he, being all-knowing, has penetrated all."
+
+## Prasna Upanishad 5.1-5
+1 Then Saivya Satyakama asked him: "Sir, if some one among men should meditate here until death on the syllable Om, what would he obtain by it?"
+2 He replied: "O Satyakama, the syllable Om (AUM) is the highest and also the other Brahman; therefore he who knows it arrives by the same means at one of the two.
+3 If he meditate on one Matra (the A), then, being enlightened by that only, he arrives quickly at the earth. The Rik-verses lead him to the world of men, and being endowed there with penance, abstinence, and faith, he enjoys greatness.
+4 If he meditate with two Matras (A+U) he arrives at the Manas, and is led up by the Yagus-verses to the sky, to the Soma-world. Having enjoyed greatness in the Soma-world, he returns again.
+5 Again, he who meditates with this syllable AUM of three Matras, on the Highest Person, he comes to light and to the sun. And as a snake is freed from its skin, so is he freed from evil. He is led up by the Saman-verses to the Brahma-world; and from him, full of life (Hiranyagarbha, the lord of the Satya-loka), he learns to see the all-pervading, the Highest Person. And there are these two Slokas:
+
+## Prasna Upanishad 5.6-7
+6 The three Matras (A+U+M), if employed separate, and only joined one to another, are mortal; but in acts, external, internal, or intermediate, if well performed, the sage trembles not.
+7 Through the Rik-verses he arrives at this world, through the Yagus-verses at the sky, through the Saman-verses at that which the poets teach,— he arrives at this by means of the Onkara; the wise arrives at that which is at rest, free from decay, from death, from fear,— the Highest."
+
+## Prasna Upanishad 6.1-5
+1 Then Sukesas Bharadvaga asked him, saying: "Sir, Hiranyanabha, the prince of Kosala, came to me and asked this question: Do you know the person of sixteen parts, O Bharadvaga? I said to the prince: I do not know him; if I knew him, how should I not tell you? Surely, he who speaks what is untrue withers away to the very root; therefore I will not say what is untrue. Then he mounted his chariot and went away silently. Now I ask you, where is that person?"
+2 He replied: "Friend, that person is here within the body, he in whom these sixteen parts arise.
+3 He reflected: What is it by whose departure I shall depart, and by whose staying I shall stay?
+4 He sent forth (created) Prana (spirit); from Prana Sraddha (faith), ether, air, light, water, earth, sense, mind, food; from food came vigour, penance, hymns, sacrifice, the worlds, and in the worlds the name also.
+5 As these flowing rivers that go towards the ocean, when they have reached the ocean, sink into it, their name and form are broken, and people speak of the ocean only, exactly thus these sixteen parts of the spectator that go towards the person (purusha), when they have reached the person, sink into him, their name and form are broken, and people speak of the person only, and he becomes without parts and immortal. On this there is this verse:
+
+## Prasna Upanishad 6.6-8
+6 That person who is to be known, he in whom these parts rest, like spokes in the nave of a wheel, you know him, lest death should hurt you."
+7 Then he (Pippalada) said to them: "So far do I know this Highest Brahman, there is nothing higher than it."
+8 And they praising him, said: "You, indeed, are our father, you who carry us from our ignorance to the other shore." Adoration to the highest Rishis! Adoration to the highest Rishis! Tat sat. Harih, Om!
