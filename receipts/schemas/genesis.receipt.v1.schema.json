@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genesis.receipt.v1",
+  "title": "GENESIS plug-in receipt (Einklinken E1)",
+  "description": "What a guest returns for one packet, alongside their pull request. Reuses the actor{type,id} and ref{id,sha256,path} shapes from maker-handshake/schemas/genesis.event.v1.schema.json (vendored verbatim from PhoenixAddictionary/memoria-mcp@81a79ce; not itself modified) - extended here with a 'guest' actor type that schema does not define, because a receipt is a new kind of actor speaking, not a genesis.event.v1 envelope. No one grades their own work: verifierOutput must be the command's real, verbatim output; self-judgments belong in claims, marked as unverified, never folded into verifierOutput.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "packetId", "branch", "headCommit", "verifyCommand", "verifierOutput",
+    "verifierExitCode", "actor", "submittedAt"
+  ],
+  "properties": {
+    "schema": { "const": "genesis.receipt.v1" },
+    "packetId": {
+      "type": "string",
+      "pattern": "^PKT-[0-9]{3}([A-Za-z0-9-]*)$"
+    },
+    "branch": { "type": "string", "minLength": 1 },
+    "headCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "The exact commit a reviewer should check out to see what the receipt describes."
+    },
+    "verifyCommand": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Must equal the packet's own verifyCommand - a receipt does not get to grade itself against an easier bar."
+    },
+    "verifierOutput": {
+      "type": "string",
+      "description": "Verbatim stdout+stderr of verifyCommand. Not a summary."
+    },
+    "verifierExitCode": { "type": "integer" },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": { "const": "guest" },
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$",
+          "description": "<vendor-or-platform>/<handle>, e.g. github/octocat - never a name presented as this project's own maintainer or bahn."
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Self-reported statements the verifier did not check (e.g. 'also fixes #12'). Read as evidence to verify, never as a verdict."
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ref" },
+      "description": "Optional pointers to additional artifacts (screenshots, logs) using the same id/sha256/path shape as genesis.event.v1 refs."
+    },
+    "submittedAt": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "sha256": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+        "path": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "x-genesis-rules": {
+    "description": "Cross-field rules the stdlib validator enforces.",
+    "rules": [
+      "verifyCommand must equal the referenced packet's verifyCommand exactly.",
+      "verifierExitCode 0 is required for a receipt to be eligible for MERGED (a nonzero exit is not itself a schema error - it is recorded, and CI on the PR is the second, independent run of the same command).",
+      "actor.id may not equal any known maintainer or bahn identity - a guest never presents as this project's own voice."
+    ]
+  }
+}

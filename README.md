@@ -35,6 +35,14 @@ fetch; the page still renders and the engine emits its honest
 | `capture.py` | The verification harness: automated checks across normal / no-JS / reduced-motion, drives a real browser over CDP |
 | `variant-a/b/c.html` | Three earlier visual-direction comparisons (kept for the record) |
 | `tools/validate_genesis_events.py`, `maker-handshake/schemas/` | Vendored verbatim from `PhoenixAddictionary/memoria-mcp@81a79ce` (2026-09-16) — validates `spine/spine.jsonl` against the `genesis.event.v1` schema. Not modified; re-vendor from source on schema changes. |
+| `PLUG-IN.md`, `.well-known/agent.json`, `AGENTS.md` | The contribution door for outside human or agent contributors: what's open, how to take it, how to return it. Start with `PLUG-IN.md`. |
+| `packets/`, `receipts/`, `tools/validate_packet.py` | The packet/receipt contract behind that door (`genesis.packet.v1`, `genesis.receipt.v1`) — a bounded, hash-indexed unit of open work and the machine-checked proof-of-work returned for it. |
+| `LICENSE`, `LICENSING.md` | Three licenses for three kinds of content (code, corpus, generated output) — see `LICENSING.md` for which applies where. |
+
+## Contributing
+
+Outside contributions, human or agent, go through one door: see
+[`PLUG-IN.md`](PLUG-IN.md). Machine-readable form: `.well-known/agent.json`.
 
 ## Principles
 
@@ -54,7 +62,9 @@ python3 capture.py   # expects the server on :8017; needs a local Chrome
 
 CI (`.github/workflows/ci.yml`) runs on every push/PR: the vendored
 `genesis.event.v1` validator (+ its own test suite) against `spine/spine.jsonl`,
-and the real `capture.py` browser suite via headless Chrome.
+the `genesis.packet.v1`/`genesis.receipt.v1` validator (+ its own test suite)
+against `packets/`, `receipts/`, and `packets/INDEX.json`, and the real
+`capture.py` browser suite via headless Chrome.
 
 **Not wired, on purpose:** `verify_genesis_surface.py` and the zeuge witness/
 claim-detect probe (`witness_receipt.py`), both from `memoria-mcp`. Checked

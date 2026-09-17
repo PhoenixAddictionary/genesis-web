@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genesis.packet.v1",
+  "title": "GENESIS plug-in packet (Einklinken E1)",
+  "description": "One bounded, guest-takeable unit of work, published by this repository's maintainers. A packet is never edited in place after it is OPEN - a correction is a new id (append -v2) and the old one moves to WITHDRAWN, so a guest who already started never has the ground shift under them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "id", "status", "baseCommit", "task", "verifyCommand", "doneCriteria",
+    "stopConditions", "boundaries", "publishedAt"
+  ],
+  "properties": {
+    "schema": { "const": "genesis.packet.v1" },
+    "id": {
+      "type": "string",
+      "pattern": "^PKT-[0-9]{3}([A-Za-z0-9-]*)$",
+      "description": "PKT-NNN, optionally suffixed (e.g. PKT-001-v2) for a published correction."
+    },
+    "status": { "$ref": "#/$defs/status" },
+    "baseCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Exact commit on main this packet was cut from. Build on top of this, not on whatever main has drifted to."
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What to build, in plain language. Not a summary of the code - the actual instruction."
+    },
+    "verifyCommand": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "The exact command (argv form) a guest runs before opening a PR, and CI runs again on the PR."
+    },
+    "doneCriteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Observable conditions that make this packet complete. Not 'looks right' - checkable facts."
+    },
+    "stopConditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Situations in which a guest should stop and open a PR with questions instead of pushing through."
+    },
+    "boundaries": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Files, directories, or behaviors this packet does not authorize touching."
+    },
+    "publishedAt": { "type": "string", "format": "date-time" },
+    "claimedBy": {
+      "type": ["string", "null"],
+      "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$",
+      "description": "vendor/handle of the guest working it, once known. Null while OPEN."
+    },
+    "receiptId": {
+      "type": ["string", "null"],
+      "description": "Set once a receipts/<id>.json exists for this packet."
+    }
+  },
+  "$defs": {
+    "status": {
+      "description": "OPEN: unclaimed, buildable now. CLAIMED: a guest has said they're working it (informational only - claiming is not exclusive locking; a maintainer resolves a collision by merge order). SUBMITTED: a PR with a matching receipt is open. MERGED: landed. WITHDRAWN: no longer offered; superseded packets are WITHDRAWN, never deleted.",
+      "enum": ["OPEN", "CLAIMED", "SUBMITTED", "MERGED", "WITHDRAWN"]
+    }
+  },
+  "x-genesis-rules": {
+    "description": "Cross-field rules the stdlib validator enforces.",
+    "rules": [
+      "status MERGED or SUBMITTED requires a non-null receiptId.",
+      "status OPEN requires claimedBy null and receiptId null.",
+      "an id present in packets/INDEX.json must resolve to an on-disk packets/<id>.json whose own id and status match the index entry exactly."
+    ]
+  }
+}
