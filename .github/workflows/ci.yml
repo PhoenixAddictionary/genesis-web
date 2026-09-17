@@ -44,6 +44,7 @@ jobs:
           sleep 1
           "${{ steps.setup-chrome.outputs.chrome-path }}" --headless=new --remote-debugging-port=9222 \
             --user-data-dir=/tmp/chrome-cdp --disable-gpu --hide-scrollbars \
+            --no-sandbox --disable-dev-shm-usage \
             --window-size=1440,900 about:blank &
           sleep 2
           python capture.py
