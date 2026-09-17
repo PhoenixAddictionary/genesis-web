@@ -458,6 +458,15 @@ html.js .s-terminal.has-result .term-center {
   pointer-events: none;
 }
 html.js .s-terminal.has-result .term-descend { visibility: hidden; }
+/* Mobile bug (owner-reported 2026-09-17): .term-state sits in normal
+   flow right after .rw (which is position: absolute, so it never
+   contributes to #terminal's height). On mobile the three result
+   panes stack in one column and grow far taller than the hidden
+   .term-center block they overlay, so .rw's own bottom content ran
+   straight into this line. Desktop mostly gets away with it because
+   the three-column layout stays short; hide it here too, same
+   visibility treatment as .term-descend right above. */
+html.js .s-terminal.has-result .term-state { visibility: hidden; }
 
 /* ==================================================================
    T1 — THE FIRST WIRING. Three masks over the empty terminal.
@@ -811,10 +820,18 @@ html.js .rw.js-only[hidden] { display: none !important; }
 }
 
 @media (max-width: 900px) {
-  html.js .rw.js-only { inset: 4.2rem 4vw 2.4rem; }
+  /* Owner fix 2026-09-17 (see html.js .rw.js-only above) removed the
+     bottom pin because a fixed top+bottom inset forces .rw-mask into a
+     hard-clipped scrollbox -- content gets cut off behind a tiny inner
+     scrollbar instead of the page just scrolling further. This mobile
+     override had kept the old bottom-pinned inset, so the exact same
+     clipped-scrollbox regression -- plus the boxed-in .rw-actions
+     footer visibly colliding with .term-state underneath it -- came
+     right back on narrow viewports. Match the desktop fix: top-anchored
+     only, size to content. */
+  html.js .rw.js-only { top: 4.2rem; left: 4vw; right: 4vw; }
   .rw-stage {
     grid-template-columns: 1fr;
-    overflow-y: auto;
   }
   .quote-mask, .instrument-mask, .well-mask { max-height: none; }
   .rw-peek { --R: 70px; }
@@ -1436,6 +1453,15 @@ html.js button.orbit-ctl { display: inline-block; }
   margin: 0;
 }
 @media (max-width: 900px) { .depth-marker { display: none; } }
+
+/* Mobile bug (owner-reported 2026-09-17): the depth-gauge is a fixed
+   bottom-left HUD with no side clearance reserved for it. On narrow
+   viewports the content column runs edge-to-edge, so the gauge sits
+   directly on top of whatever is at the bottom-left at that scroll
+   position (a "zoom in" button, the result-panel footer, etc.) --
+   same treatment as .depth-marker above: it's a js-only, aria-hidden
+   instrument, not load-bearing content. */
+@media (max-width: 900px) { html.js .depth-gauge.js-only { display: none; } }
 
 /* ---------- reduced motion: static frames ----------
    All motion above is opt-in (no-motion-first); this is the belt-and-braces
