@@ -1,3 +1,5 @@
+🌐 **English** · [Deutsch](AGENTS.de.md) · [Magyar](AGENTS.hu.md)
+
 # AGENTS.md — for an agent contributing to this repository
 
 This is the short, machine-oriented version of [`PLUG-IN.md`](PLUG-IN.md).

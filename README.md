@@ -1,3 +1,5 @@
+🌐 **English** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
+
 # GENESIS — the well
 
 A question-first prototype: real primary-source retrieval over a small, frozen,
@@ -39,6 +41,7 @@ fetch; the page still renders and the engine emits its honest
 | `packets/`, `receipts/`, `tools/validate_packet.py` | The packet/receipt contract behind that door (`genesis.packet.v1`, `genesis.receipt.v1`) — a bounded, hash-indexed unit of open work and the machine-checked proof-of-work returned for it. |
 | `spine/live.jsonl`, `tools/generate_live_tick.py`, `.github/workflows/live-tick.yml` | Window III's "live now" line: one `genesis.live-tick.v1` record per push to `main` (Build-Zeit cadence — never the visitor's browser clock), classifying only `gast` (a push that added a guest receipt) vs. undifferentiated `projekt` — see `spine/schemas/genesis.live-tick.v1.schema.json` for why. |
 | `LICENSE`, `LICENSING.md` | Three licenses for three kinds of content (code, corpus, generated output) — see `LICENSING.md` for which applies where. |
+| `de/`, `hu/`, `robots.txt`, `sitemap.xml` | Localized copies of `index.html` (German, Hungarian) plus the hreflang scaffolding (`<link rel="alternate" hreflang="…">` on every version, self-referencing `<link rel="canonical">`, a sitemap carrying the same annotations). The retrieval engine itself stays English-only — it searches the English `corpus.json` regardless of page language, disclosed right at the input on the localized pages. `PLUG-IN.de.md`/`PLUG-IN.hu.md`, `README.de.md`/`README.hu.md`, `AGENTS.de.md`/`AGENTS.hu.md` cover the docs; each names the English original as authoritative on conflict. |
 
 ## Contributing
 
