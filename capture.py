@@ -748,7 +748,7 @@ def main():
     check("no-js: altitude frames exist as details",
           "zoom down — the surface" in html and "one event, in full" in html)
     check("no-js: state honesty on terminal",
-          "engine v0 — retrieval only" in html and "korpus 0.3" in html)
+          "engine v0 — retrieval only" in html and f"korpus {KORPUS_VERSION}" in html)
     check("no-js: thunderbolt readable", "Owners do." in html)
     check("no-js: canon line readable", "Minimal seeds. Maximum emergence." in html)
     tab.eval("document.documentElement.style.scrollBehavior='auto';"
