@@ -918,12 +918,13 @@ html.js .rw.js-only[hidden] { display: none !important; }
   letter-spacing: 0.55em;
   margin: 0 0 0.7rem;
 }
-.world-sub { font-size: 0.7rem; letter-spacing: 0.03em; margin: 0; line-height: 2; }
-/* one bridging line (owner request 2026-09-17, persona-read finding: a
-   first-time visitor gets no thread from "ask a philosophical question"
-   to the AI-governance argument until much later, at #about) - same
-   register as world-sub, not a new visual weight class. */
-.world-thesis { font-size: 0.7rem; letter-spacing: 0.03em; margin: 0.35rem 0 0; line-height: 1.6; opacity: 0.62; }
+/* world-sub carries both the RECORDED fact and the "why public" argument
+   in one sentence (owner request 2026-09-17: the earlier version stacked
+   this as two separate lines - "four fragments" before the ring - and
+   read as a list of assertions rather than one thought). The bridging
+   argument from the persona-read finding (PR #8) is folded in here now;
+   the standalone .world-thesis line it used to live in is gone. */
+.world-sub { font-size: 0.7rem; letter-spacing: 0.03em; margin: 0; line-height: 1.9; }
 
 /* ---------- the planet: the well seen from above — altitude = abstraction ---------- */
 .s-world .world-head { text-align: center; }
@@ -1076,11 +1077,17 @@ html.js .rw.js-only[hidden] { display: none !important; }
 
 /* caption + controls + gauges line */
 .pl-now {
-  font-size: 0.66rem;
-  letter-spacing: 0.05em;
-  opacity: 0.75;
-  margin: 2rem auto 0;
-  max-width: 64ch;
+  /* bumped from 0.66rem/opacity .75 (owner request 2026-09-17): this line
+     is the one place a real event story (well.js highlight()'s "now: <PR
+     title>...") appears without hovering anything - it was reading as a
+     footnote under the ring instead of the payoff of the whole diagram.
+     Gold ties it visually to the replay sweep that points at it. */
+  font-size: 0.82rem;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  opacity: 0.92;
+  margin: 1.3rem auto 0;
+  max-width: 56ch;
   min-height: 2.4em;
 }
 .pl-ctls { margin: 1.2rem 0 0; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
