@@ -11,10 +11,17 @@
   --serif: Georgia, "Times New Roman", Times, serif;
   --sans: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
   --ink: #e6e3d8;
-  --gold: #d8b24a;
-  --gold-dim: #8a6d1a;
+  /* brighter, more saturated "arcade coin gold" (owner request 2026-09-17;
+     was #d8b24a/rgb(216,178,74) — H44 S65 L57 — flat and hard to read at
+     a glance). New value: H46 S95 L70. --gold-rgb backs every rgba(216,
+     178, 74, …) glow/border below so they scale with it instead of going
+     stale next to a brighter caret. */
+  --gold: #fbd96a;
+  --gold-rgb: 251, 217, 106;
+  --gold-dim: #cb9f0b;
+  --gold-dim-rgb: 203, 159, 11;
   --edge: rgba(230, 227, 216, 0.14);
-  --chip-concept: #d8b24a;
+  --chip-concept: var(--gold);
   --chip-recorded: #85b8e6;
   --chip-current: #85cf9b;
   --chip-rejected: #e08d8d;
@@ -182,7 +189,7 @@ p.poetic { margin: 1.1em 0; }
     #0b0a09 0px, #0b0a09 9px,
     #111009 9px, #111009 10px
   );
-  border-left: 1px solid rgba(216, 178, 74, 0.28);
+  border-left: 1px solid rgba(var(--gold-rgb), 0.28);
   z-index: 50;
   overflow: hidden;
 }
@@ -299,8 +306,8 @@ p.poetic { margin: 1.1em 0; }
   padding-bottom: 0.55rem;
   transition: border-color 0.45s ease;
 }
-.term-line:focus-within { border-color: rgba(216, 178, 74, 0.45); }
-.term-line.typing { border-color: rgba(216, 178, 74, 0.8); }
+.term-line:focus-within { border-color: rgba(var(--gold-rgb), 0.45); }
+.term-line.typing { border-color: rgba(var(--gold-rgb), 0.8); }
 
 .term-prompt {
   color: var(--gold-dim);
@@ -335,6 +342,11 @@ p.poetic { margin: 1.1em 0; }
   height: 1.35rem;
   background: var(--gold);
   opacity: 0.85;
+  /* a little arcade-cabinet pop on the one thing every visitor sees blink
+     first (owner request 2026-09-17) - a glow, not an animation, so it
+     still respects prefers-reduced-motion (that gate is on the blink
+     keyframes below, untouched). */
+  box-shadow: 0 0 9px 1px rgba(var(--gold-rgb), 0.55);
 }
 .term-input:not(:focus):placeholder-shown + .term-caret { display: block; }
 @media (prefers-reduced-motion: no-preference) {
@@ -379,7 +391,7 @@ html.js .term-pills button.suggestion {
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 html.js .term-pills button.suggestion:hover {
-  border-color: rgba(216, 178, 74, 0.5);
+  border-color: rgba(var(--gold-rgb), 0.5);
   color: var(--ink);
 }
 
@@ -589,10 +601,10 @@ html.js .rw.js-only[hidden] { display: none !important; }
   margin: -0.3rem -0.35rem;
   transition: border-color 0.25s ease, background 0.25s ease;
 }
-.quote-mask .to-src-select:hover { border-color: rgba(216, 178, 74, 0.35); }
+.quote-mask .to-src-select:hover { border-color: rgba(var(--gold-rgb), 0.35); }
 .quote-mask .to-src-select[aria-pressed="true"] {
   border-color: var(--gold);
-  background: rgba(216, 178, 74, 0.07);
+  background: rgba(var(--gold-rgb), 0.07);
 }
 .quote-mask .to-src.to-src-selected .src-m::after {
   content: " \00B7 selected \2192 see II";
@@ -621,11 +633,11 @@ html.js .rw.js-only[hidden] { display: none !important; }
   background:
     repeating-linear-gradient(
       to bottom,
-      rgba(216, 178, 74, 0.025) 0 1px,
+      rgba(var(--gold-rgb), 0.025) 0 1px,
       transparent 1px 4px
     ),
     rgba(8, 9, 12, 0.55);
-  border: 1px solid rgba(216, 178, 74, 0.32);
+  border: 1px solid rgba(var(--gold-rgb), 0.32);
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
 }
 .instrument-mask::before,
@@ -679,7 +691,7 @@ html.js .rw.js-only[hidden] { display: none !important; }
   align-items: center;
   text-align: center;
   background: radial-gradient(circle at 50% 38%, #0c0e14 0%, #08090c 62%, #050608 100%);
-  border: 1px solid rgba(216, 178, 74, 0.22);
+  border: 1px solid rgba(var(--gold-rgb), 0.22);
   overflow: hidden;
 }
 .rw-peek {
@@ -690,9 +702,9 @@ html.js .rw.js-only[hidden] { display: none !important; }
   border-radius: 50%;
   margin: 0.2rem 0 0.8rem;
   overflow: hidden;
-  border: 1.5px solid rgba(216, 178, 74, 0.45);
+  border: 1.5px solid rgba(var(--gold-rgb), 0.45);
   box-shadow:
-    0 0 28px rgba(216, 178, 74, 0.08),
+    0 0 28px rgba(var(--gold-rgb), 0.08),
     inset 0 0 40px rgba(0, 0, 0, 0.85);
   background: #050608;
   flex: 0 0 auto;
@@ -796,7 +808,7 @@ html.js .rw.js-only[hidden] { display: none !important; }
   letter-spacing: 0.04em;
   color: var(--gold-dim);
   background: transparent;
-  border: 1px solid rgba(216, 178, 74, 0.35);
+  border: 1px solid rgba(var(--gold-rgb), 0.35);
   cursor: pointer;
   padding: 0.35rem 0.75rem;
   max-width: 22rem;
@@ -859,7 +871,7 @@ html.js .rw.js-only[hidden] { display: none !important; }
   font-family: var(--mono);
   font-size: 1rem;
   color: var(--gold);
-  text-shadow: 0 0 18px rgba(216, 178, 74, 0.3);
+  text-shadow: 0 0 18px rgba(var(--gold-rgb), 0.3);
   pointer-events: none;
   white-space: nowrap;
   max-width: 88vw;
@@ -915,7 +927,7 @@ html.js .rw.js-only[hidden] { display: none !important; }
   font-size: 0.56rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(216, 178, 74, 0.6);
+  color: rgba(var(--gold-rgb), 0.6);
   white-space: nowrap;
   z-index: 3;
 }
@@ -925,8 +937,8 @@ html.js .rw.js-only[hidden] { display: none !important; }
   position: absolute;
   inset: 30px;
   border-radius: 50%;
-  border: 1px solid rgba(216, 178, 74, 0.4);
-  box-shadow: 0 0 60px rgba(216, 178, 74, 0.05), inset 0 0 90px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(var(--gold-rgb), 0.4);
+  box-shadow: 0 0 60px rgba(var(--gold-rgb), 0.05), inset 0 0 90px rgba(0, 0, 0, 0.55);
   overflow: hidden;
 }
 /* a slow single point of light chasing itself around the gate — the ring is a
@@ -937,7 +949,7 @@ html.js .rw.js-only[hidden] { display: none !important; }
   inset: -1px;
   border-radius: 50%;
   background: conic-gradient(from 0deg,
-    transparent 0deg, rgba(216, 178, 74, 0.55) 3deg, transparent 26deg, transparent 360deg);
+    transparent 0deg, rgba(var(--gold-rgb), 0.55) 3deg, transparent 26deg, transparent 360deg);
   opacity: 0.9;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -1068,7 +1080,7 @@ html.js .pl-ctls { display: flex; }
   padding: 0.45em 1em;
   cursor: pointer;
 }
-.pl-ctls button:hover { color: var(--ink); border-color: rgba(216, 178, 74, 0.5); }
+.pl-ctls button:hover { color: var(--ink); border-color: rgba(var(--gold-rgb), 0.5); }
 .gauges-line {
   text-align: center;
   font-size: 0.6rem;
@@ -1147,7 +1159,7 @@ html.js .pl-ctls { display: flex; }
 .seam-quote {
   margin: 1rem 0 2rem;
   padding: 1.3rem 1.5rem;
-  border: 1px solid rgba(216, 178, 74, 0.35);
+  border: 1px solid rgba(var(--gold-rgb), 0.35);
   background: rgba(11, 10, 9, 0.5);
 }
 .seam-quote p { margin: 0; font-size: 1.02rem; line-height: 1.6; }
@@ -1170,7 +1182,7 @@ html.js .pl-ctls { display: flex; }
   position: absolute; right: 0; top: 0; bottom: 0;
   width: 3rem;
   background: repeating-linear-gradient(to bottom, #0b0a09 0px, #0b0a09 9px, #111009 9px, #111009 10px);
-  border-left: 1px solid rgba(216, 178, 74, 0.35);
+  border-left: 1px solid rgba(var(--gold-rgb), 0.35);
   font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
   color: #55504a;
   writing-mode: vertical-rl;
@@ -1179,7 +1191,7 @@ html.js .pl-ctls { display: flex; }
 .gate {
   position: absolute; right: 30%; top: 0; bottom: 0;
   width: 2px;
-  background: rgba(216, 178, 74, 0.55);
+  background: rgba(var(--gold-rgb), 0.55);
 }
 .gate-stamp {
   position: absolute;
@@ -1288,9 +1300,9 @@ html.js .pl-ctls { display: flex; }
   width: 108px;
   height: 74px;
   margin: 0 auto 3.5rem;
-  border: 1px solid rgba(216, 178, 74, 0.3);
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
   background: #040507;
-  box-shadow: 0 0 34px rgba(216, 178, 74, 0.06);
+  box-shadow: 0 0 34px rgba(var(--gold-rgb), 0.06);
 }
 .s-hidden .receipt {
   border-left: none;
@@ -1331,9 +1343,9 @@ html.js .pl-ctls { display: flex; }
 
 /* ---------- instrument ---------- */
 .instrument-card {
-  border: 1px solid rgba(216, 178, 74, 0.45);
+  border: 1px solid rgba(var(--gold-rgb), 0.45);
   padding: 1.8rem 2rem;
-  background: rgba(216, 178, 74, 0.035);
+  background: rgba(var(--gold-rgb), 0.035);
 }
 .inst-name { font-size: 1.2rem; letter-spacing: 0.3em; margin: 1.8rem 0 0.7rem; }
 .inst-link { font-size: 0.95rem; }
@@ -1388,8 +1400,8 @@ html.js .pl-ctls { display: flex; }
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: #000;
-  border: 1px solid rgba(216, 178, 74, 0.26);
-  box-shadow: 0 0 46px 8px rgba(216, 178, 74, 0.07);
+  border: 1px solid rgba(var(--gold-rgb), 0.26);
+  box-shadow: 0 0 46px 8px rgba(var(--gold-rgb), 0.07);
 }
 @media (prefers-reduced-motion: no-preference) {
   html.js .blackhole.orbit-on .bh-ring { animation: orbit 90s linear infinite; }
@@ -1406,7 +1418,7 @@ html.js .pl-ctls { display: flex; }
   cursor: pointer;
   margin: 0 auto 2.6rem;
 }
-.orbit-ctl:hover { color: var(--ink); border-color: rgba(216, 178, 74, 0.5); }
+.orbit-ctl:hover { color: var(--ink); border-color: rgba(var(--gold-rgb), 0.5); }
 html.js button.orbit-ctl { display: inline-block; }
 .s-void .receipt { border-left: none; padding-left: 0; margin-top: 2.4rem; }
 
