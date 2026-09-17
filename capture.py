@@ -16,7 +16,12 @@ import requests
 
 DEBUG_PORT = 9222
 URL = "http://localhost:8017/"
-MEDIA = Path("/cursor/stores/bc-0987524e-b19a-4df1-a149-ebdc36febad9/media/well-prototype")
+# was a hardcoded absolute path into a specific Cursor cloud-agent's own
+# working directory (bc-0987524e...) - worked by accident on the machine that
+# happened to have that exact path writable, broke with PermissionError on
+# every other machine (found running this in CI, 2026-09-17). Media belongs
+# next to the script, not inside another tool's private state.
+MEDIA = Path(__file__).resolve().parent / "media" / "well-prototype"
 MEDIA.mkdir(parents=True, exist_ok=True)
 FRAMES = Path("/tmp/well-frames")
 
