@@ -101,6 +101,38 @@
     return CORPUS.promise;
   }
 
+  // spine/spine.jsonl (GX-005): a frozen, curated-only set of real
+  // genesis.event.v1 records -- see spine/README.md. This is the ONLY place
+  // this file is ever read; the browser never appends to it, never grows it,
+  // and never sends it anything -- a fake, growing spine is exactly what
+  // this project's own constitution forbids ("no claim without a receipt").
+  // Fetch failure fails closed: SPINE.events stays {} and no question is
+  // ever claimed RECORDED without it (see resolveSpineMatch below).
+  var SPINE = { events: null, promise: null };
+  function loadSpine() {
+    if (SPINE.promise) return SPINE.promise;
+    SPINE.promise = fetch("spine/spine.jsonl").then(function (r) {
+      if (!r.ok) throw new Error("spine " + r.status);
+      return r.text();
+    }).then(function (text) {
+      var events = {};
+      text.split("\n").forEach(function (line) {
+        line = line.trim();
+        if (!line) return;
+        try {
+          var ev = JSON.parse(line);
+          if (ev && ev.eventId) events[ev.eventId] = ev;
+        } catch (e) { /* a malformed line is never fabricated into an event */ }
+      });
+      SPINE.events = events;
+      return events;
+    }).catch(function () {
+      SPINE.events = {};
+      return SPINE.events;
+    });
+    return SPINE.promise;
+  }
+
   function search(c, q) {
     var toks = tokenize(q);
     var K1 = 1.5, B = 0.75, N = c.passages.length;
@@ -200,6 +232,100 @@
   // genuinely different question, verified against the real engine like
   // the others (see capture.py: real Tao/Upanishad/Ecclesiastes hits).
   var FOLLOWUP_FALLBACK = "what is emptiness?";
+
+  // W4-6 (GX-005): the spine wiring -- the ONLY 4 curated questions that have
+  // a real, receipted genesis.event.v1 behind them (spine/spine.jsonl, see
+  // spine/README.md for the full mapping table and how to extend it safely).
+  // Every other question -- the 3 pills, every other probe, any free-text
+  // input -- must keep showing CONCEPT: this table only maps exact question
+  // text to an eventId, it never decides the outcome by itself. Never add a
+  // 5th entry here without also adding a live-outcome re-check branch to
+  // resolveSpineMatch() below -- an unchecked mapping entry is exactly the
+  // "trust the table blindly" failure this project's constitution forbids.
+  var SPINE_QUESTION_MAP = {
+    "what does the tao say about water?": "EVT-WELL-PROBE-HIT-TAO-WATER-001",
+    "what happens to the soul after death?": "EVT-WELL-PROBE-HIT-UPANISHAD-SOUL-DEATH-001",
+    "is the self eternal or does it return to dust?": "EVT-WELL-PROBE-CONTESTED-SELF-DUST-001",
+    "how do i configure a kubernetes cluster?": "EVT-WELL-PROBE-NO-MATCH-KUBERNETES-001"
+  };
+
+  // Re-verifies the LIVE outcome this exact submit just produced against
+  // what the frozen spine event actually recorded, every time -- never
+  // trusts SPINE_QUESTION_MAP alone. If the korpus content ever changes and
+  // a live result stops matching (e.g. a passage id drops out of the real
+  // top hits), this returns null and the caller falls back to the ordinary
+  // CONCEPT state instead of a stale RECORDED claim.
+  function resolveSpineMatch(question, kind, c, top, hA, hB) {
+    var norm = (question || "").trim().toLowerCase();
+    var eventId = SPINE_QUESTION_MAP[norm];
+    if (!eventId || !SPINE.events) return null;
+    var ev = SPINE.events[eventId];
+    // spine.jsonl failed to load, or doesn't contain this id: never fabricate
+    // a match from the mapping table alone.
+    if (!ev) return null;
+
+    function topHasPassage(pid) {
+      if (!c || !top) return false;
+      for (var i = 0; i < top.length; i++) {
+        if (c.passages[top[i].i].id === pid) return true;
+      }
+      return false;
+    }
+
+    if (eventId === "EVT-WELL-PROBE-HIT-TAO-WATER-001") {
+      if (kind !== "hit" || !topHasPassage("tao:tao-te-ching-8")) return null;
+      return { eventId: eventId, eventType: ev.eventType };
+    }
+    if (eventId === "EVT-WELL-PROBE-HIT-UPANISHAD-SOUL-DEATH-001") {
+      if (kind !== "hit" || !topHasPassage("upanishad:katha-upanishad-5-6-10")) return null;
+      return { eventId: eventId, eventType: ev.eventType };
+    }
+    if (eventId === "EVT-WELL-PROBE-CONTESTED-SELF-DUST-001") {
+      if (kind !== "contested" || !hA || !hB || !c) return null;
+      if (c.passages[hA.i].id !== CONTESTED_PAIR.a.passageId) return null;
+      if (c.passages[hB.i].id !== CONTESTED_PAIR.b.passageId) return null;
+      return { eventId: eventId, eventType: ev.eventType };
+    }
+    if (eventId === "EVT-WELL-PROBE-NO-MATCH-KUBERNETES-001") {
+      if (kind !== "no_sources") return null;
+      return { eventId: eventId, eventType: ev.eventType };
+    }
+    return null;
+  }
+
+  // III's additive glyph (Owner ruling R1): one fixed ring position per
+  // curated eventId, placed in the gap the real 30 baked events already
+  // leave open (they span --a:-55 .. --a:229.2; this sits past them, never
+  // overlapping a real one). spineGlyphsAdded makes the add idempotent per
+  // session -- the event already "happened" once; asking the same question
+  // again never duplicates it, same real-world logic as a git/PR event
+  // never firing twice.
+  var SPINE_GLYPH_POSITION = {
+    "EVT-WELL-PROBE-HIT-TAO-WATER-001":            { a: 245, r: 0.58 },
+    "EVT-WELL-PROBE-HIT-UPANISHAD-SOUL-DEATH-001": { a: 262, r: 0.58 },
+    "EVT-WELL-PROBE-CONTESTED-SELF-DUST-001":      { a: 279, r: 0.58 },
+    "EVT-WELL-PROBE-NO-MATCH-KUBERNETES-001":      { a: 296, r: 0.58 }
+  };
+  var spineGlyphsAdded = {};
+
+  // Adds exactly one glyph to Window III's peek ring for a real spine match
+  // -- reuses the existing .rw-dot rendering mechanism fillPeek() already
+  // built for the 30 baked events (same --a/--r positioning, same element
+  // type), just a visually distinct kind (k-question, styles.css). Labeled
+  // only by eventType -- never by the question text (Owner ruling R1).
+  function addSpineGlyph(eventId, eventType) {
+    if (!rwPeek || spineGlyphsAdded[eventId]) return;
+    var ring = rwPeek.querySelector(".rw-peek-ring");
+    var pos = SPINE_GLYPH_POSITION[eventId];
+    if (!ring || !pos) return;
+    var d = document.createElement("span");
+    d.className = "rw-dot k-question";
+    d.style.setProperty("--a", pos.a);
+    d.style.setProperty("--r", pos.r);
+    d.title = eventType;
+    ring.appendChild(d);
+    spineGlyphsAdded[eventId] = true;
+  }
 
   function pickFollowup(question, topHit, c) {
     var candidate = FOLLOWUP_DEFAULT;
@@ -463,16 +589,16 @@
     return span;
   }
 
-  // W4-2: the II -> III affordance, in one place. fillEngine's driving row
-  // and fillPicture's conditional both read this SAME object -- so the
-  // "CONCEPT" state and III's honest fallback copy each exist once in this
-  // file, not as two hardcoded copies that could silently drift apart.
-  // Today this never leaves
-  // { kind: "CONCEPT", glyphId: null } -- no real spine event exists
-  // anywhere in this project, and none is faked here. fillEngine sets it
-  // fresh on every call (still always CONCEPT) and immediately calls
-  // fillPicture() so III is always in sync with what II just decided.
-  var engineDriving = { kind: "CONCEPT", glyphId: null };
+  // W4-2 / W4-6: the II -> III affordance, in one place. fillEngine's driving
+  // row and fillPicture's conditional both read this SAME object -- so the
+  // "CONCEPT"/"RECORDED" state and III's copy each exist once in this file,
+  // not as two hardcoded copies that could silently drift apart. fillEngine
+  // sets it fresh on every call from resolveSpineMatch()'s live-reverified
+  // result (never trusted from a stale prior call) and immediately calls
+  // fillPicture() so III is always in sync with what II just decided. Only
+  // the 4 curated questions in SPINE_QUESTION_MAP can ever produce RECORDED
+  // here -- everything else stays CONCEPT, exactly as before GX-005.
+  var engineDriving = { kind: "CONCEPT", glyphId: null, eventType: null };
 
   var GOOD_FOR = {
     hit: ["the passages themselves — nothing composed on top",
@@ -493,7 +619,7 @@
     pending: "a question event"
   };
 
-  function fillEngine(kind, c, top) {
+  function fillEngine(kind, c, top, spineMatch) {
     rwEng.textContent = "";
     var kicker = document.createElement("p");
     kicker.className = "rw-kicker";
@@ -504,13 +630,19 @@
     dl.className = "rw-dl";
     dlPair(dl, "good for", GOOD_FOR[kind] || GOOD_FOR.pending);
 
-    var evName = EVENT_NAME[kind] || EVENT_NAME.pending;
-    // engineDriving.kind never leaves "CONCEPT" today (see above) -- this
-    // is the one place that decides it, read by fillPicture() right after.
-    engineDriving = { kind: "CONCEPT", glyphId: null };
+    // this is the one place that decides engineDriving, read by
+    // fillPicture() right after. spineMatch comes from resolveSpineMatch(),
+    // already re-verified against this exact submit's live outcome -- never
+    // trusted here a second time.
+    var evName = (spineMatch && spineMatch.eventType) || EVENT_NAME[kind] || EVENT_NAME.pending;
+    engineDriving = spineMatch
+      ? { kind: "RECORDED", glyphId: spineMatch.eventId, eventType: spineMatch.eventType }
+      : { kind: "CONCEPT", glyphId: null, eventType: null };
     dlPair(dl, "driving", [
       nodeWithChip(evName + "  ", engineDriving.kind.toLowerCase(), engineDriving.kind,
-        engineDriving.kind === "CONCEPT" ? " — not on the ring until the spine feeds" : "")
+        engineDriving.kind === "CONCEPT"
+          ? " — not on the ring until the spine feeds"
+          : " · " + engineDriving.glyphId)
     ]);
 
     dlPair(dl, "a first learning", [
@@ -545,12 +677,17 @@
     rwPic.appendChild(a);
 
     if (engineDriving.kind === "RECORDED" && engineDriving.glyphId) {
-      // W4-2 RECORDED branch: unreachable today because engineDriving.kind
-      // never leaves "CONCEPT" (fillEngine sets it fresh every call, right
-      // above). Kept intentionally empty -- no glyph exists to highlight
-      // yet, so nothing is faked here. When a real spine event is wired in,
-      // this branch gains a real highlight against a real glyph id; until
-      // then it does nothing observable, on purpose.
+      // W4-6 (GX-005): a real, live-reverified spine event -- add exactly
+      // one glyph to III's peek ring (idempotent per session, see
+      // addSpineGlyph) and say so honestly, labeled by eventType only.
+      addSpineGlyph(engineDriving.glyphId, engineDriving.eventType);
+      var r = document.createElement("p");
+      r.className = "rw-pic-note";
+      r.appendChild(document.createTextNode(
+        "this question just became one more real event on the ring — "));
+      r.appendChild(chipEl("recorded", "RECORDED"));
+      r.appendChild(document.createTextNode(" " + engineDriving.glyphId));
+      rwPic.appendChild(r);
       return;
     }
     var b = document.createElement("p");
@@ -675,7 +812,8 @@
       rwSrc.appendChild(status);
       announce("reading the korpus");
 
-      loadCorpus().then(function (c) {
+      Promise.all([loadCorpus(), loadSpine()]).then(function (loaded) {
+        var c = loaded[0];
         status.textContent = "reading " + c.passageCount + " passages \u2026";
         fillEngine("pending", c, []);
         var go = function () {
@@ -696,20 +834,14 @@
           if (contestedReady) {
             var contestedCtx = { c: c, into: rwSrc, rwEng: rwEng };
             renderContested(c, hA, hB, rwSrc, contestedCtx);
-            fillEngine("contested", c, [hA, hB]);
+            fillEngine("contested", c, [hA, hB], resolveSpineMatch(question, "contested", c, null, hA, hB));
             setFollowup(pickFollowup(question, null, c));
             announce("ANSWERED — contested: two sourced positions, neither resolved");
           } else if (!solid) {
-            var SHORT_NAMES = { gita: "the Bhagavad Gita", tao: "the Tao Te Ching",
-              upanishad: "the Upanishads", kjv: "the Bible" };
-            var shortNames = c.sources.slice().sort(function (a, b) {
-              return b.passageCount - a.passageCount;
-            }).map(function (s) { return SHORT_NAMES[s.sourceId] || s.title; }).join(", ");
-            printAbstain("NO_SOURCES", "This engine only quotes from " + shortNames +
-              " \u2014 nothing solid turned up in them for this question. A refusal costs " +
-              "something (it can't fake an answer to look useful), which is the whole point: " +
-              "it won\u2019t guess one.", rwSrc);
-            fillEngine("abstain", c, []);
+            var names = c.sources.map(function (s) { return s.title; }).join("; ");
+            printAbstain("NO_SOURCES", "I found nothing solid for this. My sources are: " +
+              names + " \u2014 this question seems to live outside them.", rwSrc);
+            fillEngine("abstain", c, [], resolveSpineMatch(question, "no_sources", c, null, null, null));
             setFollowup(pickFollowup(question, null, c));
             announce("NO_SOURCES");
           } else {
@@ -720,7 +852,7 @@
             note.textContent = "retrieval only \u2014 these passages are the answer; " +
               "nothing is composed on top. (engine v0)";
             rwSrc.appendChild(note);
-            fillEngine("hit", c, top);
+            fillEngine("hit", c, top, resolveSpineMatch(question, "hit", c, top, null, null));
             setFollowup(pickFollowup(question, top[0], c));
             announce("sources found — retrieval only");
           }

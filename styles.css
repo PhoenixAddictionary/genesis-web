@@ -103,12 +103,6 @@ p.poetic { margin: 1.1em 0; }
   font-size: clamp(1.6rem, 1.2rem + 2.4vw, 2.6rem);
   margin: 0 0 0.5em;
 }
-.m5-figure {
-  margin: 0.4em 0 1.6em;
-  max-width: 420px;
-}
-.m5-svg { display: block; width: 100%; height: auto; }
-.m5-figure figcaption { margin-top: 0.5em; }
 .beat-line {
   font-family: var(--serif);
   font-size: clamp(1.55rem, 1.15rem + 2.6vw, 2.7rem);
@@ -472,7 +466,17 @@ html.js .s-terminal.has-result .term-descend { visibility: hidden; }
 html.js .rw.js-only {
   display: grid;
   position: absolute;
-  inset: 4.4rem 3vw 2.8rem;
+  /* Owner fix 2026-09-17: top-anchored only, no bottom pin. A fixed
+     top+bottom inset forced .rw-mask into a hard-clipped scrollbox on
+     shorter viewports -- real content (esp. W4-5 CONTESTED, two full
+     source cards) got cut off mid-sentence behind a tiny inner scrollbar.
+     Letting the box size to its own content means the PAGE scrolls to
+     reveal the rest, same as everywhere else on this site -- never an
+     inner scroll cage. Verified clean (no .rw-mask scrollHeight >
+     clientHeight) at 1440x900, 1366x768, 1280x720, 1280x600, 1024x768. */
+  top: 4.4rem;
+  left: 3vw;
+  right: 3vw;
   z-index: 4;
   grid-template-rows: auto 1fr auto;
   gap: 0.7rem;
@@ -519,7 +523,11 @@ html.js .rw.js-only[hidden] { display: none !important; }
 .rw-mask {
   position: relative;
   min-height: 0;
-  overflow: auto;
+  /* Owner fix 2026-09-17: was `overflow: auto`, a nested scrollbox that
+     clipped real content (see .rw.js-only above). All three masks (I
+     sources / II engine / III picture) now grow with their content; the
+     page's own scroll is the only scroll. */
+  overflow: visible;
   padding: 1.05rem 1.1rem 1.15rem;
 }
 
@@ -705,6 +713,23 @@ html.js .rw.js-only[hidden] { display: none !important; }
 .rw-dot.k-merge  { color: var(--chip-current); }
 .rw-dot.k-close  { color: var(--chip-rejected); }
 .rw-dot.k-ci     { color: var(--chip-recorded); }
+/* W4-6 (GX-005): the one additive glyph kind -- a real QUESTION_* spine
+   event, visually distinct in both shape (diamond, not a dot) and hue
+   (violet, unused by any commit/PR/CI kind above) from every baked-event
+   glyph, while reusing the exact same --a/--r positioning mechanism. */
+.rw-dot.k-question {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px;
+  border-radius: 1px;
+  background: #c98bd9;
+  box-shadow: 0 0 7px rgba(201, 139, 217, 0.7);
+  transform:
+    rotate(calc(var(--a) * 1deg))
+    translateX(calc(var(--R) * var(--r)))
+    rotate(calc(var(--a) * -1deg))
+    rotate(45deg);
+}
 
 .rw-pic-lead {
   font-family: var(--serif);
@@ -865,16 +890,6 @@ html.js .rw.js-only[hidden] { display: none !important; }
   aspect-ratio: 1;
   margin: 1.5rem auto 0;
   overflow: hidden;
-  border-radius: 50%;
-  background-image: url("planet_v2_mix.png");
-  background-position: center 30%;
-  background-size: 180%;
-  background-repeat: no-repeat;
-}
-.pl-orbiters {
-  position: absolute; inset: 0;
-  pointer-events: none;
-  z-index: 1;
 }
 .pl-gate-label {
   position: absolute;
@@ -912,6 +927,11 @@ html.js .rw.js-only[hidden] { display: none !important; }
   html.js .pl-gatering::before { animation: gate-shimmer 22s linear infinite; }
 }
 @keyframes gate-shimmer { to { transform: rotate(360deg); } }
+.pl-orbiters {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
 .pl-center {
   position: absolute;
   left: 50%; top: 50%;
