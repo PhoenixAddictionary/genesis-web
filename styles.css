@@ -908,6 +908,11 @@ html.js .rw.js-only[hidden] { display: none !important; }
   margin: 0 0 0.7rem;
 }
 .world-sub { font-size: 0.7rem; letter-spacing: 0.03em; margin: 0; line-height: 2; }
+/* one bridging line (owner request 2026-09-17, persona-read finding: a
+   first-time visitor gets no thread from "ask a philosophical question"
+   to the AI-governance argument until much later, at #about) - same
+   register as world-sub, not a new visual weight class. */
+.world-thesis { font-size: 0.7rem; letter-spacing: 0.03em; margin: 0.35rem 0 0; line-height: 1.6; opacity: 0.62; }
 
 /* ---------- the planet: the well seen from above — altitude = abstraction ---------- */
 .s-world .world-head { text-align: center; }
