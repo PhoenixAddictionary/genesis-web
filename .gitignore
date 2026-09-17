@@ -3,3 +3,6 @@ __pycache__/
 .DS_Store
 # capture.py's own screenshot/recording output - throwaway per-run artifacts
 media/
+
+.vercel
+.env*
