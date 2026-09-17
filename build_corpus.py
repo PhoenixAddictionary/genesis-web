@@ -13,8 +13,8 @@ from pathlib import Path
 
 SRC = Path(__file__).parent / "corpus-src"
 OUT = Path(__file__).parent / "corpus.json"
-VERSION = "0.3"
-FROZEN = "2026-09-16"
+VERSION = "0.4"
+FROZEN = "2026-09-17"
 MAX_PASSAGE_CHARS = 1100
 
 
@@ -111,7 +111,7 @@ def main():
         "sources": sources,
         "passages": all_passages,
     }
-    OUT.write_text(json.dumps(corpus, ensure_ascii=False, separators=(",", ":")))
+    OUT.write_text(json.dumps(corpus, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"\nkorpus {VERSION} · {len(all_passages)} passages · {len(sources)} sources")
     print(f"manifest sha256 {manifest_sha}")
     print(f"wrote {OUT} ({OUT.stat().st_size/1024:.0f} KB)")
