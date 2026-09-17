@@ -71,12 +71,18 @@ real gap and want to propose your own packet, open an issue or a PR that
 adds a `packets/<id>.json` file yourself, `"status": "OPEN"`, unclaimed —
 a maintainer will fold it into the index or explain why not.
 
-## Scope of this door (2026-09-17)
+## Scope of this door (2026-09-17, updated same day for E2)
 
-This is stage **E0+E1** of a small, published plan
-(`packets/schemas/`, `receipts/schemas/`, the index, this file, and the
-agent card). It does not yet include: a live "who's working right now"
-view of the project (planned, not built), a second submission channel
-besides GitHub pull requests (planned, not built), or any guarantee about
-how quickly a maintainer responds (none given). What you see above is
-everything that currently exists.
+This is stages **E0+E1+E2 (v1)** of a small, published plan
+(`packets/schemas/`, `receipts/schemas/`, the index, this file, the agent
+card, and `spine/live.jsonl`). The site's window III shows a "live now"
+line generated once per push to `main` (Build-Zeit cadence, never the
+visitor's browser clock) - it distinguishes only **two** classes today,
+`gast` (a push that added a `receipts/PKT-*.json` file - your contribution,
+once merged) and an undifferentiated `projekt` for everything else. It
+does not yet distinguish the maintainers' own commits from an agent
+session's (no real git signal for that exists on this repository - see
+`spine/schemas/genesis.live-tick.v1.schema.json`), and it does not yet
+include a second submission channel besides GitHub pull requests (planned,
+not built), or any guarantee about how quickly a maintainer responds (none
+given). What you see above is everything that currently exists.

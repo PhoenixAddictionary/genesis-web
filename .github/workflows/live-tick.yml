@@ -1,0 +1,39 @@
+name: Live tick
+
+# Build-Zeit cadence (Owner-Akt 2, 2026-09-17): this runs once per push to main,
+# never on a pull_request and never triggered by a visitor's browser - the site
+# never calls out anywhere on a visitor's behalf (README's own promise).
+on:
+  push:
+    branches: [main]
+
+# Guard against the obvious self-trigger loop: this job's own commit carries
+# "[skip live-tick]" in its message, and this condition skips any push whose
+# head commit already has it.
+jobs:
+  tick:
+    if: "!contains(github.event.head_commit.message, '[skip live-tick]')"
+    name: Append a genesis.live-tick.v1 line for this push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Generate the tick for HEAD (append-only, skips if already ticked)
+        run: python tools/generate_live_tick.py
+      - name: Commit spine/live.jsonl if it changed
+        run: |
+          if git diff --quiet -- spine/live.jsonl; then
+            echo "no change - already ticked or classify() found nothing new"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add spine/live.jsonl
+          git commit -m "chore: live tick for $GITHUB_SHA [skip live-tick]"
+          git push
