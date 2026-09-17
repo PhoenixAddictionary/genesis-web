@@ -1,0 +1,26 @@
+{
+  "schema": "genesis.packet.v1",
+  "id": "PKT-001",
+  "status": "OPEN",
+  "baseCommit": "e6f3d3a1e2d59ea3d74f17a4189695365c5fddfd",
+  "task": "packets/INDEX.json declares \"schema\": \"genesis.packet-index.v1\", but unlike genesis.packet.v1 and genesis.receipt.v1 (both of which have a real JSON Schema file under their own schemas/ directory), no genesis.packet-index.v1.schema.json exists anywhere in this repository - tools/validate_packet.py's check_index() validates the index's on-disk consistency (hashes, statuses, orphans) but never checks the index file's own top-level shape against a written-down schema. Write packets/schemas/genesis.packet-index.v1.schema.json (draft 2020-12, in the same style as the two existing schema files: $id, title, description, additionalProperties: false, required, $defs as needed) describing the actual shape already in use: {schema: const genesis.packet-index.v1, description: string, updatedAt: date-time, packets: array of {id, status, path, sha256} with sha256 constrained to 64 lowercase hex chars}. Then make tools/validate_packet.py's check_index() load and enforce that schema on the index's top-level object before doing its existing on-disk cross-checks, so a malformed index (wrong types, missing updatedAt, an extra unknown key) fails with a schema error instead of a confusing downstream KeyError or silent pass. Add tests in tests/test_validate_packet.py for: a well-formed index passing the new schema check, and at least two malformed-index cases (missing required key; wrong type for packets) each producing a clear schema-shape error rather than a crash.",
+  "verifyCommand": ["python", "-m", "pytest", "tests/test_validate_packet.py", "-v"],
+  "doneCriteria": [
+    "packets/schemas/genesis.packet-index.v1.schema.json exists and matches the index shape genesis-web actually uses (checked against the real packets/INDEX.json in this repo, which must still validate)",
+    "tools/validate_packet.py --check-index packets/INDEX.json still exits 0 against this repository's current packets/ directory after the change",
+    "a malformed index (e.g. packets/INDEX.json with \"packets\" as an object instead of an array, or missing \"updatedAt\") produces a clear schema-shape error, not an unhandled exception",
+    "tests/test_validate_packet.py covers the new schema-shape checks and the whole suite passes"
+  ],
+  "stopConditions": [
+    "if enforcing the new schema against the real INDEX.json in this repo fails, stop and open the PR as a question - either the schema you wrote is wrong or the real file has a pre-existing shape problem, and guessing which one silently is not this packet's call",
+    "if check_index()'s existing on-disk cross-checks (hash/status/orphan) would need to change shape to fit this task, stop and describe the conflict in the PR instead of changing behavior this packet did not ask for"
+  ],
+  "boundaries": [
+    "packets/schemas/genesis.packet.v1.schema.json and receipts/schemas/genesis.receipt.v1.schema.json are not yours to change in this packet",
+    "no changes to index.html, styles.css, well.js, corpus.json, spine/, or maker-handshake/ - this packet is tooling-only",
+    "no new third-party Python dependencies beyond the standard library (matches tools/validate_genesis_events.py's own constraint)"
+  ],
+  "publishedAt": "2026-09-17T00:00:00Z",
+  "claimedBy": null,
+  "receiptId": null
+}

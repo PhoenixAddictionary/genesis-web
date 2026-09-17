@@ -20,6 +20,31 @@ jobs:
       - name: Validate spine/spine.jsonl against genesis.event.v1
         run: python tools/validate_genesis_events.py spine/spine.jsonl
 
+  validate-packets:
+    name: Validate plug-in packets (genesis.packet.v1 / genesis.receipt.v1)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install test deps
+        run: pip install pytest
+      - name: Run the packet/receipt validator's own test suite
+        run: python -m pytest tests/test_validate_packet.py -v
+      - name: Validate every packets/*.json against genesis.packet.v1
+        run: |
+          shopt -s nullglob
+          files=(packets/PKT-*.json)
+          if [ ${#files[@]} -gt 0 ]; then python tools/validate_packet.py "${files[@]}"; fi
+      - name: Validate every receipts/*.json against genesis.receipt.v1
+        run: |
+          shopt -s nullglob
+          files=(receipts/PKT-*.json)
+          if [ ${#files[@]} -gt 0 ]; then python tools/validate_packet.py "${files[@]}"; fi
+      - name: Validate packets/INDEX.json against the packet files it lists
+        run: python tools/validate_packet.py --check-index packets/INDEX.json
+
   browser-checks:
     name: capture.py (browser-verified checks)
     runs-on: ubuntu-latest
