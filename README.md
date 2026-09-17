@@ -27,8 +27,8 @@ fetch; the page still renders and the engine emits its honest
 | Path | Role |
 |---|---|
 | `index.html`, `styles.css`, `well.js` | The site: an empty terminal → three windows on a result (**I** sources, **II** engine, **III** a living peek of real project history) |
-| `corpus.json` | korpus 0.3 — frozen, content-addressed: 293 passages, 4 public-domain sources |
-| `corpus-src/*.txt` | The normalized source texts (Tao Te Ching/Legge; Isha+Katha+Mundaka Upanishads/Müller; Bhagavad Gita/Arnold; KJV selections), with provenance in each header |
+| `corpus.json` | korpus 0.4 — frozen, content-addressed: 358 passages, 5 public-domain sources (korpus 0.3, 293 passages / 4 sources, is preserved verbatim as `corpus-0.3.json`) |
+| `corpus-src/*.txt` | The normalized source texts (Tao Te Ching/Legge; Isha+Katha+Mundaka+Kena+Prasna Upanishads/Müller; Bhagavad Gita/Arnold; KJV selections; the complete Book of Job/KJV), with provenance in each header |
 | `build_corpus.py` | Re-freezes `corpus-src/` into `corpus.json` (bump the version for new content — a corpus is never mutated in place) |
 | `probes/` | A frozen, curated probe set + a freeze-time script that runs retrieval against the real engine and writes a receipt (hit/miss per probe, bound to the corpus manifest hash) |
 | `spine/` | A small set of curated questions wired to real, schema-validated events (`genesis.event.v1`) that appear in window III's peek — never real visitor questions, never anyone's actual input |
