@@ -1,13 +1,13 @@
 {
   "schema": "genesis.packet-index.v1",
   "description": "Every packets/<id>.json in this repository, hash-bound so a guest (or CI) can tell a stale index from the real file without opening it. Maintained by whoever merges a packet change - see tools/validate_packet.py --check-index.",
-  "updatedAt": "2026-09-17T00:00:00Z",
+  "updatedAt": "2026-09-17T01:00:00Z",
   "packets": [
     {
       "id": "PKT-001",
       "status": "OPEN",
       "path": "packets/PKT-001.json",
-      "sha256": "785dd6461bcfb8990d8366d984824ab911587e1aaef027be7aacba15e7fbdb04"
+      "sha256": "b0b060710ae47d078649dd6869904c185c117323df15708a8870ff4c4837b146"
     }
   ]
 }
