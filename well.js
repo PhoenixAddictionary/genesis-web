@@ -1169,7 +1169,21 @@
         }
       }
     }
-    requestAnimationFrame(draw);
+    // lazy start: don't spend a single frame on this decoration until the ring
+    // is actually near the viewport — the terminal above shouldn't pay for it.
+    if ("IntersectionObserver" in window) {
+      var ioOrbiters = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            requestAnimationFrame(draw);
+            ioOrbiters.disconnect();
+          }
+        });
+      }, { threshold: 0.1 });
+      ioOrbiters.observe(field);
+    } else {
+      requestAnimationFrame(draw);
+    }
 
     window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", function (m) {
       if (m.matches) { stopped = true; comet = null; ctx.clearRect(0, 0, canvas.width, canvas.height); }
