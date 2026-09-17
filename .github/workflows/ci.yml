@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-spine:
+    name: Validate genesis.event.v1 spine
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Run the schema/cross-field validator's own test suite
+        run: python -m pytest tests/test_validate_genesis_events.py -v
+      - name: Validate spine/spine.jsonl against genesis.event.v1
+        run: python tools/validate_genesis_events.py spine/spine.jsonl
+
+  browser-checks:
+    name: capture.py (browser-verified checks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install Python deps
+        run: pip install requests
+      - name: Serve the site
+        run: |
+          python -m http.server 8017 &
+          sleep 1
+      - name: Launch headless Chrome with CDP
+        run: |
+          google-chrome --headless=new --remote-debugging-port=9222 \
+            --user-data-dir=/tmp/chrome-cdp --disable-gpu --hide-scrollbars \
+            --window-size=1440,900 about:blank &
+          sleep 2
+      - name: Run capture.py
+        run: python capture.py

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genesis.event.v1",
+  "title": "GENESIS event envelope (masterplan §6, minimum envelope)",
+  "description": "CANDIDATE for GX-020. Fixed by the masterplan text; not accepted by the Program Integrator. Append-only spine: an event is never edited, only followed by a later event.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "eventId", "programId", "runId", "workOrderId", "objectType", "objectId", "eventType",
+    "fromState", "toState", "occurredAt", "actor", "inputs", "outputs", "receipts", "disclosure",
+    "evidenceEffect", "publicText"
+  ],
+  "properties": {
+    "schema": { "const": "genesis.event.v1" },
+    "eventId": { "type": "string", "pattern": "^EVT-[A-Za-z0-9][A-Za-z0-9._:-]{3,}$" },
+    "programId": { "const": "GENESIS" },
+    "runId": { "type": ["string", "null"], "pattern": "^RUN-" },
+    "workOrderId": { "type": ["string", "null"], "pattern": "^GX-[0-9]{3}$" },
+    "objectType": { "$ref": "#/$defs/objectType" },
+    "objectId": { "type": "string", "minLength": 1 },
+    "eventType": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+    "fromState": { "oneOf": [ { "$ref": "#/$defs/publicState" }, { "type": "null" } ] },
+    "toState": { "$ref": "#/$defs/publicState" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": { "enum": ["agent", "human", "system"] },
+        "id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "inputs": { "type": "array", "items": { "$ref": "#/$defs/ref" } },
+    "outputs": { "type": "array", "items": { "$ref": "#/$defs/ref" } },
+    "receipts": { "type": "array", "items": { "$ref": "#/$defs/ref" } },
+    "disclosure": { "enum": ["PUBLIC_SAFE", "PROJECT_PRIVATE", "PROTECTED"] },
+    "evidenceEffect": { "enum": ["NONE", "CANDIDATE", "REOPEN", "ADMIT", "REJECT"] },
+    "publicText": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "publicState": {
+      "description": "Public truth grammar (§5). Every object inherits exactly one.",
+      "enum": [
+        "SIGNAL_FROM_A_POSSIBLE_FUTURE", "CONCEPT_PREVIEW", "RECORDED_REPLAY", "CURRENT_PROGRAM_STATE",
+        "BLOCKED", "REJECTED_BY_REALITY", "ACCEPTED_RESEARCH_STATE", "SUPERSEDED", "WITHDRAWN"
+      ]
+    },
+    "objectType": {
+      "description": "Required canonical objects (§6).",
+      "enum": [
+        "Program", "WorkOrder", "Artifact", "Decision", "Question", "Source", "Passage", "Observation",
+        "Relation", "Hypothesis", "Assumption", "Method", "Warrant", "Challenge", "Run", "Attempt",
+        "AgentPassport", "MissionCapsule", "ReturnBundle", "GateVerdict", "DockingDecision",
+        "InvestigationVersion", "ReopenEvent", "Replication", "WorldManifest", "ParliamentMotion",
+        "ResourceNeed", "SupportMission", "Bounty", "AssetCard", "BenefitLedger", "PublicProjection",
+        "ReleaseManifest"
+      ]
+    },
+    "ref": {
+      "description": "Identity plus optional hash; a pointer is not proof.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "sha256": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+        "path": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "x-genesis-rules": {
+    "description": "Cross-field rules the stdlib validator enforces; they follow §2, §5 and §10.",
+    "rules": [
+      "ADMIT requires toState ACCEPTED_RESEARCH_STATE; REJECT requires toState REJECTED_BY_REALITY.",
+      "SUPERSEDED requires a non-null fromState (a prior state is preserved, not erased).",
+      "Financial objects (SupportMission, Bounty, AssetCard, BenefitLedger) carry evidenceEffect NONE.",
+      "Projection objects (PublicProjection, WorldManifest, ParliamentMotion, ResourceNeed) never ADMIT or REJECT.",
+      "ACCEPTED_RESEARCH_STATE needs at least one receipt.",
+      "PROTECTED disclosure carries publicText null.",
+      "eventIds are unique within one spine file.",
+      "publicText containing the word 'live' outside CURRENT_PROGRAM_STATE is a DISSENT, not an error.",
+      "QUESTION_ANSWERED and QUESTION_ABSTAINED (objectType Question) are reserved eventType names (AMD-0003 V1) — a soft reservation enforced only by these cross-field rules, not by an eventType enum; the closed vocabulary is codification gap G4, not landed.",
+      "objectType Question, eventType QUESTION_ANSWERED requires at least one receipt (AMD-0003 V1: grounded answers cite a source).",
+      "objectType Question, eventType QUESTION_ABSTAINED requires non-null, non-empty publicText (AMD-0003 V1: a typed refusal is a required rendering, never suppressed; the canonical abstention wordlist is V4, not enforced here)."
+    ]
+  }
+}

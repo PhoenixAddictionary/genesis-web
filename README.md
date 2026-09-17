@@ -34,6 +34,7 @@ fetch; the page still renders and the engine emits its honest
 | `spine/` | A small set of curated questions wired to real, schema-validated events (`genesis.event.v1`) that appear in window III's peek — never real visitor questions, never anyone's actual input |
 | `capture.py` | The verification harness: automated checks across normal / no-JS / reduced-motion, drives a real browser over CDP |
 | `variant-a/b/c.html` | Three earlier visual-direction comparisons (kept for the record) |
+| `tools/validate_genesis_events.py`, `maker-handshake/schemas/` | Vendored verbatim from `PhoenixAddictionary/memoria-mcp@81a79ce` (2026-09-16) — validates `spine/spine.jsonl` against the `genesis.event.v1` schema. Not modified; re-vendor from source on schema changes. |
 
 ## Principles
 
@@ -50,3 +51,18 @@ fetch; the page still renders and the engine emits its honest
 ```bash
 python3 capture.py   # expects the server on :8017; needs a local Chrome
 ```
+
+CI (`.github/workflows/ci.yml`) runs on every push/PR: the vendored
+`genesis.event.v1` validator (+ its own test suite) against `spine/spine.jsonl`,
+and the real `capture.py` browser suite via headless Chrome.
+
+**Not wired, on purpose:** `verify_genesis_surface.py` and the zeuge witness/
+claim-detect probe (`witness_receipt.py`), both from `memoria-mcp`. Checked
+directly (2026-09-17) rather than assumed: both tools are built around a
+Verbum checkout and `maker-handshake/packets/<order>/` work-order structure
+that this static-site repo doesn't have, and `witness_receipt.py` additionally
+needs the external `zeuge` binary, which isn't vendored or installable here.
+Wiring them in anyway would produce a check that always reports absence or
+doesn't apply — a fake green (or a fake red), not a real one. They become
+relevant once this repo integrates with a live Verbum-backed engine (H3) or
+gets its own work-order/packet flow.
