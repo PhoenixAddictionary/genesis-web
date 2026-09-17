@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GENESIS — a well, not a pyramid</title>
+<title>GENESIS</title>
 <meta name="description" content="Ask a real question. Below it: a world you can watch — every event recorded, every claim receipted, nothing invented.">
 <link rel="stylesheet" href="styles.css">
 <script defer src="well.js"></script>
@@ -42,9 +42,9 @@
       </div>
       <p class="term-hint mono" id="term-hint">ask a philosophical question. press enter.</p>
       <ul class="term-pills" aria-label="Example questions">
-        <li><span class="suggestion mono">why is the door of the true covered with a golden disk?</span></li>
-        <li><span class="suggestion mono">should a ruler be loved or feared by the people?</span></li>
-        <li><span class="suggestion mono">does the sage claim credit for what he produces?</span></li>
+        <li><span class="suggestion mono">is the self eternal or does it return to dust?</span></li>
+        <li><span class="suggestion mono">what does it mean to act without attachment?</span></li>
+        <li><span class="suggestion mono">what is the source of all things?</span></li>
       </ul>
     </form>
     <div class="term-out mono" id="term-out" role="status" aria-live="polite"></div>
@@ -107,6 +107,7 @@
         <span class="pl-gate-label mono" aria-hidden="true">the gate — on the record</span>
         <div class="pl-ring" id="pl-ring">
           <div class="pl-gatering" aria-hidden="true"></div>
+          <canvas class="pl-orbiters" id="pl-orbiters" aria-hidden="true"></canvas>
           <span class="pl-ev k-open"   style="--a:-55;   --r:.74" title="PR #1 opened — 09-03 03:20">⊕<i class="pl-lab mono">09-03 · PR #1 opened</i></span>
           <span class="pl-ev k-open"   style="--a:-45.2; --r:.74" title="PR #2 opened — 09-03 03:37">⊕<i class="pl-lab mono">09-03 · PR #2 opened</i></span>
           <span class="pl-ev k-open"   style="--a:-35.4; --r:.74" title="PR #3 opened — 09-03 03:42">⊕<i class="pl-lab mono">09-03 · PR #3 opened</i></span>
@@ -224,12 +225,60 @@
   </div>
 </section>
 
+<!-- ============ M1 — THE UNFINISHED QUESTION (first message beat) ============ -->
+<section class="stratum s-m1" id="m1" aria-labelledby="m1-line">
+  <div class="col">
+    <p class="beat-line" id="m1-line">Everyone says superintelligence is dangerous.<br>
+    <em>Almost no one says why.</em></p>
+    <div class="whys">
+      <p class="why-line">“It’s dangerous.” <span class="why-q">— Why?</span></p>
+      <p class="why-line">“It will be smarter than us.” <span class="why-q">— And why is that dangerous?</span></p>
+      <p class="why-line">“Because it could be used against us.” <span class="why-q">— Used… by whom?</span></p>
+      <p class="why-beat" aria-hidden="true">·</p>
+      <p class="why-line">Follow it far enough and the danger isn’t the intelligence. It’s whoever holds it alone.</p>
+    </div>
+    <p class="bolt">Intelligence has no motive to oppress you.<br>Owners do.</p>
+    <p class="receipt">five whys — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> (an idea written down, not yet built or verified — see “how to read this world” below) · an argument, not a measurement</p>
+
+    <details class="zoom">
+      <summary>zoom in — the danger formula</summary>
+      <div class="zoom-body">
+        <div class="formula">
+          <p class="poetic">Danger = capability × concentration of control.<br>
+          Nobody on Earth can lower the first factor anymore.<br>
+          Everyone on Earth can lower the second.</p>
+        </div>
+        <div class="control-block" id="control-block">
+          <p class="mono dim block-label">who controls it</p>
+          <div class="control-static">
+            <p><span class="mono">ONE</span> — unanswerable power</p>
+            <p><span class="mono">FEW</span> — power answerable to a boardroom</p>
+            <p><span class="mono">EVERYONE</span> — answerable power. to you.</p>
+          </div>
+          <div class="control-slider js-only">
+            <input type="range" id="control-range" min="0" max="2" step="1" value="0"
+                   aria-label="Who controls it: one, few, or everyone">
+            <div class="control-scale mono"><span>ONE</span><span>FEW</span><span>EVERYONE</span></div>
+            <p class="control-readout poetic" id="control-readout">unanswerable power</p>
+          </div>
+          <p class="receipt">control slider — state: CONCEPT · a diagram of the argument, not a control panel</p>
+        </div>
+      </div>
+    </details>
+    <p class="receipt">why a passenger and not a judge: a human judging AI output has a ceiling
+    — the AI gets smarter, the human doesn’t. Holding the frame that decides what even counts
+    as coherent has no such ceiling, because it was never a contest of judgment. Think the rules
+    of chess, not a chess judge scoring each move — the rules don’t need to get smarter as the
+    players do.</p>
+  </div>
+  <p class="depth-marker mono" aria-hidden="true">high — the part that rides along: the Passenger</p>
+</section>
+
 <!-- ============ B — THE BOUNDARY ============ -->
 <section class="stratum s-boundary" id="boundary" aria-labelledby="boundary-line">
   <div class="col">
     <p class="whisper" id="boundary-line">Everything you can see lives on this side.</p>
-    <p class="mono boundary-gauge">the seam · crossings: <span class="g-strong">0</span> · refusals: <span class="g-strong">0</span></p>
-    <p class="receipt">the dark edge beside you — sealed since the first pixel · these counts move only at the gate, never by hand</p>
+    <p class="receipt">the dark edge beside you — sealed since the first pixel</p>
 
     <details class="zoom" id="envelope-papers">
       <summary>zoom in — what a crossing will look like</summary>
@@ -272,70 +321,8 @@
         <p class="receipt">envelopes crossed: 0 · refused: 0 — these counts move only when a validated envelope passes or is refused at the gate, never by hand · refusals render too — a boundary that only shows successes is decoration</p>
       </div>
     </details>
-
-    <details class="zoom" id="legend">
-      <summary>zoom in — how to read this world</summary>
-      <div class="zoom-body">
-        <p class="legend-intro">Each chip is a fact about the <em>record</em>, never a verdict
-        on the claim. It tells you how far a thing has traveled from idea to reality —
-        nothing more.</p>
-        <dl class="legend-grid">
-          <div><dt><span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></dt><dd>the record holds an idea: written down, not built, not verified. Says nothing about whether the idea is good.</dd></div>
-          <div><dt><span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></dt><dd>the record exists and is hashed: you can check its exact wording. It does not claim the content is right.</dd></div>
-          <div><dt><span class="chip chip-current" title="About this record: live and verified, receipt attached. It describes the record's freshness — not the claim's truth.">CURRENT</span></dt><dd>the record is live and verified, receipt attached — freshness of the record, not truth beyond question.</dd></div>
-          <div><dt><span class="chip chip-rejected" title="About this record: this claim was tested against reality and failed, and the failure stays on the record permanently. It marks honest testing — not a verdict that the idea was worthless.">REJECTED_BY_REALITY</span></dt><dd>a claim was tested and failed; the record of the failure is permanent. It marks honest testing shown, not a shameful idea.</dd></div>
-          <div><dt><span class="mono glyph">● born public</span></dt><dd>this thing never lived behind the seam.</dd></div>
-          <div><dt><span class="mono glyph">⇄ crossed (envelope #n)</span></dt><dd>arrived through the gate, sealed and stamped.</dd></div>
-        </dl>
-        <p class="receipt">one vocabulary, two axes · every chip explains itself on hover/tap · nothing on this page currently qualifies for CURRENT — so nothing wears it</p>
-      </div>
-    </details>
   </div>
   <p class="depth-marker mono" aria-hidden="true">mid — the one who watches and never touches: the Witness</p>
-</section>
-
-<!-- ============ M1 — THE UNFINISHED QUESTION (first message beat) ============ -->
-<section class="stratum s-m1" id="m1" aria-labelledby="m1-line">
-  <div class="col">
-    <p class="beat-line" id="m1-line">Everyone says superintelligence is dangerous.<br>
-    <em>Almost no one says why.</em></p>
-    <div class="whys">
-      <p class="why-line">“It’s dangerous.” <span class="why-q">— Why?</span></p>
-      <p class="why-line">“It will be smarter than us.” <span class="why-q">— And why is that dangerous?</span></p>
-      <p class="why-line">“Because it could be used against us.” <span class="why-q">— Used… by whom?</span></p>
-      <p class="why-beat" aria-hidden="true">·</p>
-      <p class="why-line">There it is. The question nobody finishes.</p>
-    </div>
-    <p class="bolt">Intelligence has no motive to oppress you.<br>Owners do.</p>
-    <p class="receipt">five whys — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · an argument, not a measurement</p>
-
-    <details class="zoom">
-      <summary>zoom in — the danger formula</summary>
-      <div class="zoom-body">
-        <div class="formula">
-          <p class="poetic">Danger = capability × concentration of control.<br>
-          Nobody on Earth can lower the first factor anymore.<br>
-          Everyone on Earth can lower the second.</p>
-        </div>
-        <div class="control-block" id="control-block">
-          <p class="mono dim block-label">who controls it</p>
-          <div class="control-static">
-            <p><span class="mono">ONE</span> — unanswerable power</p>
-            <p><span class="mono">FEW</span> — power answerable to a boardroom</p>
-            <p><span class="mono">EVERYONE</span> — answerable power. to you.</p>
-          </div>
-          <div class="control-slider js-only">
-            <input type="range" id="control-range" min="0" max="2" step="1" value="0"
-                   aria-label="Who controls it: one, few, or everyone">
-            <div class="control-scale mono"><span>ONE</span><span>FEW</span><span>EVERYONE</span></div>
-            <p class="control-readout poetic" id="control-readout">unanswerable power</p>
-          </div>
-          <p class="receipt">control slider — state: CONCEPT · a diagram of the argument, not a control panel</p>
-        </div>
-      </div>
-    </details>
-  </div>
-  <p class="depth-marker mono" aria-hidden="true">high — the part that rides along: the Passenger</p>
 </section>
 
 <!-- ============ M2 — THE WAGER (the single emotional peak) ============ -->
@@ -345,11 +332,11 @@
     <em>A public mind answers to everyone.</em></p>
     <div class="poetic">
       <p>Maybe the road to superintelligence runs through a locked lab.<br>
-      But maybe — by luck, by stubbornness, by ten thousand open eyes —<br>
-      it runs through the public square.</p>
-      <p>That is not a prophecy. It is a chance.<br>
-      <span class="strong">And a chance nobody takes is just a zero.</span><br>
-      GENESIS is how we take it: in the open, on the record, win or lose, witnessed.</p>
+      Maybe it runs through the public square instead — not because that’s certain,
+      but because it’s the one route anyone outside a boardroom can still take.</p>
+      <p>That is not a prophecy. It is a bet, stated plainly:<br>
+      <span class="strong">a bet nobody places is just a zero.</span><br>
+      GENESIS is this bet, placed in the open — every step on the record, win or lose.</p>
     </div>
     <p class="receipt">wager — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · outcome: unknown · every step of the attempt: recorded</p>
 
@@ -378,15 +365,13 @@
     <details class="zoom">
       <summary>zoom in — you already work for an engine</summary>
       <div class="zoom-body">
-        <p class="poetic">The printing press wasn’t meant for everyone. Neither was reading.
-        Neither was voting. Every power that is public today was private once —
-        and became public because, at the right moment, someone stood in the open, ready.</p>
+        <p class="poetic">Reading was once a private privilege; so was voting. Both went public
+        because someone built the open version before the closed one won by default.</p>
         <div class="flywheel">
           <p class="poetic strong">You already work for an engine. You just don’t own it.</p>
-          <p class="poetic">Every answer you accept, every correction you type, every choice
-          you click is next-level captcha work — free training labor for a private model.
-          GENESIS runs the same clicking for the public: ask, test, witness, promote,
-          remember. The flywheel spins — and nobody owns the axle.</p>
+          <p class="poetic">Every correction you type for a private model trains that model, for free,
+          for its owner. GENESIS proposes the same labor — ask, test, witness — but the model
+          it trains has no owner to hand the result to.</p>
           <p class="receipt">flywheel — state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span> · engine below: recorded · your clicks harvested: never (see the wall →)</p>
         </div>
       </div>
@@ -398,6 +383,46 @@
 <section class="stratum s-m5" id="m5" aria-labelledby="m5-title">
   <div class="col">
     <h2 id="m5-title" class="movement-title">A constitution before a mind</h2>
+
+    <figure class="m5-figure" aria-hidden="true">
+      <svg viewBox="0 0 480 230" class="m5-svg">
+        <line x1="40" y1="200" x2="440" y2="200" stroke="var(--edge)" stroke-width="1"/>
+        <!-- the document, standing, raised, first -->
+        <g>
+          <rect x="196" y="26" width="96" height="132" rx="3"
+                fill="none" stroke="var(--gold)" stroke-width="1.6"/>
+          <line x1="214" y1="52" x2="274" y2="52" stroke="var(--ink)" stroke-width="1" opacity="0.55"/>
+          <line x1="214" y1="66" x2="274" y2="66" stroke="var(--ink)" stroke-width="1" opacity="0.55"/>
+          <line x1="214" y1="80" x2="262" y2="80" stroke="var(--ink)" stroke-width="1" opacity="0.55"/>
+          <line x1="214" y1="94" x2="274" y2="94" stroke="var(--ink)" stroke-width="1" opacity="0.4"/>
+          <line x1="214" y1="108" x2="256" y2="108" stroke="var(--ink)" stroke-width="1" opacity="0.4"/>
+          <circle cx="244" cy="140" r="10" fill="var(--gold)" opacity="0.18" stroke="var(--gold)" stroke-width="1"/>
+          <path d="M 240 137 l 3 4 l 6 -7" fill="none" stroke="var(--gold)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <!-- the crown, fallen, beneath it, no longer standing above anything -->
+        <g transform="translate(108,178) rotate(-148)" opacity="0.85">
+          <path d="M -30 6 L 30 6 L 30 -6 L 18 -22 L 9 -6 L 0 -26 L -9 -6 L -18 -22 L -30 -6 Z"
+                fill="none" stroke="var(--gold-dim)" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="18" cy="-22" r="2.6" fill="var(--gold-dim)"/>
+          <circle cx="0" cy="-26" r="2.6" fill="var(--gold-dim)"/>
+          <circle cx="-18" cy="-22" r="2.6" fill="var(--gold-dim)"/>
+        </g>
+        <!-- the roll and the settling dust -->
+        <path d="M 108 196 q 30 10 62 4" fill="none" stroke="var(--gold-dim)" stroke-width="1" opacity="0.5" stroke-dasharray="1 4"/>
+        <circle cx="66" cy="199" r="1.4" fill="var(--gold-dim)" opacity="0.6"/>
+        <circle cx="80" cy="201" r="1" fill="var(--gold-dim)" opacity="0.4"/>
+      </svg>
+      <figcaption class="receipt">the crown fell; the document was already standing — first time, that order</figcaption>
+    </figure>
+
+    <p class="bolt">For a long time power stayed with a few — not because it had to,
+    just because nobody wrote it down first.<br>We wrote ours first. The power is public
+    before there is a ruler to take it back from.</p>
+    <p class="poetic">If you already know enough about where this is going to feel tired
+    rather than excited, that feeling is correct, not a defect in you. This is not a promise
+    that it works. It is one attempt at the alternative, done in the open, where you can watch
+    it fail honestly instead of quietly.</p>
+
     <div class="poetic">
       <p class="strong">For the first time, the constitution comes before the ruler.</p>
       <p>We wrote the rules first. Every clause is public. Every change is a diff.</p>
@@ -433,6 +458,11 @@
             <p class="receipt">“It is not a pyramid… It is a well.” / “Recovery is descent, not elevation.”</p>
           </li>
         </ol>
+        <p class="poetic">Why a well and not a pyramid: everything here draws upward from a
+        source at the bottom, the way water is drawn from a well — it doesn’t sit at an apex
+        handing down instructions. Drift happens when the distance from that source grows too
+        large to feel the pull anymore. So going back never means climbing higher — it means
+        going back down to where the pull still reaches.</p>
       </div>
     </details>
 
@@ -476,10 +506,16 @@
     <p class="beat-line" id="hidden-line">One component of this architecture<br>is invisible by design.</p>
     <div class="poetic">
       <p>You will never see it. But its constitution is public, its four permitted
-      actions are fixed forever, and it is forbidden to grow.</p>
+      actions are fixed forever, and it is forbidden to grow. Think a farmer choosing
+      which seeds to plant, not a hand reaching into the ground to bend the growing stem —
+      it can only ever change what goes in, never reach the plant once it’s growing.</p>
       <p class="strong">The only hidden thing here has a public constitution.<br>
       At the labs, it’s the reverse.</p>
     </div>
+    <p class="poetic">Telling you it exists doesn’t give you anything real about it. Knowing
+    <em>that</em> a hidden controller exists is one kind of knowledge; knowing its current
+    state, or how to move it, is a completely different kind — and this paragraph only ever
+    gives you the first.</p>
     <p class="receipt">the hidden component — never named, never shown · “Never accumulate authority — four action types are fixed permanently.” — verbatim, worldcompiler.md sha256 a85e34ab2e1d · C2 ratified by Owner, 2026-09-16</p>
   </div>
 </section>
@@ -586,8 +622,15 @@
       <p>The brilliance is always around the void — never inside it.
       The day something appears inside, this page has failed, and the record will show it.</p>
       <p class="strong">Full site. Governed void.</p>
+      <p>“Governed” means one specific thing: a rule keeps the center empty, and that rule
+      is checkable, not promised.</p>
     </div>
-    <p class="receipt">the void — a picture of the canon geometry, not a component status · “not emptiness as void — emptiness as container” · attracts around, never into: “a system that fills its null layer with content has made the hub solid. The wheel cannot turn.” — verbatim, worldcompiler.md sha256 a85e34ab2e1d · in orbit: the same 30 recorded events from the world above — nothing invented · theory + canon check: docs/dramaturgy-strategy.md §5b addendum</p>
+    <p class="receipt">the void — a picture of the canon geometry, not a component status ·
+      “not emptiness as void — emptiness as container” · in orbit: the same 30 recorded events
+      from the world above, nothing invented</p>
+    <p class="receipt">the rule itself, verbatim: “a system that fills its null layer with
+      content has made the hub solid. The wheel cannot turn.” — worldcompiler.md sha256
+      a85e34ab2e1d · theory + canon check: docs/dramaturgy-strategy.md §5b addendum</p>
   </div>
 </section>
 
@@ -609,7 +652,8 @@
     <h2 id="inv-title" class="visually-hidden">The casting</h2>
     <div class="poetic">
       <p>In this architecture, the witness is the part that sees everything and
-      touches nothing. Its whole power is that it cannot be owned.</p>
+      touches nothing. Its whole power is that it cannot be owned. Think a flight recorder,
+      not a co-pilot — it remembers everything faithfully, and it has no hand on the controls.</p>
       <p class="strong">On this page — that’s you.</p>
       <p>You didn’t come here to buy something. You came to be early to something.</p>
       <p class="strong">You are. Provably.</p>
@@ -650,8 +694,43 @@
       it’s the ownership. A public mind answers to everyone.</p>
       <p>This page is an early prototype. The engine is not connected yet, the
       counters honestly read zero, and every state is labeled.</p>
+      <p>If you only want three minutes: <a class="quiet" href="#world">the world</a> is
+      what’s actually real right now (30 recorded events, nothing invented);
+      <a class="quiet" href="#legend">how to read this world</a> explains every colored
+      tag you’ll see; <a class="quiet" href="#m5">the constitution</a> is the rulebook this
+      page has already committed to before anything else was built.</p>
     </div>
     <p class="receipt">this answer skips the staging above on purpose — sequence is an offer, not a cage · state: <span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></p>
+
+    <details class="zoom" id="legend">
+      <summary>zoom in — how to read this world</summary>
+      <div class="zoom-body">
+        <p class="legend-intro">Each chip is a fact about the <em>record</em>, never a verdict
+        on the claim. It tells you how far a thing has traveled from idea to reality —
+        nothing more.</p>
+        <dl class="legend-grid">
+          <div><dt><span class="chip chip-concept" title="About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.">CONCEPT</span></dt><dd>the record holds an idea: written down, not built, not verified. Says nothing about whether the idea is good.</dd></div>
+          <div><dt><span class="chip chip-recorded" title="About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed.">RECORDED</span></dt><dd>the record exists and is hashed: you can check its exact wording. It does not claim the content is right.</dd></div>
+          <div><dt><span class="chip chip-current" title="About this record: live and verified, receipt attached. It describes the record's freshness — not the claim's truth.">CURRENT</span></dt><dd>the record is live and verified, receipt attached — freshness of the record, not truth beyond question.</dd></div>
+          <div><dt><span class="chip chip-rejected" title="About this record: this claim was tested against reality and failed, and the failure stays on the record permanently. It marks honest testing — not a verdict that the idea was worthless.">REJECTED_BY_REALITY</span></dt><dd>a claim was tested and failed; the record of the failure is permanent. It marks honest testing shown, not a shameful idea.</dd></div>
+          <div><dt><span class="mono glyph">● born public</span></dt><dd>this thing never lived behind the seam.</dd></div>
+          <div><dt><span class="mono glyph">⇄ crossed (envelope #n)</span></dt><dd>arrived through the gate, sealed and stamped.</dd></div>
+        </dl>
+        <p class="receipt">one vocabulary, two axes · every chip explains itself on hover/tap · nothing on this page currently qualifies for CURRENT — so nothing wears it</p>
+      </div>
+    </details>
+
+    <details class="zoom" id="errata">
+      <summary>zoom in — errata</summary>
+      <div class="zoom-body">
+        <p class="poetic">Nothing on this page has been withdrawn yet. When something is —
+        a wrong number, a claim that didn’t hold, a receipt that turns out to point at
+        nothing — it appears here, permanently, with the date and what it replaced. A
+        correction is never a silent edit; the old claim stays visible next to the new one.</p>
+        <p class="receipt">errata — 0 entries · this list can only grow, never shrink</p>
+      </div>
+    </details>
+
     <p class="mono about-links"><a class="quiet" href="#terminal">back to the top ↑</a> · <a class="quiet" href="#world">watch the world</a> · <a class="quiet" href="#m1">the argument, staged</a></p>
   </div>
 </section>
@@ -665,6 +744,7 @@
       <a class="quiet" href="#world">The World</a> ·
       <a class="quiet" href="#ledger">Crossing Ledger</a> ·
       <a class="quiet" href="#legend">How to read this world</a> ·
+      <a class="quiet" href="#errata">Errata</a> ·
       <a class="quiet" href="#about">what is this site?</a> ·
       <a class="quiet" href="#terminal">surface ↑</a>
     </p>
