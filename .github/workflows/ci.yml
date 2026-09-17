@@ -44,7 +44,7 @@ jobs:
       - name: Validate every receipts/*.json against genesis.receipt.v1
         run: |
           shopt -s nullglob
-          files=(receipts/PKT-*.json)
+          files=(receipts/*.json)
           if [ ${#files[@]} -gt 0 ]; then python tools/validate_packet.py "${files[@]}"; fi
       - name: Validate packets/INDEX.json against the packet files it lists
         run: python tools/validate_packet.py --check-index packets/INDEX.json
