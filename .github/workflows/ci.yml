@@ -19,6 +19,10 @@ jobs:
         run: python -m pytest tests/test_validate_genesis_events.py -v
       - name: Validate spine/spine.jsonl against genesis.event.v1
         run: python tools/validate_genesis_events.py spine/spine.jsonl
+      - name: Run the live-tick generator's own test suite
+        run: python -m pytest tests/test_generate_live_tick.py -v
+      - name: Validate spine/live.jsonl against genesis.live-tick.v1
+        run: python tools/generate_live_tick.py --check-file spine/live.jsonl
 
   validate-packets:
     name: Validate plug-in packets (genesis.packet.v1 / genesis.receipt.v1)

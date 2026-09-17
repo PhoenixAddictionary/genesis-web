@@ -133,6 +133,60 @@
     return SPINE.promise;
   }
 
+  // spine/live.jsonl (Einklinken E2, v1): a small, machine-generated log --
+  // one line per push to main, written by a GitHub Action on Build-Zeit
+  // cadence (Owner-Akt 2, 2026-09-17), never on the visitor's own clock and
+  // never fetched from anywhere but this same static file. Same fail-closed
+  // rule as loadSpine above: a fetch failure or an empty file leaves the
+  // static "live now: quiet" text exactly as it already reads in the HTML --
+  // never overwritten with an invented status. v1 shows only two classes
+  // ("gast" / "projekt"), see spine/schemas/genesis.live-tick.v1.schema.json
+  // for why a finer split isn't attempted yet.
+  function loadLiveTick() {
+    return fetch("spine/live.jsonl").then(function (r) {
+      if (!r.ok) throw new Error("live " + r.status);
+      return r.text();
+    }).then(function (text) {
+      var last = null;
+      text.split("\n").forEach(function (line) {
+        line = line.trim();
+        if (!line) return;
+        try {
+          var tick = JSON.parse(line);
+          if (tick && tick.schema === "genesis.live-tick.v1") last = tick;
+        } catch (e) { /* a malformed line is never fabricated into a tick */ }
+      });
+      return last;
+    }).catch(function () { return null; });
+  }
+
+  function relativeTime(iso) {
+    var then = new Date(iso).getTime();
+    if (isNaN(then)) return null;
+    var seconds = Math.max(0, Math.round((Date.now() - then) / 1000));
+    var units = [
+      [31536000, "year"], [2592000, "month"], [86400, "day"],
+      [3600, "hour"], [60, "minute"],
+    ];
+    for (var i = 0; i < units.length; i++) {
+      var n = Math.floor(seconds / units[i][0]);
+      if (n >= 1) return n + " " + units[i][1] + (n === 1 ? "" : "s") + " ago";
+    }
+    return "moments ago";
+  }
+
+  function renderLiveStatus() {
+    var el = document.getElementById("live-status");
+    if (!el) return;
+    loadLiveTick().then(function (tick) {
+      if (!tick) return; // stays "live now: quiet -- no engine connected"
+      var rel = relativeTime(tick.occurredAt);
+      if (!rel) return; // an unparseable timestamp is never displayed as if it were real
+      var who = tick.class === "gast" ? ", from a guest contributor" : "";
+      el.textContent = "live now: last act " + rel + who + ". nothing here is invented.";
+    });
+  }
+
   function search(c, q) {
     var toks = tokenize(q);
     var K1 = 1.5, B = 0.75, N = c.passages.length;
@@ -1278,4 +1332,6 @@
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
+
+  renderLiveStatus();
 })();

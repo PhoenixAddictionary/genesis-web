@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genesis.live-tick.v1",
+  "title": "GENESIS live tick (Einklinken E2, v1 - two classes only)",
+  "description": "One line per push to main, written by a GitHub Action on Build-Zeit cadence (Owner-Akt 2, 2026-09-17: not the visitor's browser clock, so no visitor data ever reaches a third party for this). The repository's own git log is the only sensor. v1 deliberately does NOT split 'betreiber' from 'bahn': every commit on this repository carries the same git author identity regardless of who or what made it (verified 2026-09-17 - git log shows one author string for the whole history), so that split has no real signal yet and this schema does not guess at it (PLAN_einklinken's own rule: unbekannt bleibt unbekannt, nie geraten). The one real, checkable signal available is whether a push added a receipts/PKT-*.json file - a guest's proof-of-work for a plug-in packet (see receipts/schemas/genesis.receipt.v1.schema.json) - which is what 'class' distinguishes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "commit", "occurredAt", "class", "generatedAt"],
+  "properties": {
+    "schema": { "const": "genesis.live-tick.v1" },
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "The commit this tick describes (main's tip at the time the Action ran)."
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The commit's own author date - when the change was actually made, not when this tick was generated."
+    },
+    "class": {
+      "enum": ["gast", "projekt"],
+      "description": "'gast': this push added at least one receipts/PKT-*.json file (a guest's returned packet). 'projekt': everything else - deliberately undifferentiated, see description above."
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the Action that wrote this line actually ran."
+    }
+  }
+}

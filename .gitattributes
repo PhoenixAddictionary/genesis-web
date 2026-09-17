@@ -1,0 +1,18 @@
+# Force LF for every text file, regardless of a checkout's core.autocrlf.
+#
+# Found 2026-09-17 building Einklinken E2: without this, a Windows checkout
+# with core.autocrlf=true silently rewrites LF -> CRLF on checkout, so a
+# sha256 computed against the working tree (as packets/INDEX.json and every
+# receipt's evidence[].sha256 do) stops matching the committed blob - not a
+# tamper, just a platform default. This repo has contributors and guests on
+# both platforms and hash-pins content in several places (packet/receipt
+# index, probe receipts), so this is not optional.
+* text=auto eol=lf
+
+# Binary formats: never touched by line-ending normalization.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.mp4 binary
+*.webm binary
