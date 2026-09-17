@@ -604,6 +604,26 @@
   var rwFollowup = document.getElementById("rw-followup");
   var peekFilled = false;
 
+  // Mobile bug (owner-reported 2026-09-17): .rw is position: absolute so it
+  // never contributes to #terminal's height. On mobile the three masks stack
+  // in one column and grow far taller than #terminal's own 100vh box, so the
+  // tail of the result painted straight over #shaft's "your question ..."
+  // line below it -- two sections' text visibly overlapping. #terminal needs
+  // to actually grow to contain .rw (matching the "page scrolls to reveal
+  // the rest" intent already stated above for the desktop inset fix), and
+  // .rw's content keeps growing asynchronously as sources/engine/picture
+  // fill in, so a one-shot measurement in openWindows() isn't enough.
+  var rwHeightObserver = (typeof ResizeObserver !== "undefined")
+    ? new ResizeObserver(function () { syncTerminalHeight(); })
+    : null;
+  function syncTerminalHeight() {
+    if (!terminal || !rw || rw.hidden) return;
+    var rwRect = rw.getBoundingClientRect();
+    var termRect = terminal.getBoundingClientRect();
+    var needed = (rwRect.top - termRect.top) + rwRect.height + 24;
+    terminal.style.minHeight = Math.max(needed, termRect.height) + "px";
+  }
+
   function fillPeek() {
     if (!rwPeek || peekFilled) return;
     var center = document.createElement("div");
@@ -774,6 +794,8 @@
     void rw.offsetWidth;
     rw.classList.add("rw-pop");
     window.dispatchEvent(new Event("scroll"));
+    syncTerminalHeight();
+    if (rwHeightObserver) rwHeightObserver.observe(rw);
   }
 
   function closeWindows() {
@@ -788,6 +810,8 @@
     setFollowup(null);
     if (input) input.focus();
     window.dispatchEvent(new Event("scroll"));
+    if (rwHeightObserver) rwHeightObserver.unobserve(rw);
+    terminal.style.minHeight = "";
   }
 
   function announce(text) {
