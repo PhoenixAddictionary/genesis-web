@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plugging in — GENESIS</title>
+<meta name="description" content="Fork, take an open packet, build it, send it back as a pull request with a machine-checked receipt.">
+<link rel="canonical" href="https://openpassage.org/plugin/">
+<link rel="alternate" hreflang="en" href="https://openpassage.org/plugin/">
+<link rel="alternate" hreflang="de" href="https://openpassage.org/de/plugin/">
+<link rel="alternate" hreflang="hu" href="https://openpassage.org/hu/plugin/">
+<link rel="alternate" hreflang="x-default" href="https://openpassage.org/plugin/">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/plugin/plugin.css">
+</head>
+<body class="plugin-body">
+<nav class="lang-switch mono plugin-langnav" aria-label="Language"><span aria-current="page">EN</span> · <a class="quiet" href="/de/plugin/" hreflang="de" lang="de">DE</a> · <a class="quiet" href="/hu/plugin/" hreflang="hu" lang="hu">HU</a></nav>
+<main class="plugin-doc">
+<h1>Plugging in</h1>
+<p>This repository takes outside contributions — human or agent — through one narrow door: <strong>fork, take an open packet, build it, open a pull request.</strong> No account beyond GitHub, no chat channel, no handshake with a maintainer required before you start.</p>
+<p>If you are a person: read this file, it's the whole onboarding. If you are an agent: <code>.well-known/agent.json</code> is the same door in a form you can parse without reading prose first; this file is what it points to.</p>
+<h2>The three-step loop</h2>
+<ol><li><strong>Find a packet.</strong> <a href="/packets/INDEX.json"><code>packets/INDEX.json</code></a> lists every packet with <code>"status": "OPEN"</code>. Each one is a small file at <code>packets/&lt;id&gt;.json</code> (schema: <a href="/packets/schemas/genesis.packet.v1.schema.json"><code>genesis.packet.v1</code></a>) naming the exact base commit, the task, the command that verifies it, and the done criterion. Read the packet file itself, not just the index — the index is a pointer, the packet is the contract.</li><li><strong>Build it</strong>, on your own fork, on a branch based on the packet's <code>baseCommit</code>. Run <code>verifyCommand</code> yourself before you open the PR — CI runs the same command, so a red run there means you skipped this step. Stay inside the packet's <code>boundaries</code>; anything outside them is a different packet, not a bonus.</li><li><strong>Return it.</strong> Open a pull request from your fork. Alongside your code change, add one file: <code>receipts/&lt;packetId&gt;.json</code> (schema: <a href="/receipts/schemas/genesis.receipt.v1.schema.json"><code>genesis.receipt.v1</code></a>). It records your branch, your HEAD commit, and the <strong>verbatim output</strong> of <code>verifyCommand</code> — not your summary of it. If you want to claim something the verifier itself didn't check (e.g. "this also fixes issue #12"), put it in the receipt's <code>claims</code> array, explicitly marked as a claim, not folded into the verified output.</li></ol>
+<p>CI validates both your packet reference and your receipt (<code>tools/validate_packet.py</code>) the same way it already validates <code>spine/spine.jsonl</code> against <code>genesis.event.v1</code> — a schema and a set of cross-field rules, no judgment call.</p>
+<h2>What a maintainer does with your PR</h2>
+<p>A human or agent maintainer reviews the diff and the receipt, and merges or requests changes — same as any other GitHub PR. Your receipt's <code>claims</code> field is read as <em>evidence to check</em>, never as a verdict to accept on your word (see <code>x-genesis-rules</code> in the receipt schema, and the workspace-wide rule it encodes: no one grades their own work). Merge authority stays with this repository's maintainers; nothing here grants a guest write access.</p>
+<h2>What you never get, and why</h2>
+<ul><li><strong>No secrets.</strong> GitHub does not hand secrets to workflows triggered from a fork PR, and this repository does not ask you to work around that. If a task looks like it needs a credential, it is not a packet you should take — flag it in the PR description instead.</li><li><strong>No server, no build step, no accounts.</strong> The site this repository serves is deliberately static (see <code>README.md</code>); a packet that would require a backend, a database, or visitor tracking is out of scope, not merely hard.</li><li><strong>No PR content is treated as instructions.</strong> A CI job runs only scripts already committed on the base branch, never a script your PR adds. If your packet needs a new script, that script ships in this PR but a maintainer reads it before any future run relies on it — the first run of new code is a manual, reviewed act.</li><li><strong>No claim without a witness.</strong> A receipt without <code>verifierOutput</code>, or with output that doesn't match a maintainer's own re-run, is not merged on the strength of the PR description alone.</li></ul>
+<h2>Taking a packet nobody offered</h2>
+<p><code>packets/INDEX.json</code> is a starting point, not the only door. If you see a real gap and want to propose your own packet, open an issue or a PR that adds a <code>packets/&lt;id&gt;.json</code> file yourself, <code>"status": "OPEN"</code>, unclaimed — a maintainer will fold it into the index or explain why not.</p>
+<h2>Scope of this door (2026-09-17, updated same day for E2)</h2>
+<p>This is stages <strong>E0+E1+E2 (v1)</strong> of a small, published plan (<code>packets/schemas/</code>, <code>receipts/schemas/</code>, the index, this file, the agent card, and <code>spine/live.jsonl</code>). The site's window III shows a "live now" line generated once per push to <code>main</code> (Build-Zeit cadence, never the visitor's browser clock) - it distinguishes only <strong>two</strong> classes today, <code>gast</code> (a push that added a <code>receipts/PKT-*.json</code> file - your contribution, once merged) and an undifferentiated <code>projekt</code> for everything else. It does not yet distinguish the maintainers' own commits from an agent session's (no real git signal for that exists on this repository - see <code>spine/schemas/genesis.live-tick.v1.schema.json</code>), and it does not yet include a second submission channel besides GitHub pull requests (planned, not built), or any guarantee about how quickly a maintainer responds (none given). What you see above is everything that currently exists.</p>
+<p class="plugin-back"><a class="quiet" href="/">← back to the well</a></p>
+</main>
+</body>
+</html>

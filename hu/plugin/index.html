@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bekapcsolódás — GENESIS</title>
+<meta name="description" content="Fork, végy egy nyitott csomagot, építsd meg, add vissza pull requestként géppel ellenőrzött receipttel.">
+<link rel="canonical" href="https://openpassage.org/hu/plugin/">
+<link rel="alternate" hreflang="en" href="https://openpassage.org/plugin/">
+<link rel="alternate" hreflang="de" href="https://openpassage.org/de/plugin/">
+<link rel="alternate" hreflang="hu" href="https://openpassage.org/hu/plugin/">
+<link rel="alternate" hreflang="x-default" href="https://openpassage.org/plugin/">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/plugin/plugin.css">
+</head>
+<body class="plugin-body">
+<nav class="lang-switch mono plugin-langnav" aria-label="Language"><a class="quiet" href="/plugin/" hreflang="en" lang="en">EN</a> · <a class="quiet" href="/de/plugin/" hreflang="de" lang="de">DE</a> · <span aria-current="page">HU</span></nav>
+<main class="plugin-doc">
+<blockquote><p>Ez a fordítás tájékoztató jellegű. Eltérés esetén az angol változat (<a href="/PLUG-IN.md"><code>PLUG-IN.md</code></a>) az irányadó — különösen a séma mezőnevek, fájlútvonalak és a licencszöveg esetében, amelyek itt is angolul, változatlanul szerepelnek.</p></blockquote>
+<h1>Bekapcsolódás</h1>
+<p>Ez a repó egyetlen, szűk ajtón fogad külső hozzájárulást — embertől vagy ágenstől egyaránt: <strong>fork, végy egy nyitott csomagot, építsd meg, nyiss egy pull requestet.</strong> Nem kell más fiók, csak a GitHub, nincs chat-csatorna, nincs kézfogás egy karbantartóval indulás előtt.</p>
+<p>Ha ember vagy: olvasd el ezt a fájlt, ez a teljes onboarding. Ha ágens vagy: a <a href="/.well-known/agent.json"><code>.well-known/agent.json</code></a> ugyanez az ajtó, olyan formában, amit próza-szöveg olvasása nélkül is fel tudsz dolgozni; ez a fájl az, amire mutat.</p>
+<h2>A három lépés</h2>
+<ol><li><strong>Keress egy csomagot.</strong> A <a href="/packets/INDEX.json"><code>packets/INDEX.json</code></a> felsorolja minden <code>"status": "OPEN"</code> állapotú csomagot. Mindegyik egy kis fájl a <code>packets/&lt;id&gt;.json</code> alatt (séma: <a href="/packets/schemas/genesis.packet.v1.schema.json"><code>genesis.packet.v1</code></a>), amely megnevezi a pontos alap-commitot, a feladatot, az ellenőrző parancsot és a kész állapot kritériumát. Olvasd el magát a csomagfájlt, ne csak az indexet — az index egy mutató, a csomag a szerződés.</li><li><strong>Építsd meg</strong>, a saját forkodban, a csomag <code>baseCommit</code>-jára alapozott branchen. Futtasd le magad a <code>verifyCommand</code>-ot, mielőtt megnyitod a PR-t — a CI ugyanezt a parancsot futtatja, tehát ha ott piros lesz, akkor ezt a lépést kihagytad. Maradj a csomag <code>boundaries</code> (határok) mezőjén belül; ami azon kívül esik, az egy másik csomag, nem bónusz.</li><li><strong>Add vissza.</strong> Nyiss egy pull requestet a forkodból. A kódváltoztatás mellett adj hozzá egy fájlt: <code>receipts/&lt;packetId&gt;.json</code> (séma: <a href="/receipts/schemas/genesis.receipt.v1.schema.json"><code>genesis.receipt.v1</code></a>). Ez rögzíti a branchedet, a HEAD commitodat és a <code>verifyCommand</code> <strong>szó szerinti kimenetét</strong> — nem a te összefoglalódat róla. Ha olyasmit szeretnél állítani, amit maga az ellenőrző nem vizsgált (pl. „ez a #12 hibát is javítja"), az a receipt <code>claims</code> tömbjébe tartozik, kifejezetten állításként megjelölve, nem beleolvasztva az ellenőrzött kimenetbe.</li></ol>
+<p>A CI ugyanúgy validálja a csomag-hivatkozásodat és a receiptedet is (<code>tools/validate_packet.py</code>), ahogyan már most is validálja a <code>spine/spine.jsonl</code>-t a <code>genesis.event.v1</code> séma ellen — egy séma és rögzített kereszt-mező szabályok, nem mérlegelés kérdése.</p>
+<h2>Mit csinál a karbantartó a PR-oddal</h2>
+<p>Egy emberi vagy ágens karbantartó átnézi a diffet és a receiptet, és mergeli vagy változtatást kér — mint bármelyik másik GitHub PR-nál. A receipted <code>claims</code> mezőjét <em>ellenőrizendő bizonyítékként</em> olvassák, sosem a szavadra elfogadott ítéletként (lásd az <code>x-genesis-rules</code>-t a receipt-sémában, és azt a workspace-szintű szabályt, amit kódol: senki sem osztályozza a saját munkáját). A merge-jogosultság a repó karbantartóinál marad; semmi itt nem ad írásjogot egy vendégnek.</p>
+<h2>Amit sosem kapsz meg, és miért</h2>
+<ul><li><strong>Nincsenek titkok.</strong> A GitHub nem ad titkokat (secrets) egy fork-PR által kiváltott workflow-nak, és ez a repó nem kér erre megoldást. Ha egy feladat úgy tűnik, mintha hitelesítő adatra lenne szüksége, az nem egy olyan csomag, amit el kellene vállalnod — jelezd inkább a PR leírásában.</li><li><strong>Nincs szerver, nincs build lépés, nincsenek fiókok.</strong> Az oldal, amit ez a repó kiszolgál, szándékosan statikus (lásd <code>README.md</code>); egy csomag, amihez backend, adatbázis vagy látogató-követés kellene, kívül esik a hatókörön, nem csupán nehéz.</li><li><strong>A PR tartalma sosem utasítás.</strong> Egy CI job csak a bázis branchen már commitolt szkripteket futtatja, sosem olyat, amit a PR-od ad hozzá. Ha a csomagodhoz új szkript kell, az ebben a PR-ban érkezik, de egy karbantartó elolvassa, mielőtt egy jövőbeli futás támaszkodna rá — az új kód első futtatása kézi, ellenőrzött aktus.</li><li><strong>Nincs állítás tanú nélkül.</strong> Egy <code>verifierOutput</code> nélküli receipt, vagy amelynek kimenete nem egyezik egy karbantartó saját újrafuttatásával, nem kerül mergelésre pusztán a PR leírása alapján.</li></ul>
+<h2>Olyan csomag elvállalása, amit senki nem ajánlott fel</h2>
+<p>A <code>packets/INDEX.json</code> egy kiindulópont, nem az egyetlen ajtó. Ha valódi hiányosságot látsz, és saját csomagot szeretnél javasolni, nyiss egy issue-t vagy PR-t, amely maga ad hozzá egy <code>packets/&lt;id&gt;.json</code> fájlt, <code>"status": "OPEN"</code>, senki által le nem foglalva — egy karbantartó beilleszti az indexbe, vagy megmagyarázza, miért nem.</p>
+<h2>Ennek az ajtónak a hatóköre (2026-09-17-i állapot, aznap frissítve az E2-vel)</h2>
+<p>Ez a <strong>E0+E1+E2 (v1)</strong> szakasza egy kis, közzétett tervnek (<code>packets/schemas/</code>, <code>receipts/schemas/</code>, az index, ez a fájl, az ágenskártya, és a <code>spine/live.jsonl</code>). Az oldal III. ablaka egy „live now" (éppen most) sort mutat, amelyet minden <code>main</code>-re történő push után egyszer generálnak (build-idejű ütem, sosem a látogató böngészőjének órája) — ma csak <strong>két</strong> osztályt különböztet meg: <code>gast</code> (vendég — olyan push, amely <code>receipts/PKT-*.json</code> fájlt adott hozzá, azaz a te hozzájárulásod, ha már mergelve van) és egy differenciálatlan <code>projekt</code> mindenre másra. Még nem különbözteti meg a karbantartók saját commitjait egy ágens-session commitjaitól (nincs erre valódi git-jel ezen a repón — lásd <code>spine/schemas/genesis.live-tick.v1.schema.json</code>), és még nincs második beküldési csatorna a GitHub pull requesteken kívül (tervezve, nem megépítve), és nincs ígéret arra, milyen gyorsan válaszol egy karbantartó (nincs ilyen adva). Ami fent áll, az minden, ami jelenleg létezik.</p>
+<p class="plugin-back"><a class="quiet" href="/">← vissza a kúthoz</a></p>
+</main>
+</body>
+</html>

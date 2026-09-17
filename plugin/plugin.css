@@ -1,0 +1,59 @@
+/* Rendered-markdown doc pages (plugin/, de/plugin/, hu/plugin/).
+   Layered on top of /styles.css (custom properties, body reset, .quiet,
+   .lang-switch, :focus-visible) - this file only adds prose layout, so a
+   visitor following a link here sees the same site, not a foreign page. */
+
+.plugin-langnav {
+  position: static;
+  display: block;
+  padding: 1.4rem 1.4rem 0;
+  text-align: right;
+  opacity: 1;
+}
+.plugin-langnav a { opacity: 0.85; }
+.plugin-langnav a:hover { opacity: 1; }
+.plugin-langnav [aria-current="page"] { opacity: 1; }
+
+.plugin-doc {
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: 3rem 1.4rem 6rem;
+  line-height: 1.65;
+}
+
+.plugin-doc h1 {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+  letter-spacing: 0.02em;
+  margin: 0 0 1.4rem;
+}
+.plugin-doc h2 {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  margin: 2.4rem 0 0.9rem;
+}
+.plugin-doc p { margin: 1.1em 0; }
+.plugin-doc strong { font-weight: 700; }
+.plugin-doc a { color: var(--gold); }
+.plugin-doc code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: rgba(var(--gold-rgb), 0.08);
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+}
+.plugin-doc ol, .plugin-doc ul { padding-left: 1.4em; margin: 1.1em 0; }
+.plugin-doc li { margin: 0.6em 0; }
+.plugin-doc blockquote {
+  margin: 1.6em 0;
+  padding: 0.2em 1.1em;
+  border-left: 2px solid rgba(var(--gold-rgb), 0.4);
+  opacity: 0.78;
+  font-size: 0.92em;
+}
+.plugin-doc blockquote p { margin: 0.5em 0; }
+.plugin-back { margin-top: 3rem; font-family: var(--mono); font-size: 0.8rem; }
