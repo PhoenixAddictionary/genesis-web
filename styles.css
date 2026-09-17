@@ -386,16 +386,16 @@ html.js form.asked .term-pills { display: none; }
   margin: 2rem 0 0;
   font-size: 0.66rem;
   letter-spacing: 0.04em;
-  color: #6f6b5e;
+  color: #a19c8c;
 }
 html:not(.js) .term-pills li::before { content: "e.g. "; opacity: 0.6; }
 html.js .term-pills button.suggestion {
   font: inherit;
   font-family: var(--mono);
   letter-spacing: inherit;
-  color: #8d897b;
+  color: #c2bda9;
   background: transparent;
-  border: 1px solid #26272d;
+  border: 1px solid #3c3d46;
   border-radius: 999px;
   padding: 0.45em 1em;
   cursor: pointer;
