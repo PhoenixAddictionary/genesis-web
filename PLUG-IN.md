@@ -1,3 +1,5 @@
+🌐 **English** · [Deutsch](PLUG-IN.de.md) · [Magyar](PLUG-IN.hu.md)
+
 # Plugging in
 
 This repository takes outside contributions — human or agent — through one

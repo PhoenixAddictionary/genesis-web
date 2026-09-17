@@ -79,7 +79,13 @@
 
   function loadCorpus() {
     if (CORPUS.promise) return CORPUS.promise;
-    CORPUS.promise = fetch("corpus.json").then(function (r) {
+    // root-relative on purpose (was "corpus.json"): this same well.js is now
+    // also loaded from /de/ and /hu/ (owner-requested i18n, 2026-09-17), and
+    // a page-relative fetch from those pages would resolve to a corpus.json
+    // that doesn't exist there. Same reasoning for the other two fetch()
+    // calls below (spine.jsonl, live.jsonl) - all three data files live only
+    // at the site root, shared by every language.
+    CORPUS.promise = fetch("/corpus.json").then(function (r) {
       if (!r.ok) throw new Error("corpus " + r.status);
       return r.json();
     }).then(function (c) {
@@ -111,7 +117,7 @@
   var SPINE = { events: null, promise: null };
   function loadSpine() {
     if (SPINE.promise) return SPINE.promise;
-    SPINE.promise = fetch("spine/spine.jsonl").then(function (r) {
+    SPINE.promise = fetch("/spine/spine.jsonl").then(function (r) {
       if (!r.ok) throw new Error("spine " + r.status);
       return r.text();
     }).then(function (text) {
@@ -143,7 +149,7 @@
   // ("gast" / "projekt"), see spine/schemas/genesis.live-tick.v1.schema.json
   // for why a finer split isn't attempted yet.
   function loadLiveTick() {
-    return fetch("spine/live.jsonl").then(function (r) {
+    return fetch("/spine/live.jsonl").then(function (r) {
       if (!r.ok) throw new Error("live " + r.status);
       return r.text();
     }).then(function (text) {
@@ -1314,23 +1320,36 @@
   var pct = document.getElementById("gauge-pct");
   var stratumLabel = document.getElementById("gauge-stratum");
   var sections = Array.prototype.slice.call(document.querySelectorAll(".stratum[id]"));
-  var names = {
-    terminal: "the terminal",
-    shaft: "the descent",
-    world: "the world",
-    boundary: "the boundary",
-    m1: "the unfinished question",
-    m2: "the wager",
-    m5: "the constitution",
-    hidden: "the hidden thing",
-    m6: "the zeros",
-    instrument: "the first instrument",
-    "void": "the void",
-    water: "the water",
-    invitation: "the casting",
-    about: "what is this site",
-    colophon: "instruments"
+  // per-language stratum names (owner-requested i18n, 2026-09-17): this is
+  // the one well.js-generated string visible continuously during scroll, so
+  // it's worth keeping in sync with document.documentElement.lang even
+  // though most other JS-emitted strings (result-window copy, abstention
+  // messages) stay English-only for this v1 - see de/README-equivalent
+  // note near the terminal input about the engine itself being English-only.
+  var NAMES_BY_LANG = {
+    en: {
+      terminal: "the terminal", shaft: "the descent", world: "the world", boundary: "the boundary",
+      m1: "the unfinished question", m2: "the wager", m5: "the constitution", hidden: "the hidden thing",
+      m6: "the zeros", instrument: "the first instrument", "void": "the void", water: "the water",
+      invitation: "the casting", about: "what is this site", colophon: "instruments",
+      firstWiring: "the first wiring"
+    },
+    de: {
+      terminal: "das Terminal", shaft: "der Abstieg", world: "die Welt", boundary: "die Grenze",
+      m1: "die unvollendete Frage", m2: "die Wette", m5: "die Verfassung", hidden: "das Verborgene",
+      m6: "die Nullen", instrument: "das erste Instrument", "void": "die Leere", water: "das Wasser",
+      invitation: "die Besetzung", about: "was ist das hier", colophon: "Instrumente",
+      firstWiring: "die erste Verdrahtung"
+    },
+    hu: {
+      terminal: "a terminál", shaft: "a leszállás", world: "a világ", boundary: "a határ",
+      m1: "a befejezetlen kérdés", m2: "a fogadás", m5: "az alkotmány", hidden: "a rejtett dolog",
+      m6: "a nullák", instrument: "az első műszer", "void": "az üresség", water: "a víz",
+      invitation: "a szereposztás", about: "mi ez az oldal", colophon: "műszerek",
+      firstWiring: "az első bekötés"
+    }
   };
+  var names = NAMES_BY_LANG[document.documentElement.lang] || NAMES_BY_LANG.en;
   function onScroll() {
     var doc = document.documentElement;
     var max = doc.scrollHeight - window.innerHeight;
@@ -1338,7 +1357,7 @@
     if (pct) pct.textContent = p + "%";
     if (stratumLabel) {
       var mid = window.scrollY + window.innerHeight * 0.5;
-      var current = "the terminal";
+      var current = names.terminal;
       var curId = "terminal";
       for (var i = 0; i < sections.length; i++) {
         if (sections[i].offsetTop <= mid) {
@@ -1349,7 +1368,7 @@
       // the zoom is the visualization's own journey, wired with the descent
       if (curId === "world") current += " · " + altState.alt;
       if (curId === "terminal" && terminal && terminal.classList.contains("has-result")) {
-        current = "the first wiring";
+        current = names.firstWiring;
       }
       stratumLabel.textContent = current;
     }
