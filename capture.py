@@ -16,6 +16,10 @@ import requests
 
 DEBUG_PORT = 9222
 URL = "http://localhost:8017/"
+# read live, not hardcoded: a version-bump (korpus 0.3 -> 0.4 -> ...) must never
+# silently desync this from the real corpus.json the suite is actually running
+# against (found 2026-09-17: this used to be a hardcoded "0.3" string here).
+KORPUS_VERSION = json.loads((Path(__file__).resolve().parent / "corpus.json").read_text(encoding="utf-8"))["version"]
 # was a hardcoded absolute path into a specific Cursor cloud-agent's own
 # working directory (bc-0987524e...) - worked by accident on the machine that
 # happened to have that exact path writable, broke with PermissionError on
@@ -181,7 +185,14 @@ class Tab:
             pass
 
 
-ASK = "who should a mind beyond ours answer to?"
+# Was "who should a mind beyond ours answer to?" -- that question's own score
+# dropped below the ANSWERED threshold once korpus grew past 0.3 (293 -> 358
+# passages shifts BM25's corpus-wide IDF weights for every term, honestly, not
+# a bug -- see well.js's solidnessRule). Replaced with a question anchored to
+# a real, distinctive term ("Tadvana") added in that same growth, so it stays
+# meaningfully verified against the ANSWERED code path rather than papering
+# over the shift by loosening the assertions themselves.
+ASK = "why is brahman called tadvana?"
 
 SUBMIT_JS = """(() => {
   const i = document.getElementById('ask-input');
@@ -242,7 +253,7 @@ def main():
           and "sha256" in src_text)
     check("normal: no composed prose (retrieve mode)",
           "retrieval only" in src_text or "NO_SOURCES" in src_text)
-    check("normal: receipt binds korpus manifest", "korpus 0.3 manifest" in eng_text)
+    check("normal: receipt binds korpus manifest", f"korpus {KORPUS_VERSION} manifest" in eng_text)
     check("normal: engine names good-for, driving, learning",
           "good for" in eng_text.lower()
           and "driving" in eng_text.lower()
