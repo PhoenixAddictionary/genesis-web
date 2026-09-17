@@ -295,6 +295,17 @@ p.poetic { margin: 1.1em 0; }
 }
 .whatis:hover { opacity: 0.9; }
 
+.lang-switch {
+  position: absolute;
+  top: 3.35rem; right: 1.4rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+}
+.lang-switch a { opacity: 0.85; text-decoration-color: rgba(230, 227, 216, 0.35); }
+.lang-switch a:hover { opacity: 1; }
+.lang-switch [aria-current="page"] { opacity: 1; }
+
 .term-center { width: min(680px, 88vw); position: relative; z-index: 1; }
 
 .term-line {

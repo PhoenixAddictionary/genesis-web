@@ -79,7 +79,13 @@
 
   function loadCorpus() {
     if (CORPUS.promise) return CORPUS.promise;
-    CORPUS.promise = fetch("corpus.json").then(function (r) {
+    // root-relative on purpose (was "corpus.json"): this same well.js is now
+    // also loaded from /de/ and /hu/ (owner-requested i18n, 2026-09-17), and
+    // a page-relative fetch from those pages would resolve to a corpus.json
+    // that doesn't exist there. Same reasoning for the other two fetch()
+    // calls below (spine.jsonl, live.jsonl) - all three data files live only
+    // at the site root, shared by every language.
+    CORPUS.promise = fetch("/corpus.json").then(function (r) {
       if (!r.ok) throw new Error("corpus " + r.status);
       return r.json();
     }).then(function (c) {
@@ -111,7 +117,7 @@
   var SPINE = { events: null, promise: null };
   function loadSpine() {
     if (SPINE.promise) return SPINE.promise;
-    SPINE.promise = fetch("spine/spine.jsonl").then(function (r) {
+    SPINE.promise = fetch("/spine/spine.jsonl").then(function (r) {
       if (!r.ok) throw new Error("spine " + r.status);
       return r.text();
     }).then(function (text) {
@@ -143,7 +149,7 @@
   // ("gast" / "projekt"), see spine/schemas/genesis.live-tick.v1.schema.json
   // for why a finer split isn't attempted yet.
   function loadLiveTick() {
-    return fetch("spine/live.jsonl").then(function (r) {
+    return fetch("/spine/live.jsonl").then(function (r) {
       if (!r.ok) throw new Error("live " + r.status);
       return r.text();
     }).then(function (text) {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://openpassage.org/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://openpassage.org/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://openpassage.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://openpassage.org/hu/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://openpassage.org/"/>
+  </url>
+  <url>
+    <loc>https://openpassage.org/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://openpassage.org/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://openpassage.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://openpassage.org/hu/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://openpassage.org/"/>
+  </url>
+  <url>
+    <loc>https://openpassage.org/hu/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://openpassage.org/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://openpassage.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://openpassage.org/hu/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://openpassage.org/"/>
+  </url>
+</urlset>
