@@ -30,15 +30,20 @@ jobs:
           python-version: "3.x"
       - name: Install Python deps
         run: pip install requests
-      - name: Serve the site
+      - name: Set up Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+      - name: Serve the site, launch Chrome, run capture.py
+        # combined into one step: a backgrounded process started in one
+        # `run:` block is not reliably still alive by the time a later,
+        # separate `run:` block executes (found running this in CI,
+        # 2026-09-17 - "Connection refused" on the CDP port even though
+        # the launch step itself reported success).
         run: |
           python -m http.server 8017 &
           sleep 1
-      - name: Launch headless Chrome with CDP
-        run: |
-          google-chrome --headless=new --remote-debugging-port=9222 \
+          "${{ steps.setup-chrome.outputs.chrome-path }}" --headless=new --remote-debugging-port=9222 \
             --user-data-dir=/tmp/chrome-cdp --disable-gpu --hide-scrollbars \
             --window-size=1440,900 about:blank &
           sleep 2
-      - name: Run capture.py
-        run: python capture.py
+          python capture.py
