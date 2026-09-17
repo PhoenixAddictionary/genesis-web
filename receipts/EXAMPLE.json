@@ -1,0 +1,15 @@
+{
+  "schema": "genesis.receipt.v1",
+  "packetId": "PKT-001",
+  "branch": "maker/pkt-001",
+  "headCommit": "0000000000000000000000000000000000000000",
+  "verifyCommand": ["python", "-m", "pytest", "tests/test_validate_packet.py", "-v"],
+  "verifierOutput": "17 passed in 0.08s",
+  "verifierExitCode": 0,
+  "actor": { "type": "guest", "id": "github/octocat" },
+  "claims": [
+    "this file is a worked example, not a real submission - headCommit is a placeholder, no branch by this name exists"
+  ],
+  "evidence": [],
+  "submittedAt": "2026-09-17T12:00:00Z"
+}
