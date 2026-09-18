@@ -597,6 +597,17 @@ html.js .rw.js-only[hidden] { display: none !important; }
   opacity: 0.55;
   margin: 0.3rem 0 0;
 }
+/* Kimi visual thesis 2026-09-18: the passage is the event, the receipt is
+   the floor -- the top-scored passage (already ranked by search(), not a
+   new judgment) reads as the answer; the rest stay a quieter chorus. */
+.quote-mask .to-src--lead { margin-bottom: 1.3rem; }
+.quote-mask .to-src--lead .src-x {
+  font-size: clamp(1.05rem, 0.92rem + 0.6vw, 1.32rem);
+  line-height: 1.5;
+  color: #e6e3d8;
+  max-width: 62ch;
+}
+.quote-mask .to-src--lead .src-m { opacity: 0.65; }
 .quote-mask .to-a { color: #a7a396; margin: 0.6rem 0 0; font-size: 0.72rem; }
 .quote-mask .to-status { color: #6f6b5e; margin: 0; }
 .quote-mask .to-abstain { color: #a7a396; margin: 0; font-size: 0.82rem; line-height: 1.55; }
@@ -670,6 +681,21 @@ html.js .rw.js-only[hidden] { display: none !important; }
   line-height: 1.35;
   margin: 0 0 0.9rem;
   color: #cfccc0;
+}
+/* Kimi visual thesis 2026-09-18: one human sentence before the status wall. */
+.rw-eng-lead {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #a7a396;
+  margin: 0 0 1.1rem;
+  max-width: 46ch;
+}
+/* Same chip, unmistakably different state: filled means it happened. */
+.chip-filled {
+  background: var(--chip-recorded);
+  color: #0b0c0f;
 }
 .rw-dl { margin: 0; }
 .rw-dl dt {
@@ -868,6 +894,10 @@ html.js .rw.js-only[hidden] { display: none !important; }
   .term-hint    { animation: fadein 1.8s 2.3s ease backwards; }
   .term-pills   { animation: fadein 1.8s 3.1s ease backwards; }
   .term-descend { animation: fadein 1.8s 3.9s ease backwards; }
+  /* Kimi visual thesis 2026-09-18: the lead passage arriving is honest
+     motion (it's the real retrieved text, not decoration) -- one arrival,
+     not a loop, same reduced-motion gate as the rest of the page. */
+  .to-src--lead { animation: rise 0.9s 0.05s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
 }
 @keyframes rise   { from { opacity: 0; transform: translateY(0.55rem); } }
 @keyframes fadein { from { opacity: 0; } }
