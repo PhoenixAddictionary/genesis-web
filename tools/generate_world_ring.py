@@ -54,6 +54,8 @@ GAUGES_START = "<!-- WORLD-GAUGES:START -->"
 GAUGES_END = "<!-- WORLD-GAUGES:END -->"
 SOURCE_START = "<!-- WORLD-SOURCE:START -->"
 SOURCE_END = "<!-- WORLD-SOURCE:END -->"
+VOID_START = "<!-- WORLD-VOID:START -->"
+VOID_END = "<!-- WORLD-VOID:END -->"
 
 # Same angular span as the 2026-09-16 snapshot (-55 .. 229.2), so the visual "gate
 # gap" at the bottom of the ring is unchanged; only the density within it changes
@@ -206,6 +208,30 @@ def render_ring(events: list[Event]) -> str:
     return "\n".join(lines)
 
 
+def _void_title(ev: Event) -> str:
+    # The void mirror's original titles are shorter than the main ring's (date
+    # only, no time, no commit subject / PR title) -- same convention kept here.
+    short = {
+        "commit": f"commit {ev.key}", "open": f"PR #{ev.key} opened",
+        "merge": f"PR #{ev.key} merged", "close": f"PR #{ev.key} closed",
+        "ci": "CI",
+    }[ev.kind]
+    return f"{short} — {_fmt_short(ev.ts)}"
+
+
+def render_void(events: list[Event]) -> str:
+    """The Null Layer section's own mirror of the same ring (index-positioned via
+    --i, not angle/radius -- its CSS computes angle from --i and the total count).
+    Same event set, same order, deliberately duplicated markup (not a shared
+    partial) -- matches how the original snapshot shipped it."""
+    lines = []
+    for i, ev in enumerate(events):
+        lines.append(
+            f'        <span class="bh-ev k-{ev.kind}" style="--i:{i}" title="{_esc(_void_title(ev))}">{GLYPH[ev.kind]}</span>'
+        )
+    return "\n".join(lines)
+
+
 def render_surface(events: list[Event]) -> str:
     lines = []
     for ev in events:
@@ -302,12 +328,14 @@ def main() -> int:
 
     ring_html = render_ring(events)
     surface_html = render_surface(events)
+    void_html = render_void(events)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     source_html = (f"source: git log + pull-request and CI history of THIS repository "
                    f"(PhoenixAddictionary/genesis-web), read {today}")
     current = INDEX_PATH.read_text(encoding="utf-8")
     updated = apply(current, RING_START, RING_END, "          " + ring_html)
     updated = apply(updated, SURFACE_START, SURFACE_END, "          " + surface_html)
+    updated = apply(updated, VOID_START, VOID_END, "        " + void_html)
     updated = apply(updated, GAUGES_START, GAUGES_END, summary["gauges_line"], inline=True)
     updated = apply(updated, SOURCE_START, SOURCE_END, source_html, inline=True)
 
