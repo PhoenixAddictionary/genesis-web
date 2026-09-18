@@ -251,8 +251,11 @@ def main():
     check("normal: engine answers with real sources first",
           tab.eval("document.querySelectorAll('.to-src').length") >= 1
           and "sha256" in src_text)
+    # Copy changed 2026-09-18 (Kimi visual thesis) from "retrieval only" to
+    # "nothing was composed, nothing was kept" -- same honesty claim, clearer
+    # wording; this check follows the meaning, not one frozen phrase.
     check("normal: no composed prose (retrieve mode)",
-          "retrieval only" in src_text or "NO_SOURCES" in src_text)
+          "nothing was composed" in src_text or "NO_SOURCES" in src_text)
     check("normal: receipt binds korpus manifest", f"korpus {KORPUS_VERSION} manifest" in eng_text)
     check("normal: engine names good-for, driving, learning",
           "good for" in eng_text.lower()
