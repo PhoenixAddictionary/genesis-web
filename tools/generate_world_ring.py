@@ -326,21 +326,25 @@ def count_automations() -> int:
     return len(list((ROOT / ".github" / "workflows").glob("*.yml")))
 
 
-WORK_ORDERS_UNRESOLVED = (
-    "packets/INDEX.json lists 1 (PKT-001), the page's own \"zoom in -- the work "
-    "orders: the GX lane\" section lists 5 GX-* items, and the currently displayed "
-    "gauge says 2 -- three different real artifacts, three different counts. Not "
-    "computed here on purpose: guessing a fourth number would add a definition, "
-    "not remove the ambiguity. Left at its current displayed value (2) until a "
-    "human picks which artifact this gauge means."
-)
+# Owner decision, 2026-09-18: three real artifacts previously answered "how
+# many work orders" differently -- packets/INDEX.json (1), the page's own
+# "zoom in -- the work orders: the GX lane" section (5 GX-* items), and the
+# gauge itself (2, unsourced). Resolved in favor of packets/INDEX.json: it's
+# the same class of fact as every other number on this line (a real,
+# schema-validated, mechanically countable artifact, not a planning list),
+# and it's the exact mechanism CROSSINGS right next to it already measures
+# (the packet -> PR -> receipt loop this whole page calls its wager). The
+# GX lane keeps its own honest count in its own zoom-in section -- this
+# gauge no longer borrows a different artifact's number.
+def count_work_orders() -> int:
+    return len(list((ROOT / "packets").glob("PKT-*.json")))
 
 
-def gauges_line(events: list[Event], *, work_orders_current: str) -> str:
+def gauges_line(events: list[Event]) -> str:
     n = len(events)
     parts = [
         f"{n} EVENTS", f"{count_crossings()} CROSSINGS", f"{count_releases()} RELEASES",
-        f"{work_orders_current} WORK ORDERS",
+        f"{count_work_orders()} WORK ORDERS",
         f"{count_schemas()} SCHEMAS", f"{count_tests()} TESTS", f"{count_automations()} AUTOMATIONS",
     ]
     return " · ".join(parts)
@@ -393,7 +397,7 @@ def main() -> int:
     args = parser.parse_args()
 
     events = build_events()
-    gauges = gauges_line(events, work_orders_current="2")
+    gauges = gauges_line(events)
     summary = {
         "total_events": len(events),
         "commits": sum(1 for e in events if e.kind == "commit"),
@@ -402,7 +406,7 @@ def main() -> int:
         "pr_closes": sum(1 for e in events if e.kind == "close"),
         "ci": sum(1 for e in events if e.kind == "ci"),
         "gauges_line": gauges,
-        "work_orders_unresolved": WORK_ORDERS_UNRESOLVED,
+        "work_orders": count_work_orders(),
     }
 
     if not args.write and not args.check:

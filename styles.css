@@ -757,7 +757,11 @@ html.js .rw.js-only[hidden] { display: none !important; }
   background: #000;
   box-shadow: 0 0 18px 8px rgba(0, 0, 0, 0.85);
 }
-.rw-dot {
+/* .rw-mark shares .rw-dot's --a/--r positioning mechanism only -- kept as a
+   SEPARATE class (not a modifier on .rw-dot) because capture.py's dots()
+   counts ".rw-dot" as "permanent records added" across many checks, and a
+   ghost marker (below) is deliberately not one of those. */
+.rw-dot, .rw-mark {
   position: absolute;
   left: 50%; top: 50%;
   width: 5px; height: 5px;
@@ -787,6 +791,29 @@ html.js .rw.js-only[hidden] { display: none !important; }
     translateX(calc(var(--R) * var(--r)))
     rotate(calc(var(--a) * -1deg))
     rotate(45deg);
+}
+/* Kimi visual thesis 2026-09-18, part 2: the CONCEPT counterpart to
+   k-question -- hollow and dashed where k-question is solid and glowing,
+   because this one is NOT a permanent event: no fill (nothing was kept),
+   a ring outline only (present, not added-to-the-record), gone on the
+   next question or "ask again" (see clearConceptGhost() in well.js). The
+   pulse is honest motion for the same reason spine glyphs get none: this
+   marker's whole point is that it does NOT settle into something solid. */
+.rw-mark.k-ghost {
+  width: 9px;
+  height: 9px;
+  margin: -4.5px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px dashed rgba(230, 227, 216, 0.55);
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rw-mark.k-ghost { animation: ghost-pulse 2.6s ease-in-out infinite; }
+}
+@keyframes ghost-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
 }
 
 .rw-pic-lead {

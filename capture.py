@@ -617,9 +617,26 @@ def main():
             shaft = tab.eval("document.getElementById('shaft-hint').textContent")
             check("spine: shaft-hint stays honest for an unmapped (CONCEPT) question",
                   "stays concept, not recorded" in shaft.lower(), shaft)
+            # Kimi visual thesis 2026-09-18, part 2: a CONCEPT result gets a
+            # real, ephemeral .rw-mark (deliberately NOT .rw-dot -- see
+            # styles.css) -- exactly one, distinct class from a real record.
+            ghosts = tab.eval("document.querySelectorAll('.rw-mark.k-ghost').length")
+            check("spine: CONCEPT question shows exactly one ghost marker, not counted as a record",
+                  ghosts == 1, f"ghosts={ghosts}")
         check("spine: unmapped question stays CONCEPT with no glyph -- " + repr(q),
               "stays off the ring" in p.lower() and "RECORDED" not in e and dots() == d,
               f"before={d} after={dots()}")
+
+    # The loop above ends on a CONCEPT question (pizza topping), so a ghost
+    # marker is present now -- "ask again" must remove it, not just hide it.
+    ghosts_before_again = tab.eval("document.querySelectorAll('.rw-mark.k-ghost').length")
+    tab.eval("document.getElementById('rw-again').click()")
+    time.sleep(0.4)
+    ghosts_after_again = tab.eval("document.querySelectorAll('.rw-mark.k-ghost').length")
+    check("spine: ask-again removes the ghost marker, not just hides it",
+          ghosts_before_again == 1 and ghosts_after_again == 0,
+          f"before={ghosts_before_again} after={ghosts_after_again}")
+    ask("what does the tao say about water?")  # restore RECORDED context for the next block
 
     # Owner ruling R1: labeled only by eventType, never by the question text.
     titles = tab.eval(
