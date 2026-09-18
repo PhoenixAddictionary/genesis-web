@@ -403,7 +403,12 @@
 
   function clearConceptGhost() {
     if (!rwPeek) return;
-    var prev = rwPeek.querySelector(".rw-dot.k-ghost");
+    // Deliberately NOT ".rw-dot" -- capture.py's dots() counts .rw-dot as
+    // "permanent records added," across many existing checks. A ghost is
+    // the opposite of that by definition, so it gets its own class
+    // (.rw-mark), sharing only the positioning mechanism via CSS, never
+    // the counted-as-a-record semantics.
+    var prev = rwPeek.querySelector(".rw-mark.k-ghost");
     if (prev) prev.remove();
   }
 
@@ -413,7 +418,7 @@
     var ring = rwPeek.querySelector(".rw-peek-ring");
     if (!ring) return;
     var d = document.createElement("span");
-    d.className = "rw-dot k-ghost";
+    d.className = "rw-mark k-ghost";
     d.style.setProperty("--a", GHOST_POSITION.a);
     d.style.setProperty("--r", GHOST_POSITION.r);
     d.title = "this result — CONCEPT, off the ring, gone on your next question";
