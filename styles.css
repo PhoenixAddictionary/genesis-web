@@ -788,6 +788,29 @@ html.js .rw.js-only[hidden] { display: none !important; }
     rotate(calc(var(--a) * -1deg))
     rotate(45deg);
 }
+/* Kimi visual thesis 2026-09-18, part 2: the CONCEPT counterpart to
+   k-question -- hollow and dashed where k-question is solid and glowing,
+   because this one is NOT a permanent event: no fill (nothing was kept),
+   a ring outline only (present, not added-to-the-record), gone on the
+   next question or "ask again" (see clearConceptGhost() in well.js). The
+   pulse is honest motion for the same reason spine glyphs get none: this
+   marker's whole point is that it does NOT settle into something solid. */
+.rw-dot.k-ghost {
+  width: 9px;
+  height: 9px;
+  margin: -4.5px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px dashed rgba(230, 227, 216, 0.55);
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rw-dot.k-ghost { animation: ghost-pulse 2.6s ease-in-out infinite; }
+}
+@keyframes ghost-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
 
 .rw-pic-lead {
   font-family: var(--serif);

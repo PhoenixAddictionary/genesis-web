@@ -387,6 +387,39 @@
     spineGlyphsAdded[eventId] = true;
   }
 
+  // Kimi visual thesis 2026-09-18, part 2 (owner-authorized build): a real,
+  // ephemeral marker for the ~354/358 questions that DON'T join the spine.
+  // Deliberately NOT the literal "fades on session end" Kimi first proposed
+  // -- that behavior can't be verified from inside a page (nothing observes
+  // a tab closing). What IS real and verifiable: this exact DOM node exists
+  // only for the current result, is removed (not merely hidden) the moment
+  // a new question is asked or the terminal resets, and is never written to
+  // spine.jsonl, localStorage, or anywhere else -- so the honest claim is
+  // "gone the moment you ask again," not "fades as you leave."
+  // Fixed position past both the real baked events (--a -55..229.2) and the
+  // 4 curated spine slots (--a 245..296) -- inside the ring, never AT the
+  // center (the void stays empty at every altitude, no exception here).
+  var GHOST_POSITION = { a: 330, r: 0.22 };
+
+  function clearConceptGhost() {
+    if (!rwPeek) return;
+    var prev = rwPeek.querySelector(".rw-dot.k-ghost");
+    if (prev) prev.remove();
+  }
+
+  function showConceptGhost() {
+    if (!rwPeek) return;
+    clearConceptGhost();
+    var ring = rwPeek.querySelector(".rw-peek-ring");
+    if (!ring) return;
+    var d = document.createElement("span");
+    d.className = "rw-dot k-ghost";
+    d.style.setProperty("--a", GHOST_POSITION.a);
+    d.style.setProperty("--r", GHOST_POSITION.r);
+    d.title = "this result — CONCEPT, off the ring, gone on your next question";
+    ring.appendChild(d);
+  }
+
   function pickFollowup(question, topHit, c) {
     var candidate = FOLLOWUP_DEFAULT;
     if (topHit && c) {
@@ -791,6 +824,7 @@
       // one glyph to III's peek ring (idempotent per session, see
       // addSpineGlyph) and say so honestly, labeled by eventType only.
       addSpineGlyph(engineDriving.glyphId, engineDriving.eventType);
+      clearConceptGhost();
       var r = document.createElement("p");
       r.className = "rw-pic-note";
       r.appendChild(document.createTextNode(
@@ -802,10 +836,17 @@
         "it happened — your question is one more real event on the ring below.";
       return;
     }
+    // Kimi visual thesis 2026-09-18, part 2: a real, on-screen marker for
+    // this specific result -- present now, gone the moment you ask again.
+    // Not stored, not added to any ring, not the same mechanism as a spine
+    // glyph (which is permanent) -- see showConceptGhost()'s own comment
+    // for exactly what is and isn't claimed here.
+    showConceptGhost();
     var b = document.createElement("p");
     b.className = "rw-pic-note";
     b.appendChild(document.createTextNode(
-      "this one stays off the ring — only a fixed, curated few are wired to it. "));
+      "this one stays off the ring — only a fixed, curated few are wired to it. " +
+      "the mark below is real, but it's yours alone, and only for this result — "));
     b.appendChild(chipEl("concept", "CONCEPT"));
     rwPic.appendChild(b);
     if (shaftHint) shaftHint.textContent =
@@ -847,6 +888,7 @@
     if (rwSrc) rwSrc.textContent = "";
     if (rwEng) rwEng.textContent = "";
     if (out) out.textContent = "";
+    clearConceptGhost();
     setFollowup(null);
     if (input) input.focus();
     window.dispatchEvent(new Event("scroll"));
