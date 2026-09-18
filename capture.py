@@ -297,10 +297,12 @@ def main():
               && sel.getAttribute('aria-pressed') === 'true'
               && !!rc && rc.textContent.includes(wantId) && rc.textContent.includes(wantSha.slice(0, 8));
           })()"""))
+    n_ring_baseline = tab.eval("document.querySelectorAll('#pl-ring .pl-ev').length")
     check("normal: living picture peeks the real ring",
-          tab.eval("document.querySelectorAll('.rw-dot').length") == 30
+          tab.eval("document.querySelectorAll('.rw-dot').length") == n_ring_baseline
           and "not on the ring yet" in pic_text.lower()
-          and tab.eval("document.querySelector('.rw-peek-center').textContent.trim()") == "")
+          and tab.eval("document.querySelector('.rw-peek-center').textContent.trim()") == "",
+          f"ring={n_ring_baseline}")
 
     # W4-2: II -> III affordance -- one shared driving-state object, not two
     # hardcoded copies of "CONCEPT"/the fallback copy. Read the real shipped
@@ -630,8 +632,9 @@ def main():
     time.sleep(3.0)
     check("normal: planet at orbit on arrival",
           tab.eval("document.getElementById('world-stage').dataset.altitude") == "orbit")
-    check("normal: 30 real events in the ring",
-          tab.eval("document.querySelectorAll('.pl-ev').length") == 30)
+    n_ring = tab.eval("document.querySelectorAll('.pl-ev').length")
+    check("normal: real events in the ring (count not pinned -- grows with real history)",
+          n_ring > 0, f"n={n_ring}")
     check("normal: orbit replay highlighting one event",
           tab.eval("document.querySelectorAll('.pl-ev.now').length") == 1)
     check("normal: replay caption names a real event",
@@ -665,8 +668,9 @@ def main():
     time.sleep(1.3)
     check("normal: zoom up returns to orbit",
           tab.eval("document.getElementById('world-stage').dataset.altitude") == "orbit")
-    check("normal: gauges line true", "30 EVENTS · 0 CROSSINGS" in tab.eval(
-        "document.querySelector('.gauges-line').textContent"))
+    gauges_text = tab.eval("document.querySelector('.gauges-line').textContent")
+    check("normal: gauges line true",
+          f"{n_ring} EVENTS · 0 CROSSINGS" in gauges_text, gauges_text)
     check("normal: GX lane behind zoom", "GX-005 founding surface" in tab.eval(
         "document.getElementById('world').textContent"))
 
@@ -684,9 +688,11 @@ def main():
     check("normal: hidden thing is its own beat (C2)", tab.eval(
         "document.getElementById('hidden').innerText").find("invisible by design") >= 0
         and tab.eval("!!document.querySelector('#hidden .absent-frame')"))
-    check("normal: void — 30 real events in orbit, center renders nothing", tab.eval(
-        "document.querySelectorAll('.bh-ev').length") == 30
-        and tab.eval("document.querySelector('.bh-void').textContent.trim()") == "")
+    n_void = tab.eval("document.querySelectorAll('.bh-ev').length")
+    check("normal: void — real events in orbit, same count as the world ring, center renders nothing",
+          n_void == n_ring
+          and tab.eval("document.querySelector('.bh-void').textContent.trim()") == "",
+          f"void={n_void} ring={n_ring}")
     check("normal: orbit is pausable", tab.eval("""(() => {
       const b = document.getElementById('orbit-ctl');
       if (b.hidden) return false;
@@ -741,8 +747,10 @@ def main():
     check("no-js: form leads to the world", 'action="#world"' in html)
     check("no-js: first wiring stays JS-only",
           tab.eval("getComputedStyle(document.getElementById('result-windows')).display") == "none")
-    check("no-js: 30 ring events + 30 surface lines",
-          html.count('class="pl-ev') == 30 and html.count('class="sv-ev') == 30)
+    n_html_ring = html.count('class="pl-ev')
+    check("no-js: ring events + surface lines, same real count, no JS needed to see them",
+          n_html_ring > 0 and html.count('class="sv-ev') == n_html_ring,
+          f"ring={n_html_ring} surface={html.count('class=\"sv-ev')}")
     check("no-js: zoom controls absent (no dead buttons)", tab.eval(
         "getComputedStyle(document.getElementById('pl-ctls')).display") == "none")
     check("no-js: altitude frames exist as details",
