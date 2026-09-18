@@ -66,6 +66,21 @@ jobs:
           python tools/render_markdown_page.py
           git diff --exit-code -- plugin/ de/plugin/ hu/plugin/
 
+  validate-world-ring:
+    name: THE WORLD ring matches this repo's own real history
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Fail if index.html's ring/gauges/source are stale vs. real git+PR+CI history
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/generate_world_ring.py --check
+
   browser-checks:
     name: capture.py (browser-verified checks)
     runs-on: ubuntu-latest
