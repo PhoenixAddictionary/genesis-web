@@ -232,9 +232,9 @@
     return sid;
   }
 
-  function chipEl(kind, label) {
+  function chipEl(kind, label, extraClass) {
     var s = document.createElement("span");
-    s.className = "chip chip-" + kind;
+    s.className = "chip chip-" + kind + (extraClass ? " " + extraClass : "");
     s.title = kind === "recorded"
       ? "About this record: written down and hashed — its existence and exact wording are checkable. Correctness is not claimed."
       : "About this record: an idea written down — nothing built, nothing verified. This describes the record, not whether the idea is good.";
@@ -399,10 +399,15 @@
     return candidate;
   }
 
-  function renderSource(c, h, into, selectCtx) {
+  function renderSource(c, h, into, selectCtx, rank) {
     var p = c.passages[h.i];
     var d = document.createElement("div");
-    d.className = "to-src";
+    // Kimi visual thesis 2026-09-18 ("the passage is the event; the receipt
+    // is the floor"): the top-scored passage reads as the answer, the rest
+    // as a quieter chorus -- a real ranking already computed by search(),
+    // just not shown until now. Presentation only: same data, same order,
+    // same citations, nothing added or hidden.
+    d.className = rank === 0 ? "to-src to-src--lead" : "to-src";
     d.dataset.passageId = p.id;
     d.dataset.passageSha256 = p.sha256;
 
@@ -661,10 +666,10 @@
     });
   }
 
-  function nodeWithChip(before, kind, label, after) {
+  function nodeWithChip(before, kind, label, after, extraClass) {
     var span = document.createElement("span");
     if (before) span.appendChild(document.createTextNode(before));
-    span.appendChild(chipEl(kind, label));
+    span.appendChild(chipEl(kind, label, extraClass));
     if (after) span.appendChild(document.createTextNode(after));
     return span;
   }
@@ -703,8 +708,21 @@
     rwEng.textContent = "";
     var kicker = document.createElement("p");
     kicker.className = "rw-kicker";
-    kicker.textContent = "the first wiring — question to korpus to world";
+    // "-> world" is only true for the 4 curated spine questions -- said plainly
+    // instead of implied for every question (owner finding, 2026-09-18: the
+    // kicker claimed a wiring that mostly doesn't exist).
+    kicker.textContent = spineMatch
+      ? "the first wiring — question to korpus to world"
+      : "the first wiring — question to korpus (world: not yet, this question)";
     rwEng.appendChild(kicker);
+
+    // Kimi visual thesis 2026-09-18: one human sentence before the machine
+    // state, not four status fields as the first thing a visitor reads.
+    // States the same "not stored" promise the DL already carries below.
+    var lead = document.createElement("p");
+    lead.className = "rw-eng-lead";
+    lead.textContent = "asked in your browser. answered from the corpus. forgotten when you leave.";
+    rwEng.appendChild(lead);
 
     var dl = document.createElement("dl");
     dl.className = "rw-dl";
@@ -722,7 +740,11 @@
       nodeWithChip(evName + "  ", engineDriving.kind.toLowerCase(), engineDriving.kind,
         engineDriving.kind === "CONCEPT"
           ? " — not on the ring until the spine feeds"
-          : " · " + engineDriving.glyphId)
+          : " · " + engineDriving.glyphId,
+        // Kimi visual thesis 2026-09-18: same word, unmistakably different
+        // state -- filled for RECORDED (it happened), outlined for CONCEPT
+        // (it didn't), instead of both reading as identical outlined pills.
+        engineDriving.kind === "RECORDED" ? "chip-filled" : null)
     ]);
 
     dlPair(dl, "a first learning", [
@@ -753,9 +775,17 @@
     rwPic.textContent = "";
     var a = document.createElement("p");
     a.className = "rw-pic-lead";
-    a.textContent = "30 recorded events. already real.";
+    // Was hardcoded "30" -- read the real, currently-rendered ring instead
+    // (same fix as the World section's own gauges line, 2026-09-18).
+    var nRing = document.querySelectorAll("#pl-ring .pl-ev").length;
+    a.textContent = nRing + " recorded events. already real.";
     rwPic.appendChild(a);
 
+    // W4-7 (owner finding, 2026-09-18): the shaft's pull-back hint made the
+    // same RECORDED/world promise unconditionally, for every question, before
+    // any answer existed to back it. It now says only what this question's
+    // real outcome supports -- read once here, single source with fillPicture.
+    var shaftHint = document.getElementById("shaft-hint");
     if (engineDriving.kind === "RECORDED" && engineDriving.glyphId) {
       // W4-6 (GX-005): a real, live-reverified spine event -- add exactly
       // one glyph to III's peek ring (idempotent per session, see
@@ -768,14 +798,18 @@
       r.appendChild(chipEl("recorded", "RECORDED"));
       r.appendChild(document.createTextNode(" " + engineDriving.glyphId));
       rwPic.appendChild(r);
+      if (shaftHint) shaftHint.textContent =
+        "it happened — your question is one more real event on the ring below.";
       return;
     }
     var b = document.createElement("p");
     b.className = "rw-pic-note";
     b.appendChild(document.createTextNode(
-      "this result is not on the ring yet — question events need the spine. "));
+      "this one stays off the ring — only a fixed, curated few are wired to it. "));
     b.appendChild(chipEl("concept", "CONCEPT"));
     rwPic.appendChild(b);
+    if (shaftHint) shaftHint.textContent =
+      "this question stays CONCEPT, not RECORDED — real retrieval, just not wired to the world (yet).";
   }
 
   function openWindows(question) {
@@ -930,11 +964,11 @@
             announce("NO_SOURCES");
           } else {
             var selectCtx = { c: c, into: rwSrc, rwEng: rwEng };
-            top.forEach(function (h) { renderSource(c, h, rwSrc, selectCtx); });
+            top.forEach(function (h, i) { renderSource(c, h, rwSrc, selectCtx, i); });
             var note = document.createElement("p");
             note.className = "to-a";
-            note.textContent = "retrieval only \u2014 these passages are the answer; " +
-              "nothing is composed on top. (engine v0)";
+            note.textContent = top.length + (top.length === 1 ? " passage" : " passages") +
+              " answered. nothing was composed, nothing was kept. (engine v0)";
             rwSrc.appendChild(note);
             fillEngine("hit", c, top, resolveSpineMatch(question, "hit", c, top, null, null));
             setFollowup(pickFollowup(question, top[0], c));
