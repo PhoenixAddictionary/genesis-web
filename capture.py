@@ -300,7 +300,7 @@ def main():
     n_ring_baseline = tab.eval("document.querySelectorAll('#pl-ring .pl-ev').length")
     check("normal: living picture peeks the real ring",
           tab.eval("document.querySelectorAll('.rw-dot').length") == n_ring_baseline
-          and "not on the ring yet" in pic_text.lower()
+          and "stays off the ring" in pic_text.lower()
           and tab.eval("document.querySelector('.rw-peek-center').textContent.trim()") == "",
           f"ring={n_ring_baseline}")
 
@@ -309,7 +309,11 @@ def main():
     # well.js from disk (named witness: this exact file, next to this
     # script) rather than trusting a comment.
     well_js_src = (Path(__file__).parent / "well.js").read_text(encoding="utf-8")
-    not_on_ring_count = well_js_src.count("not on the ring yet")
+    # Owner finding 2026-09-18: the old copy ("not on the ring yet") implied
+    # every question eventually joins it. Replaced with copy that states the
+    # real, permanent boundary (only 4 curated questions ever do) -- this
+    # check now verifies THAT string has one source, not the retired one.
+    not_on_ring_count = well_js_src.count("stays off the ring")
     check("normal: III's fallback copy has exactly one source in well.js (no hardcoded duplicate)",
           not_on_ring_count == 1, f"count={not_on_ring_count}")
     check("normal: fillEngine and fillPicture share one driving-state object (engineDriving)",
@@ -549,6 +553,13 @@ def main():
           "RECORDED" in e and "EVT-WELL-PROBE-HIT-TAO-WATER-001" in e, e[-160:])
     check("spine: the tao-water spine match adds exactly one new glyph to III",
           dots() == d0 + 1, f"before={d0} after={dots()}")
+    # Owner finding 2026-09-18: the shaft's pull-back line made this exact
+    # promise unconditionally for every question before any answer existed.
+    # It's now driven by the same engineDriving state II/III already use --
+    # verify it actually says something true for the one case it CAN be true.
+    shaft = tab.eval("document.getElementById('shaft-hint').textContent")
+    check("spine: shaft-hint confirms the real ring event for a RECORDED question",
+          "one more real event on the ring" in shaft.lower(), shaft)
 
     # 2) hit-upanishad-soul-death -- this exact question was ALSO the curated
     # follow-up offered earlier in this run (FOLLOWUP_DEFAULT) and was
@@ -599,8 +610,12 @@ def main():
         ask(q)
         p = pic_now()
         e = eng_now()
+        if q == "why is the door of the true covered with a golden disk?":
+            shaft = tab.eval("document.getElementById('shaft-hint').textContent")
+            check("spine: shaft-hint stays honest for an unmapped (CONCEPT) question",
+                  "stays concept, not recorded" in shaft.lower(), shaft)
         check("spine: unmapped question stays CONCEPT with no glyph -- " + repr(q),
-              "not on the ring yet" in p.lower() and "RECORDED" not in e and dots() == d,
+              "stays off the ring" in p.lower() and "RECORDED" not in e and dots() == d,
               f"before={d} after={dots()}")
 
     # Owner ruling R1: labeled only by eventType, never by the question text.

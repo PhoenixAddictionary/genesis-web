@@ -703,7 +703,12 @@
     rwEng.textContent = "";
     var kicker = document.createElement("p");
     kicker.className = "rw-kicker";
-    kicker.textContent = "the first wiring — question to korpus to world";
+    // "-> world" is only true for the 4 curated spine questions -- said plainly
+    // instead of implied for every question (owner finding, 2026-09-18: the
+    // kicker claimed a wiring that mostly doesn't exist).
+    kicker.textContent = spineMatch
+      ? "the first wiring — question to korpus to world"
+      : "the first wiring — question to korpus (world: not yet, this question)";
     rwEng.appendChild(kicker);
 
     var dl = document.createElement("dl");
@@ -756,6 +761,11 @@
     a.textContent = "30 recorded events. already real.";
     rwPic.appendChild(a);
 
+    // W4-7 (owner finding, 2026-09-18): the shaft's pull-back hint made the
+    // same RECORDED/world promise unconditionally, for every question, before
+    // any answer existed to back it. It now says only what this question's
+    // real outcome supports -- read once here, single source with fillPicture.
+    var shaftHint = document.getElementById("shaft-hint");
     if (engineDriving.kind === "RECORDED" && engineDriving.glyphId) {
       // W4-6 (GX-005): a real, live-reverified spine event -- add exactly
       // one glyph to III's peek ring (idempotent per session, see
@@ -768,14 +778,18 @@
       r.appendChild(chipEl("recorded", "RECORDED"));
       r.appendChild(document.createTextNode(" " + engineDriving.glyphId));
       rwPic.appendChild(r);
+      if (shaftHint) shaftHint.textContent =
+        "it happened — your question is one more real event on the ring below.";
       return;
     }
     var b = document.createElement("p");
     b.className = "rw-pic-note";
     b.appendChild(document.createTextNode(
-      "this result is not on the ring yet — question events need the spine. "));
+      "this one stays off the ring — only a fixed, curated few are wired to it. "));
     b.appendChild(chipEl("concept", "CONCEPT"));
     rwPic.appendChild(b);
+    if (shaftHint) shaftHint.textContent =
+      "this question stays CONCEPT, not RECORDED — real retrieval, just not wired to the world (yet).";
   }
 
   function openWindows(question) {
