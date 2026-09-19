@@ -1,0 +1,101 @@
+/* Rendered doc page for the mission ("das Schiff"). Layered on top of
+   /styles.css (custom properties, body reset, .quiet, :focus-visible).
+   Follows the site's own stated register rule (styles.css header comment):
+   serif for the poetic voice, monospace for receipts/labels — the Mission
+   page is the poetic register (sender's own words), not the technical
+   register plugin/ uses, so it does NOT copy plugin.css's mono headings. */
+
+.mission-doc {
+  max-width: 58ch;
+  margin: 0 auto;
+  padding: 4rem 1.4rem 6rem;
+}
+
+/* hero: the sender's own line, same voice as the main page's .poetic —
+   serif, generous size, no mono override */
+.mission-doc h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 1.15rem + 1.7vw, 2.1rem);
+  line-height: 1.35;
+  letter-spacing: 0;
+  margin: 0 0 0.9rem;
+}
+.mission-doc .tagline {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  opacity: 0.6;
+  margin: 0 0 2.6rem;
+}
+.mission-doc .lede {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 0.97rem + 0.5vw, 1.2rem);
+  line-height: 1.6;
+  margin: 0 0 1.6rem;
+}
+.mission-doc .sender {
+  font-family: var(--serif);
+  font-style: italic;
+  opacity: 0.82;
+  margin: 0 0 3.2rem;
+}
+
+.mission-doc h2 {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin: 3rem 0 1.4rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--edge);
+}
+
+.mission-doc a { color: var(--gold); }
+
+/* "shown things": three quiet entries separated by hairlines, not boxed
+   cards — the site's own restraint (--edge, not visible borders/shadows) */
+.mission-doc .shown {
+  margin: 0;
+  padding: 1.6rem 0;
+  border-top: 1px solid var(--edge);
+}
+.mission-doc .shown:last-of-type { padding-bottom: 0.4rem; }
+.mission-doc .shown figcaption {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 0.7rem;
+}
+.mission-doc .shown p { font-family: var(--serif); margin: 0.6em 0; }
+.mission-doc .shown .receipt {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  opacity: 0.45;
+  margin-top: 0.6em;
+}
+
+.mission-doc blockquote {
+  margin: 0;
+  padding: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  opacity: 0.85;
+}
+.mission-doc blockquote p { margin: 0; }
+
+.mission-doc .closing p {
+  font-family: var(--serif);
+  line-height: 1.7;
+}
+
+.mission-back {
+  display: block;
+  margin-top: 3.5rem;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+}
