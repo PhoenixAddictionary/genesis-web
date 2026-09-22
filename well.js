@@ -464,7 +464,12 @@
     var m = document.createElement("p");
     m.className = "src-m mono";
     m.textContent = "\u2014 " + p.loc + " \u00B7 " + srcTitle(c, p.s) +
-      " \u00B7 sha256 " + p.sha256.slice(0, 8) + " \u00B7 score " + h.score.toFixed(1);
+      " \u00B7 sha256 " + p.sha256.slice(0, 8) +
+      // A locator hit was not retrieved by score -- it was addressed by name.
+      // Printing a lexical score beside it would answer a question the reader
+      // never asked, and invite comparing two different kinds of number.
+      (typeof h.score === "number" ? " \u00B7 score " + h.score.toFixed(1)
+                                   : " \u00B7 addressed exactly");
     sel.appendChild(x);
     sel.appendChild(m);
     d.appendChild(sel);
@@ -481,11 +486,19 @@
     whyBody.className = "zoom-body";
     var terms = document.createElement("p");
     terms.className = "receipt";
-    var termList = (h.terms || []).join(", ");
-    terms.textContent = "matched terms: " + (termList || "(no query term indexed for this passage)");
     var score = document.createElement("p");
     score.className = "receipt";
-    score.textContent = "BM25 score: " + h.score.toFixed(4);
+    if (typeof h.score === "number") {
+      var termList = (h.terms || []).join(", ");
+      terms.textContent = "matched terms: " + (termList || "(no query term indexed for this passage)");
+      score.textContent = "BM25 score: " + h.score.toFixed(4);
+    } else {
+      // The locator path did not score this passage at all: the reader named
+      // its address and the korpus published exactly this under that address.
+      // Saying "matched terms" here would describe a pass that never ran.
+      terms.textContent = "addressed as: " + p.loc + " (named in the question, not scored)";
+      score.textContent = "no BM25 score: this passage was not retrieved lexically";
+    }
     whyBody.appendChild(terms);
     whyBody.appendChild(score);
     why.appendChild(whyBody);
@@ -541,6 +554,112 @@
     wrap.appendChild(closing);
 
     into.appendChild(wrap);
+  }
+
+  /* ================= PASSAGE LOCATOR (I-103) =================
+     Reciprocal Passage Stage 1 asked this Well about Genesis 1-3 and got
+     NO_SOURCES while all three chapters sat admitted and indexed: the address
+     was thrown into the same bag of words as the rest of the sentence and lost
+     the matched-token floor. The diagnosis
+     (RECIPROCAL_PASSAGE_STAGE1_INSTRUMENT_DIAGNOSIS_2026-09-22.md) named the
+     correction: separate SOURCE_SCOPE from ANALYTIC_LENS *before* retrieval,
+     without weakening the global abstention thresholds.
+
+     That is the whole of what happens here. Addressing is not retrieval, so it
+     gets its own path rather than a thumb on the retrieval scale: no floor is
+     lowered, no score is invented, no passage is composed, and a question with
+     no address never reaches this function's body at all. When the reader also
+     asked something interpretive, the source is handed over and the
+     interpretation is named as not answered -- the Well still does not compose,
+     and the reader stays the one who reads.
+
+     LOCATOR_INDEX is cached per corpus object, not globally: it must never
+     outlive the exact bytes it was built from. */
+  var LOCATOR_INDEX = null, LOCATOR_FOR = null;
+  function locatorIndex(c) {
+    if (LOCATOR_FOR !== c) { LOCATOR_INDEX = window.GenesisLocator.buildIndex(c); LOCATOR_FOR = c; }
+    return LOCATOR_INDEX;
+  }
+
+  function locatorNote(into, text) {
+    var n = document.createElement("p");
+    n.className = "to-a";
+    n.textContent = text;
+    into.appendChild(n);
+  }
+
+  // Returns true when the question carried an address and this path owns the
+  // outcome. Returns false for every ordinary question, leaving the lexical
+  // engine untouched. A recognised-but-unresolvable address deliberately does
+  // NOT fall through: the reader named a place, so they are owed an answer
+  // about that place, not a lexical near-miss from somewhere else.
+  function runLocator(c, question, into, status) {
+    if (!window.GenesisLocator) return false;              // fails open to v0
+    var idx = locatorIndex(c);
+    var addr = window.GenesisLocator.parse(idx, question);
+    if (!addr) return false;
+    var r = window.GenesisLocator.resolve(idx, addr);
+    if (!r) return false;
+    if (status) status.remove();
+
+    var quoted = function (list) { return list.join(" · "); };
+
+    if (r.outcome === "LOCATOR_AMBIGUOUS_WORK") {
+      printAbstain("LOCATOR_AMBIGUOUS", "“" + addr.raw + "” could mean several works in " +
+        "this korpus: " + quoted(r.candidates) + ". Name one of them and I will read it exactly.", into);
+      fillEngine("abstain", c, [], resolveSpineMatch(question, "no_sources", c, null, null, null));
+      setFollowup(pickFollowup(question, null, c));
+      announce("LOCATOR_AMBIGUOUS — the address fits several works");
+      return true;
+    }
+
+    if (r.outcome === "LOCATOR_NOT_IN_CORPUS") {
+      printAbstain("LOCATOR_NOT_IN_CORPUS", "nothing here is published as “" + addr.raw +
+        "”. What this korpus holds under " + r.work + " is: " + quoted(r.available) +
+        ". That is a statement about addresses, not about the text.", into);
+      fillEngine("abstain", c, [], resolveSpineMatch(question, "no_sources", c, null, null, null));
+      setFollowup(pickFollowup(question, null, c));
+      announce("LOCATOR_NOT_IN_CORPUS — no passage carries that address");
+      return true;
+    }
+
+    if (r.outcome === "LOCATOR_TOO_BROAD") {
+      printAbstain("LOCATOR_TOO_BROAD", "“" + addr.raw + "” addresses " + r.count +
+        " passages; this page reads at most " + r.limit + ". Picking " + r.limit + " of " + r.count +
+        " would be me choosing for you. Narrower addresses under " + r.work + ": " +
+        quoted(r.available) + ".", into);
+      fillEngine("abstain", c, [], resolveSpineMatch(question, "no_sources", c, null, null, null));
+      setFollowup(pickFollowup(question, null, c));
+      announce("LOCATOR_TOO_BROAD — that address covers more than three passages");
+      return true;
+    }
+
+    // LOCATOR_HIT. Same card, same citations, same receipt machinery as a
+    // lexical hit -- the only difference is that these passages arrived by
+    // name, which renderSource() says on the card instead of a score.
+    var hits = r.indices.map(function (i) { return { i: i }; });
+    var ctx = { c: c, into: into, rwEng: rwEng };
+    hits.forEach(function (h, k) { renderSource(c, h, into, ctx, k); });
+
+    locatorNote(into, hits.length + (hits.length === 1 ? " passage" : " passages") +
+      " addressed as “" + addr.raw + "”. read out, not searched for; " +
+      "nothing was composed, nothing was kept. (engine v0 + locator)");
+
+    var lens = window.GenesisLocator.lensOf(question, addr, tokenize);
+    if (lens.length) {
+      // The honest half. The reader asked something of the passage as well as
+      // for it; this page reads, it does not interpret, and saying so is the
+      // difference between a retrieval engine and one that quietly answers
+      // more than it can.
+      locatorNote(into, "you also asked about: " + lens.join(", ") +
+        " — that part is not answered here. This page hands you the source it was " +
+        "pointed at; reading it is yours.");
+    }
+
+    fillEngine("hit", c, hits, resolveSpineMatch(question, "hit", c, hits, null, null));
+    setFollowup(pickFollowup(question, null, c));
+    announce("sources addressed — read out, not searched for");
+    return true;
   }
 
   function printAbstain(type, text, into) {
@@ -982,6 +1101,13 @@
         status.textContent = "reading " + c.passageCount + " passages \u2026";
         fillEngine("pending", c, []);
         var go = function () {
+          // PASSAGE LOCATOR (I-103), ahead of retrieval and strictly separate
+          // from it. If the question names a source address the korpus itself
+          // publishes, that address decides the outcome; if it does not -- the
+          // ordinary case, and every frozen probe -- nothing below changes and
+          // the lexical engine runs with its floors exactly as before.
+          if (runLocator(c, question, rwSrc, status)) return;
+
           var res = search(c, question);
           status.remove();
 

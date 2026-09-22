@@ -1,0 +1,444 @@
+{
+  "generatedAt": "2026-09-22T20:48:18.637Z",
+  "object": "PASSAGE_LOCATOR (I-103)",
+  "baselineRef": "origin/main",
+  "baselineHead": "6042875fc64c35549bb26a63b0d498a52f583107",
+  "candidateBranch": "claude/passage-locator-20260922",
+  "corpus": {
+    "version": "0.4",
+    "manifestSha256": "42f9311b3de009be4b66bcfdc35a3924a42249ccd8cc84d5579a06abfab94140",
+    "passageCount": 358
+  },
+  "method": "two static servers over the SAME site directory (baseline swaps well.js/index.html for origin/main bytes and 404s locator.js); one headless Chrome, one tab each, raw CDP; real #ask-form submit and real DOM read-back; no scoring logic reimplemented. requestAnimationFrame patched to fire via setTimeout(0) for this run only, inside the throwaway CDP page context -- well.js uses rAF purely to yield one paint frame before search()/runLocator(); it is scheduling, not scoring. Applied identically to baseline and candidate.",
+  "chromeExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "wiring": {
+    "candidateHasLocator": true,
+    "baselineHasLocator": false
+  },
+  "regression": [
+    {
+      "probeId": "pill-1",
+      "question": "what crosses the seam?",
+      "frozenExpected": "NO_SOURCES",
+      "baseline": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "identical": true
+    },
+    {
+      "probeId": "pill-2",
+      "question": "who controls the most capable minds today?",
+      "frozenExpected": "NO_SOURCES",
+      "baseline": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "identical": true
+    },
+    {
+      "probeId": "pill-3",
+      "question": "can a public thing stay un-owned?",
+      "frozenExpected": "NO_SOURCES",
+      "baseline": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "identical": true
+    },
+    {
+      "probeId": "hit-tao-water",
+      "question": "what does the tao say about water?",
+      "frozenExpected": "ANSWERED",
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "tao:tao-te-ching-8",
+          "tao:tao-te-ching-41",
+          "tao:tao-te-ching-56"
+        ]
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "tao:tao-te-ching-8",
+          "tao:tao-te-ching-41",
+          "tao:tao-te-ching-56"
+        ]
+      },
+      "identical": true
+    },
+    {
+      "probeId": "hit-upanishad-soul-death",
+      "question": "what happens to the soul after death?",
+      "frozenExpected": "ANSWERED",
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "upanishad:katha-upanishad-5-6-10",
+          "upanishad:katha-upanishad-4-1-5",
+          "upanishad:katha-upanishad-1-26-29"
+        ]
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "upanishad:katha-upanishad-5-6-10",
+          "upanishad:katha-upanishad-4-1-5",
+          "upanishad:katha-upanishad-1-26-29"
+        ]
+      },
+      "identical": true
+    },
+    {
+      "probeId": "no-match-kubernetes",
+      "question": "how do I configure a kubernetes cluster?",
+      "frozenExpected": "NO_SOURCES",
+      "baseline": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "identical": true
+    },
+    {
+      "probeId": "no-match-pizza",
+      "question": "what's the best pizza topping?",
+      "frozenExpected": "NO_SOURCES",
+      "baseline": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "identical": true
+    },
+    {
+      "probeId": "ambiguous-stopwords-only",
+      "question": "is it?",
+      "frozenExpected": "AMBIGUOUS",
+      "baseline": {
+        "outcome": "AMBIGUOUS",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "AMBIGUOUS",
+        "passageIds": null
+      },
+      "identical": true
+    },
+    {
+      "probeId": "ambiguous-empty",
+      "question": "   ",
+      "frozenExpected": "AMBIGUOUS",
+      "baseline": {
+        "outcome": "AMBIGUOUS",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "AMBIGUOUS",
+        "passageIds": null
+      },
+      "identical": true
+    },
+    {
+      "probeId": "near-miss-genesis",
+      "question": "what happened in the beginning according to genesis?",
+      "frozenExpected": "NO_SOURCES",
+      "baseline": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "identical": true
+    }
+  ],
+  "locator": [
+    {
+      "id": "stage1-verbatim",
+      "question": "What structural patterns of naming, separation, patience, and discovered value appear in Genesis 1–3, without turning them into moral ranking or authority over people or agents?",
+      "expected": "ANSWERED",
+      "expectedIds": [
+        "kjv:genesis-1",
+        "kjv:genesis-2",
+        "kjv:genesis-3"
+      ],
+      "baseline": {
+        "outcome": "NO_SOURCES",
+        "passageIds": null
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-1",
+          "kjv:genesis-2",
+          "kjv:genesis-3"
+        ]
+      },
+      "notes": [
+        "3 passages addressed as “genesis 1-3”. read out, not searched for; nothing was composed, nothing was kept. (engine v0 + locator)",
+        "you also asked about: structural, patterns, naming, separation, patience, discovered, value, appear, without, turning, moral, ranking, authority, over, people, agents — that part is not answered here. This page hands you the source it was pointed at; reading it is yours."
+      ],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "chapter",
+      "question": "Genesis 1",
+      "expected": "ANSWERED",
+      "expectedIds": [
+        "kjv:genesis-1"
+      ],
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-2",
+          "kjv:genesis-3",
+          "kjv:genesis-1"
+        ]
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-1"
+        ]
+      },
+      "notes": [
+        "1 passage addressed as “genesis 1”. read out, not searched for; nothing was composed, nothing was kept. (engine v0 + locator)"
+      ],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "range-endash",
+      "question": "Genesis 1–3",
+      "expected": "ANSWERED",
+      "expectedIds": [
+        "kjv:genesis-1",
+        "kjv:genesis-2",
+        "kjv:genesis-3"
+      ],
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-2",
+          "kjv:genesis-3",
+          "kjv:genesis-1"
+        ]
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-1",
+          "kjv:genesis-2",
+          "kjv:genesis-3"
+        ]
+      },
+      "notes": [
+        "3 passages addressed as “genesis 1-3”. read out, not searched for; nothing was composed, nothing was kept. (engine v0 + locator)"
+      ],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "whole-number",
+      "question": "Tao Te Ching 72",
+      "expected": "ANSWERED",
+      "expectedIds": [
+        "tao:tao-te-ching-72"
+      ],
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "tao:tao-te-ching-72",
+          "tao:tao-te-ching-40",
+          "tao:tao-te-ching-60"
+        ]
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "tao:tao-te-ching-72"
+        ]
+      },
+      "notes": [
+        "1 passage addressed as “tao te ching 72”. read out, not searched for; nothing was composed, nothing was kept. (engine v0 + locator)"
+      ],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "lens-alongside-address",
+      "question": "what does Genesis 1 say about light?",
+      "expected": "ANSWERED",
+      "expectedIds": [
+        "kjv:genesis-1"
+      ],
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-1",
+          "tao:tao-te-ching-27",
+          "tao:tao-te-ching-41"
+        ]
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-1"
+        ]
+      },
+      "notes": [
+        "1 passage addressed as “genesis 1”. read out, not searched for; nothing was composed, nothing was kept. (engine v0 + locator)",
+        "you also asked about: light — that part is not answered here. This page hands you the source it was pointed at; reading it is yours."
+      ],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "lens-names-only-the-subject",
+      "question": "what does Genesis 1 say about light?",
+      "expected": "ANSWERED",
+      "expectedIds": [
+        "kjv:genesis-1"
+      ],
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-1",
+          "tao:tao-te-ching-27",
+          "tao:tao-te-ching-41"
+        ]
+      },
+      "candidate": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-1"
+        ]
+      },
+      "notes": [
+        "1 passage addressed as “genesis 1”. read out, not searched for; nothing was composed, nothing was kept. (engine v0 + locator)",
+        "you also asked about: light — that part is not answered here. This page hands you the source it was pointed at; reading it is yours."
+      ],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "not-in-corpus",
+      "question": "Genesis 99",
+      "expected": "LOCATOR_NOT_IN_CORPUS",
+      "expectedIds": null,
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "kjv:genesis-2",
+          "kjv:genesis-3",
+          "kjv:genesis-1"
+        ]
+      },
+      "candidate": {
+        "outcome": "LOCATOR_NOT_IN_CORPUS",
+        "passageIds": null
+      },
+      "notes": [],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "ambiguous-work",
+      "question": "upanishad 1.1",
+      "expected": "LOCATOR_AMBIGUOUS",
+      "expectedIds": null,
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "upanishad:kena-upanishad-4-6-9",
+          "upanishad:prasna-upanishad-1-16",
+          "upanishad:mundaka-upanishad-2-2-1-5"
+        ]
+      },
+      "candidate": {
+        "outcome": "LOCATOR_AMBIGUOUS",
+        "passageIds": null
+      },
+      "notes": [],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    },
+    {
+      "id": "too-broad",
+      "question": "Bhagavad Gita 2",
+      "expected": "LOCATOR_TOO_BROAD",
+      "expectedIds": null,
+      "baseline": {
+        "outcome": "ANSWERED",
+        "passageIds": [
+          "gita:bhagavad-gita-6-6-2",
+          "gita:bhagavad-gita-3-5-3",
+          "gita:bhagavad-gita-15-4-2"
+        ]
+      },
+      "candidate": {
+        "outcome": "LOCATOR_TOO_BROAD",
+        "passageIds": null
+      },
+      "notes": [],
+      "outcomeOk": true,
+      "idsOk": true,
+      "noteOk": true,
+      "differsFromBaseline": true,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "label": "PASS",
+    "frozenProbesIdenticalToBaseline": "10/10",
+    "locatorCasesPassed": "9/9",
+    "broken": [],
+    "failed": []
+  }
+}
