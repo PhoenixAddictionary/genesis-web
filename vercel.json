@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/de", "destination": "/", "permanent": false },
+    { "source": "/de/", "destination": "/", "permanent": false },
+    { "source": "/hu", "destination": "/", "permanent": false },
+    { "source": "/hu/", "destination": "/", "permanent": false }
+  ]
+}
