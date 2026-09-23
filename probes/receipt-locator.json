@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-22T20:48:18.637Z",
+  "generatedAt": "2026-09-23T15:13:56.387Z",
   "object": "PASSAGE_LOCATOR (I-103)",
   "baselineRef": "origin/main",
-  "baselineHead": "6042875fc64c35549bb26a63b0d498a52f583107",
-  "candidateBranch": "claude/passage-locator-20260922",
+  "baselineHead": "fb92efed00cec4f47b7adffa1faaf4e867e73a54",
+  "candidateBranch": "main",
   "corpus": {
     "version": "0.4",
     "manifestSha256": "42f9311b3de009be4b66bcfdc35a3924a42249ccd8cc84d5579a06abfab94140",
