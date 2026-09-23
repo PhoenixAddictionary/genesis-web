@@ -15,15 +15,15 @@ python3 -m http.server 8017
 # open http://localhost:8017/
 ```
 
-Any static file server works — the page is plain HTML/CSS/JS. The question engine (`well.js`) fetches `corpus.json` from the same directory, so serve over HTTP (opening `index.html` as a `file://` URL blocks the fetch; everything else still renders and the engine emits its honest ENGINE_UNREACHABLE abstention).
+Any static file server works — the page is plain HTML/CSS/JS. The question engine (`well.js`) fetches `/corpus.json` from the site root, so serve the repository root over HTTP (opening `index.html` as a `file://` URL blocks the fetch; everything else still renders and the engine emits its honest ENGINE_UNREACHABLE abstention).
 
 ## What's here
 
 | File | Role |
 |---|---|
 | `index.html`, `styles.css`, `well.js` | The site: empty terminal → **three-window first wiring** (I sources / II engine / III living picture) → shaft → zoomable world ring → boundary → message beats → constitution → hidden thing → zeros → instrument → void → water → casting → about → colophon. No-JS (form jumps to `#world`) and reduced-motion safe throughout. |
-| `corpus.json` | korpus 0.3 — frozen, content-addressed: 293 passages, 4 public-domain sources, manifest sha256 `409032026696…` |
-| `corpus-src/*.txt` | The normalized source texts (Tao Te Ching/Legge complete; Isha+Katha+Mundaka Upanishads/Müller; Bhagavad Gita/Arnold complete; KJV selections) with provenance URLs in each header |
+| `corpus.json` | korpus 0.4 — frozen, content-addressed: 358 passages, 5 public-domain sources. korpus 0.3 (293 passages, 4 sources, manifest sha256 `409032026696…`) is preserved verbatim as `corpus-0.3.json`. Live manifest sha256 `42f9311b3de0…` |
+| `corpus-src/*.txt` | The normalized source texts (Tao Te Ching/Legge; Isha, Katha, Mundaka, Kena and Prasna Upanishads/Müller; Bhagavad Gita/Arnold; KJV selections; the complete Book of Job/KJV) with provenance URLs in each header |
 | `build_corpus.py` | Re-freezes `corpus-src/` into `corpus.json` (bump `VERSION` for new content — a corpus is never mutated in place) |
 | `capture.py` | Verification + media harness: 70 automated checks across normal / no-JS / reduced-motion, drives installed Chrome over raw CDP (needs `google-chrome` + `requests` + ffmpeg), records the journey/zoom/question clips |
 | `variant-a/b/c.html` | The three world-redesign comparison pages (B was chosen and folded into the main build) |
