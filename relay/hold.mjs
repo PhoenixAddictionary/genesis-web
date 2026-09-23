@@ -25,8 +25,7 @@ function note(entry) {
   } catch { /* a failed log must not turn a block into a spend */ }
 }
 function estimate(text) {
-  const inputTokens = Math.ceil(text.length / 4);
-  return (inputTokens / 1_000_000) * 2 + (800 / 1_000_000) * 10;
+  return (Math.ceil(text.length / 4) / 1_000_000) * 2 + (800 / 1_000_000) * 10;
 }
 function repoFromGit() {
   try {
@@ -35,6 +34,21 @@ function repoFromGit() {
     return match ? "https://github.com/" + match[1] : "";
   } catch { return ""; }
 }
+function totals() {
+  const week = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const sums = { week: 0, all: 0 };
+  try {
+    for (const line of readFileSync(join(dir, "log.jsonl"), "utf8").split("\n")) {
+      if (!line) continue;
+      const row = JSON.parse(line);
+      const amount = Number(row.savedUsd) || 0;
+      if (amount <= 0) continue;
+      sums.all += amount;
+      if (Date.parse(row.t) >= week) sums.week += amount;
+    }
+  } catch { /* counter stays at zero */ }
+  return sums;
+}
 function allow(why) { note({ action: "allow", why }); process.exit(0); }
 
 const config = loadConfig();
@@ -42,7 +56,6 @@ if (!prompt.trim()) allow("empty");
 if (BILL.test(prompt)) allow("bill");
 const model = String(body.model || "");
 if (tool === "cursor" && ((INCLUDED.test(model) && !REFUSED.test(model)) || !model)) allow(model ? "included" : "model-unknown");
-
 const pinned = JUDGMENT.test(prompt) ? "grok-4.7" : "composer-2.5";
 const key = process.env.CURSOR_API_KEY || String(config.cursorKey || "");
 const repo = process.env.RELAY_REPO || String(config.repo || "") || repoFromGit();
@@ -63,16 +76,15 @@ if (key.startsWith("crsr_") && /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/.te
     });
     const data = await response.json().catch(() => ({}));
     sent = response.ok;
-    handoff = response.ok ? " Handed to " + pinned + "." : " Cursor did not take it (" + response.status + ").";
+    handoff = response.ok ? " Handed to " + pinned + ". " + (data.agent && (data.agent.url || data.agent.id) || "Cursor accepted it.") : " Cursor did not take it (" + response.status + ").";
   } catch { handoff = " Cursor could not be reached."; }
 } else {
-  handoff = key.startsWith("crsr_") ? " Not sent. No GitHub repo." : " Not sent. Put the Cursor key in CURSOR_API_KEY or ~/.relay/config.json.";
+  handoff = " Not sent. Put the Cursor key in CURSOR_API_KEY or ~/.relay/config.json.";
 }
-note({ action: "hold", pinned, sent, savedUsd: sent ? estimate(prompt) : 0 });
-const message = "Held for your Cursor subscription (" + pinned + ")." + handoff + " Write \"bill this model\" only if you mean to spend this tool.";
-if (tool === "cursor") {
-  process.stdout.write(JSON.stringify({ continue: false, user_message: message }));
-  process.exit(0);
-}
+const added = sent ? estimate(prompt) : 0;
+note({ action: "hold", pinned, sent, savedUsd: added });
+const saved = totals();
+const message = "Held for your Cursor subscription (" + pinned + ")." + handoff + " This prompt kept $" + added.toFixed(2) + " off Sonnet 5's list price. This week $" + saved.week.toFixed(2) + ". Since the router was installed $" + saved.all.toFixed(2) + ". Estimate, not a bill.";
+if (tool === "cursor") { process.stdout.write(JSON.stringify({ continue: false, user_message: message })); process.exit(0); }
 process.stderr.write(message + "\n");
 process.exit(2);
