@@ -13,7 +13,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from validate_packet import (  # noqa: E402
-    PACKET_SCHEMA, RECEIPT_SCHEMA, check_index, validate_packet, validate_receipt,
+    INDEX_SCHEMA, PACKET_SCHEMA, RECEIPT_SCHEMA, check_index, validate_packet,
+    validate_receipt, validate_schema_shape,
 )
 
 REAL_PACKET = ROOT / "packets" / "PKT-001.json"
@@ -138,6 +139,40 @@ class IndexTests(unittest.TestCase):
     def test_real_index_is_valid(self):
         report = check_index(REAL_INDEX)
         self.assertEqual(report["status"], "PASS", report)
+
+    def test_well_formed_index_passes_schema_shape(self):
+        index = json.loads(REAL_INDEX.read_text(encoding="utf-8"))
+        self.assertEqual(INDEX_SCHEMA["properties"]["schema"]["const"], "genesis.packet-index.v1")
+        self.assertEqual(validate_schema_shape(index, INDEX_SCHEMA), [])
+
+    def test_missing_required_key_is_schema_shape_error(self):
+        index = json.loads(REAL_INDEX.read_text(encoding="utf-8"))
+        del index["updatedAt"]
+        with tempfile.TemporaryDirectory() as tmp:
+            index_path = Path(tmp) / "INDEX.json"
+            index_path.write_text(json.dumps(index), encoding="utf-8")
+            report = check_index(index_path)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("schema shape:" in e and "updatedAt" in e for e in report["errors"]), report)
+
+    def test_packets_wrong_type_is_schema_shape_error_not_crash(self):
+        index = json.loads(REAL_INDEX.read_text(encoding="utf-8"))
+        index["packets"] = {"PKT-001": "not-an-array"}
+        with tempfile.TemporaryDirectory() as tmp:
+            index_path = Path(tmp) / "INDEX.json"
+            index_path.write_text(json.dumps(index), encoding="utf-8")
+            report = check_index(index_path)
+        self.assertEqual(report["status"], "FAIL")
+        joined = "\n".join(report["errors"])
+        self.assertIn("schema shape:", joined)
+        self.assertIn("packets", joined)
+        self.assertIn("array", joined)
+
+    def test_unknown_key_is_schema_shape_error(self):
+        index = json.loads(REAL_INDEX.read_text(encoding="utf-8"))
+        index["extra"] = True
+        errors = validate_schema_shape(index, INDEX_SCHEMA)
+        self.assertTrue(any("schema shape:" in e and "unknown key" in e and "extra" in e for e in errors), errors)
 
     def test_missing_on_disk_file(self):
         with tempfile.TemporaryDirectory() as tmp:

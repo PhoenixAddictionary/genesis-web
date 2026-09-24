@@ -26,8 +26,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PACKET_SCHEMA_PATH = ROOT / "packets" / "schemas" / "genesis.packet.v1.schema.json"
 RECEIPT_SCHEMA_PATH = ROOT / "receipts" / "schemas" / "genesis.receipt.v1.schema.json"
+INDEX_SCHEMA_PATH = ROOT / "packets" / "schemas" / "genesis.packet-index.v1.schema.json"
 PACKET_SCHEMA = json.loads(PACKET_SCHEMA_PATH.read_text(encoding="utf-8"))
 RECEIPT_SCHEMA = json.loads(RECEIPT_SCHEMA_PATH.read_text(encoding="utf-8"))
+INDEX_SCHEMA = json.loads(INDEX_SCHEMA_PATH.read_text(encoding="utf-8"))
 
 PACKET_ID = re.compile(PACKET_SCHEMA["properties"]["id"]["pattern"])
 PACKET_STATUSES = set(PACKET_SCHEMA["$defs"]["status"]["enum"])
@@ -177,15 +179,97 @@ def validate_file(path: Path) -> dict:
     return {"path": str(path), "status": "FAIL" if errors else "PASS", "errors": errors}
 
 
-def check_index(index_path: Path) -> dict:
+def _json_type(value) -> str:
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "boolean"
+    if isinstance(value, str):
+        return "string"
+    if isinstance(value, int):
+        return "integer"
+    if isinstance(value, float):
+        return "number"
+    if isinstance(value, list):
+        return "array"
+    if isinstance(value, dict):
+        return "object"
+    return type(value).__name__
+
+
+def _resolve_ref(schema: dict, root: dict) -> dict:
+    ref = schema.get("$ref")
+    if not isinstance(ref, str):
+        return schema
+    if not ref.startswith("#/"):
+        return schema
+    node: object = root
+    for part in ref[2:].split("/"):
+        if not isinstance(node, dict) or part not in node:
+            return schema
+        node = node[part]
+    return node if isinstance(node, dict) else schema
+
+
+def validate_schema_shape(instance, schema: dict, root: dict | None = None, where: str = "index") -> list[str]:
+    """Enforce the draft-2020-12 subset this repository's index schema uses.
+
+    Stdlib only. Covers type, const, enum, required, additionalProperties: false,
+    properties, items, $ref, pattern, format date-time, minLength, and minItems.
+    Every message starts with 'schema shape:' so a bad index is a schema error,
+    not a later KeyError.
+    """
+    if root is None:
+        root = schema
+    schema = _resolve_ref(schema, root)
     errors: list[str] = []
+    expected = schema.get("type")
+    if expected is not None:
+        allowed = expected if isinstance(expected, list) else [expected]
+        actual = _json_type(instance)
+        if actual not in allowed:
+            errors.append(f"schema shape: {where} must be {' or '.join(allowed)}, got {actual}")
+            return errors
+    if "const" in schema and instance != schema["const"]:
+        errors.append(f"schema shape: {where} must be {schema['const']!r}")
+    if "enum" in schema and instance not in schema["enum"]:
+        errors.append(f"schema shape: {where} {instance!r} is not one of {list(schema['enum'])}")
+    if schema.get("format") == "date-time" and isinstance(instance, str) and not _is_datetime(instance):
+        errors.append(f"schema shape: {where} must be an ISO 8601 date-time with offset")
+    pattern = schema.get("pattern")
+    if isinstance(pattern, str) and isinstance(instance, str) and re.fullmatch(pattern, instance) is None:
+        errors.append(f"schema shape: {where} must match {pattern}")
+    min_length = schema.get("minLength")
+    if isinstance(min_length, int) and isinstance(instance, str) and len(instance) < min_length:
+        errors.append(f"schema shape: {where} must have length >= {min_length}")
+    min_items = schema.get("minItems")
+    if isinstance(min_items, int) and isinstance(instance, list) and len(instance) < min_items:
+        errors.append(f"schema shape: {where} needs at least {min_items} item(s)")
+    if isinstance(instance, dict) and ("properties" in schema or "required" in schema or schema.get("additionalProperties") is False):
+        props = schema.get("properties", {})
+        for key in schema.get("required", []):
+            if key not in instance:
+                errors.append(f"schema shape: missing required key {key!r}")
+        if schema.get("additionalProperties") is False:
+            for key in sorted(set(instance) - set(props)):
+                errors.append(f"schema shape: unknown key {key!r}")
+        for key, sub in props.items():
+            if key in instance and isinstance(sub, dict):
+                errors.extend(validate_schema_shape(instance[key], sub, root, f"{where}.{key}"))
+    if isinstance(instance, list) and isinstance(schema.get("items"), dict):
+        for index, item in enumerate(instance):
+            errors.extend(validate_schema_shape(item, schema["items"], root, f"{where}[{index}]"))
+    return errors
+
+
+def check_index(index_path: Path) -> dict:
     try:
         index = json.loads(index_path.read_text(encoding="utf-8"))
     except (OSError, ValueError) as error:
         return {"path": str(index_path), "status": "FAIL", "errors": [f"unreadable: {error}"]}
+    errors: list[str] = validate_schema_shape(index, INDEX_SCHEMA)
     if not isinstance(index, dict) or not isinstance(index.get("packets"), list):
-        return {"path": str(index_path), "status": "FAIL",
-                "errors": ["index must be an object with a \"packets\" array"]}
+        return {"path": str(index_path), "status": "FAIL", "errors": errors}
 
     packets_dir = index_path.parent
     seen_ids: set[str] = set()

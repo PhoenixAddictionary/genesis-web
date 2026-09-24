@@ -1,0 +1,23 @@
+{
+  "schema": "genesis.receipt.v1",
+  "packetId": "PKT-001",
+  "branch": "grok/pkt-001-index-schema",
+  "headCommit": "a9ad393320d90b1e27c1253cfd85d1b93739c812",
+  "verifyCommand": [
+    "python",
+    "-m",
+    "pytest",
+    "tests/test_validate_packet.py",
+    "-v"
+  ],
+  "verifierOutput": "============================= test session starts ==============================\nplatform linux -- Python 3.10.21, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3\ncachedir: .pytest_cache\nrootdir: /tmp/genesis-web\ncollecting ... collected 21 items\n\ntests/test_validate_packet.py::PacketSchemaTests::test_bad_id_status_commit PASSED [  4%]\ntests/test_validate_packet.py::PacketSchemaTests::test_empty_required_arrays_rejected PASSED [  9%]\ntests/test_validate_packet.py::PacketSchemaTests::test_missing_and_unknown_keys PASSED [ 14%]\ntests/test_validate_packet.py::PacketSchemaTests::test_real_packet_is_valid PASSED [ 19%]\ntests/test_validate_packet.py::PacketSchemaTests::test_schema_shape PASSED [ 23%]\ntests/test_validate_packet.py::PacketSchemaTests::test_status_cross_field_rules PASSED [ 28%]\ntests/test_validate_packet.py::ReceiptSchemaTests::test_actor_must_be_guest_vendor_slash_handle PASSED [ 33%]\ntests/test_validate_packet.py::ReceiptSchemaTests::test_cross_check_against_packet PASSED [ 38%]\ntests/test_validate_packet.py::ReceiptSchemaTests::test_evidence_refs PASSED [ 42%]\ntests/test_validate_packet.py::ReceiptSchemaTests::test_good_receipt_is_valid PASSED [ 47%]\ntests/test_validate_packet.py::ReceiptSchemaTests::test_schema_shape PASSED [ 52%]\ntests/test_validate_packet.py::ReceiptSchemaTests::test_verifier_output_and_exit_code_types PASSED [ 57%]\ntests/test_validate_packet.py::IndexTests::test_hash_mismatch_and_status_mismatch PASSED [ 61%]\ntests/test_validate_packet.py::IndexTests::test_missing_on_disk_file PASSED [ 66%]\ntests/test_validate_packet.py::IndexTests::test_missing_required_key_is_schema_shape_error PASSED [ 71%]\ntests/test_validate_packet.py::IndexTests::test_orphan_packet_file_not_in_index PASSED [ 76%]\ntests/test_validate_packet.py::IndexTests::test_packets_wrong_type_is_schema_shape_error_not_crash PASSED [ 80%]\ntests/test_validate_packet.py::IndexTests::test_real_index_is_valid PASSED [ 85%]\ntests/test_validate_packet.py::IndexTests::test_unknown_key_is_schema_shape_error PASSED [ 90%]\ntests/test_validate_packet.py::IndexTests::test_well_formed_index_passes_schema_shape PASSED [ 95%]\ntests/test_validate_packet.py::CliTests::test_cli_exit_codes PASSED      [100%]\n\n============================== 21 passed in 0.14s ==============================\n",
+  "verifierExitCode": 0,
+  "actor": {
+    "type": "guest",
+    "id": "xai/grok"
+  },
+  "claims": [
+    "Also ran `python tools/validate_packet.py --check-index packets/INDEX.json` on this same tree before the receipt commit. It printed status PASS and exited 0. That command is a done criterion, not verifyCommand, so this sentence is a claim until a maintainer re-runs it."
+  ],
+  "submittedAt": "2026-09-23T22:41:28Z"
+}
