@@ -249,19 +249,67 @@ def citation_or_drop(hits: list[dict], psalm: int, verse: int) -> str:
     return "drop"
 
 
+_ENGLISH_DETECTOR = {
+    "Amen, and Amen": "double-amen",
+    "are ended": "are-ended",
+    '"Amen, and Amen"': "double-amen",
+    '"are ended"': "are-ended",
+    "single Amen": "single-amen",
+}
+
+
+def _citation_refs(hits: list[dict], detector: str, psalm: int | None = None) -> list[str]:
+    refs = []
+    for hit in hits:
+        require_verse(hit)
+        if hit["detector"] != detector:
+            continue
+        if psalm is not None and hit["psalm"] != psalm:
+            continue
+        ref = f"{hit['psalm']}:{hit['verse']}"
+        if ref not in refs:
+            refs.append(ref)
+    return refs
+
+
 def drops_for(hebrew_text: str, found: dict, control: dict) -> list[str]:
-    """Post-hoc. Does not create hits and does not tell search() where to look."""
+    """Post-hoc. Does not create hits and does not tell search() where to look.
+
+    A remembered English string is a drop only when no Hebrew hit shows that
+    formula. When the hits already cite it, the English words are not the
+    citation, and the line names those Hebrew verses. It does not say that
+    no Hebrew verse exists.
+    """
     lines = []
     for pattern in REMEMBERED_ENGLISH:
         if any(pattern in hit.get("pointed", "") for hit in found["hits"]):
             raise ValueError("English string promoted to a hit")
-        lines.append(f'drop: "{pattern}" — no Hebrew verse — not a hit')
+        refs = _citation_refs(found["hits"], _ENGLISH_DETECTOR[pattern])
+        if refs:
+            cited = ", ".join(refs)
+            lines.append(
+                f'"{pattern}": English words are not the citation. '
+                f"Hebrew citation is {cited}."
+            )
+        else:
+            lines.append(f'drop: "{pattern}" — no Hebrew verse — not a hit')
     if not isinstance(hebrew_text, str):
         raise ValueError("hebrew text missing")
     hit_addresses = {(hit["psalm"], hit["verse"]) for hit in found["hits"]}
     for row in control["controls"]:
         address = (row["psalm"], row["verse"])
-        if address not in hit_addresses:
+        if address in hit_addresses:
+            continue
+        refs = _citation_refs(
+            found["hits"], _ENGLISH_DETECTOR[row["label"]], psalm=row["psalm"]
+        )
+        if refs:
+            cited = ", ".join(refs)
+            lines.append(
+                f"drop: KJV control {row['psalm']}:{row['verse']} — "
+                f"Hebrew citation is {cited}"
+            )
+        else:
             lines.append(
                 f"drop: KJV control {row['psalm']}:{row['verse']} — not a Hebrew hit"
             )

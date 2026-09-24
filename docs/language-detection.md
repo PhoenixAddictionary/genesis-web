@@ -4,7 +4,7 @@ This note is what the play/002 search had to get right. The search runs on the H
 
 The search runs on Hebrew. `test_kjv_string_alone_is_not_a_hit` gives `search()` the English sentence "Amen, and Amen" and the vendored King James Psalter. Both return no hits. A KJV string alone is not a hit.
 
-A remembered pattern with no Hebrew verse is a drop. `test_remembered_pattern_with_no_hebrew_verse_is_a_drop` puts "Amen, and Amen" at King James 17:3 and "are ended" at 17:4. Hebrew psalm 17 has neither. The receipt drops both addresses and does not list them as hits.
+A remembered pattern with no Hebrew verse is a drop. `test_remembered_pattern_with_no_hebrew_verse_is_a_drop` puts "Amen, and Amen" at King James 17:3 and "are ended" at 17:4. Hebrew psalm 17 has neither, so those lines stay drops. On the vendored Psalter the same test refuses that sentence: the Hebrew hits already show both formulas, so the English words are not the citation and the line names those Hebrew verses. It does not say that no Hebrew verse exists.
 
 The stored seam after 150 is a drop. `test_hypothesis_psalm_without_a_hebrew_formula_is_a_drop` reads Psalm 150 in the vendored Westminster Leningrad Codex. Its last two verses do not contain the Amen word, and they do not contain both כלו and תפלות. The remembered seam after 150 stays a drop. It is not promoted to a hit.
 
@@ -14,7 +14,7 @@ Hebrew needs its own tokenizer. `test_hebrew_tokenizer_niqqud_cantillation_maqqe
 
 Pointing is reported, not interpreted. `test_hebrew_pointing_is_reported_not_interpreted` feeds אָ֘מֵ֥ן. The skeleton check drops the zarqa and the vowels so the consonants can be compared with אמן. The hit keeps that pointed token, zarqa and qamats included. The points are not assigned a meaning.
 
-An English address is not forced onto the Hebrew verse. `test_english_control_address_is_dropped_when_the_hebrew_verse_differs` reads both vendored files. This run drops King James 41:13 and 89:52, and cites Hebrew 41:14 and 89:53. The scan does not rewrite one number onto the other. Where the numbers already agree, as at 72:19 and 106:48, the Hebrew line is the hit and the English line stays labeled control.
+An English address is not forced onto the Hebrew verse. `test_english_control_address_is_dropped_when_the_hebrew_verse_differs` reads both vendored files. This run drops the English addresses 41:13 and 89:52 only, and says the Hebrew citation is 41:14 and 89:53. It does not write those addresses as if the pattern were missing. The scan does not rewrite one number onto the other. Where the numbers already agree, as at 72:19 and 106:48, the Hebrew line is the hit and the English line stays labeled control.
 
 A blessing in the middle is not a seam. `test_hebrew_mid_psalm_blessing_is_not_a_seam` finds ברוך יהוה outside the last two verses of its psalm in the vendored Hebrew, including 28:6. Those lines are not hits. `test_blessing_alone_is_not_a_seam` checks a lone ברוך, a terminal ברוך יהוה with no Amen, and the English words "Blessed be the LORD". None of those is a seam.
 

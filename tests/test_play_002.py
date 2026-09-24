@@ -129,6 +129,22 @@ def test_remembered_pattern_with_no_hebrew_verse_is_a_drop():
     assert 'drop: "are ended" — no Hebrew verse — not a hit' in drops
     assert "drop: KJV control 17:3 — not a Hebrew hit" in drops
     assert "drop: KJV control 17:4 — not a Hebrew hit" in drops
+    # The vendored Psalter already cites both formulas. Those English words
+    # are not a drop, and the line must not say that no Hebrew verse exists.
+    real = scan.format_receipt(WLC, KJV)
+    real_drops = section(real, "drops")
+    real_hits = scan.search(WLC)["hits"]
+    for pattern, detector in (
+        ("Amen, and Amen", "double-amen"),
+        ("are ended", "are-ended"),
+    ):
+        refs = scan._citation_refs(real_hits, detector)
+        assert refs
+        assert (
+            f'"{pattern}": English words are not the citation. '
+            f"Hebrew citation is {', '.join(refs)}."
+        ) in real_drops
+        assert f'drop: "{pattern}" — no Hebrew verse' not in real_drops
 
 
 def test_hebrew_longer_word_containing_amen_letters_is_not_a_hit():
@@ -207,8 +223,20 @@ def test_english_control_address_is_dropped_when_the_hebrew_verse_differs():
     for row in mismatches:
         address = f"{row['psalm']}:{row['verse']}"
         assert f"- {address} " not in search_section
-        assert f"drop: KJV control {address} — not a Hebrew hit" in drops
         assert row["role"] == "control"
+        refs = scan._citation_refs(found["hits"], scan._ENGLISH_DETECTOR[row["label"]], psalm=row["psalm"])
+        if refs:
+            assert (
+                f"drop: KJV control {address} — Hebrew citation is {', '.join(refs)}"
+            ) in drops
+            assert f"drop: KJV control {address} — not a Hebrew hit" not in drops
+            assert "no Hebrew verse" not in next(
+                line for line in drops.splitlines() if address in line and line.startswith("- drop: KJV")
+            )
+        else:
+            assert f"drop: KJV control {address} — not a Hebrew hit" in drops
+    assert "drop: KJV control 41:13 — Hebrew citation is 41:14" in drops
+    assert "drop: KJV control 89:52 — Hebrew citation is 89:53" in drops
     # The Hebrew citation keeps its own verse: same psalm, different verse, both visible.
     hebrew_amens = {(p, v) for p, v, _ in independent_amen(WLC)}
     english_amens = {
