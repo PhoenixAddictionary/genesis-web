@@ -38,36 +38,157 @@ function gateMessage(gate) {
 const tool = process.argv[2] || "claude";
 const raw = readFileSync(0, "utf8");
 let body = {};
-try { body = JSON.parse(raw || "{}"); } catch { body = { prompt: raw }; }
+try {
+  body = JSON.parse(raw || "{}");
+} catch {
+  body = { prompt: raw };
+}
 const prompt = String(body.prompt || body.user_prompt || body.text || "");
 const dir = join(homedir(), ".relay");
-function loadConfig() { try { return JSON.parse(readFileSync(join(dir, "config.json"), "utf8")); } catch { return {}; } }
-function note(entry) { try { mkdirSync(dir, { recursive: true }); appendFileSync(join(dir, "log.jsonl"), `${JSON.stringify({ t: new Date().toISOString(), tool, ...entry })}\n`); } catch { /* keep the block */ } }
-function estimate(text) { const inputTokens = Math.ceil(text.length / 4); return (inputTokens / 1_000_000) * 2 + (800 / 1_000_000) * 10; }
-function repoFromGit() { try { const url = execSync("git remote get-url origin", { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); const match = url.match(/github\.com[:/]([\w.-]+\/[\w.-]+?)(?:\.git)?$/); return match ? `https://github.com/${match[1]}` : ""; } catch { return ""; } }
-function poolWarning(config) { const cursorPool = Number(config.cursorPool); const otherPool = Number(config.otherPool); const parts = []; if (Number.isFinite(cursorPool) && cursorPool >= 80) parts.push(`Cursor Models is ${cursorPool}% used. At 100%, Composer draws the smaller pool.`); if (Number.isFinite(otherPool) && otherPool >= 90) parts.push(`Other Models is ${otherPool}% used.`); return parts.length ? ` ${parts.join(" ")}` : ""; }
-function totals() { const week = Date.now() - 7 * 24 * 60 * 60 * 1000; const sums = { week: 0, all: 0 }; try { for (const line of readFileSync(join(dir, "log.jsonl"), "utf8").split("\n")) { if (!line) continue; const row = JSON.parse(line); const amount = Number(row.savedUsd) || 0; if (amount <= 0) continue; sums.all += amount; if (Date.parse(row.t) >= week) sums.week += amount; } } catch { /* none yet */ } return sums; }
-function money(value) { return `$${value.toFixed(2)}`; }
-function allow(why) { note({ action: "allow", why }); process.exit(0); }
+
+function loadConfig() {
+  try {
+    return JSON.parse(readFileSync(join(dir, "config.json"), "utf8"));
+  } catch {
+    return {};
+  }
+}
+
+function note(entry) {
+  try {
+    mkdirSync(dir, { recursive: true });
+    appendFileSync(join(dir, "log.jsonl"), `${JSON.stringify({ t: new Date().toISOString(), tool, ...entry })}\n`);
+  } catch {
+    // A failed log must not turn a block into a spend.
+  }
+}
+
+function estimate(text) {
+  const inputTokens = Math.ceil(text.length / 4);
+  const outputTokens = 800;
+  return (inputTokens / 1_000_000) * 2 + (outputTokens / 1_000_000) * 10;
+}
+
+function repoFromGit() {
+  try {
+    const url = execSync("git remote get-url origin", { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    const match = url.match(/github\.com[:/]([\w.-]+\/[\w.-]+?)(?:\.git)?$/);
+    return match ? `https://github.com/${match[1]}` : "";
+  } catch {
+    return "";
+  }
+}
+
+function poolWarning(config) {
+  const cursorPool = Number(config.cursorPool);
+  const otherPool = Number(config.otherPool);
+  const parts = [];
+  if (Number.isFinite(cursorPool) && cursorPool >= 80) {
+    parts.push(`Cursor Models is ${cursorPool}% used. At 100%, Composer draws the smaller pool.`);
+  }
+  if (Number.isFinite(otherPool) && otherPool >= 90) {
+    parts.push(`Other Models is ${otherPool}% used.`);
+  }
+  return parts.length ? ` ${parts.join(" ")}` : "";
+}
+
+function totals() {
+  const week = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const sums = { week: 0, all: 0 };
+  try {
+    const lines = readFileSync(join(dir, "log.jsonl"), "utf8").split("\n");
+    for (const line of lines) {
+      if (!line) continue;
+      const row = JSON.parse(line);
+      const amount = Number(row.savedUsd) || 0;
+      if (amount <= 0) continue;
+      sums.all += amount;
+      if (Date.parse(row.t) >= week) sums.week += amount;
+    }
+  } catch {
+    // No log yet. The counter stays at zero.
+  }
+  return sums;
+}
+
+function money(value) {
+  return `$${value.toFixed(2)}`;
+}
+
+function allow(why) {
+  note({ action: "allow", why });
+  process.exit(0);
+}
+
 const config = loadConfig();
 if (!prompt.trim()) allow("empty");
+
 const gate = ownerGate(`${prompt}\n${String(body.model || body.model_id || "")}`);
-if (gate && !ownerAccepted(prompt, gate)) { note({ action: "hold", pinned: gate, sent: false, savedUsd: 0, why: "owner-gate" }); const message = gateMessage(gate); if (tool === "cursor") { process.stdout.write(JSON.stringify({ continue: false, user_message: message })); process.exit(0); } process.stderr.write(`${message}\n`); process.exit(2); }
+if (gate && !ownerAccepted(prompt, gate)) {
+  note({ action: "hold", pinned: gate, sent: false, savedUsd: 0, why: "owner-gate" });
+  const message = gateMessage(gate);
+  if (tool === "cursor") {
+    process.stdout.write(JSON.stringify({ continue: false, user_message: message }));
+    process.exit(0);
+  }
+  process.stderr.write(`${message}\n`);
+  process.exit(2);
+}
 if (gate) allow("owner-accepted");
+
 if (BILL.test(prompt)) allow("bill");
+
 const model = String(body.model || body.model_id || "");
-if (tool === "cursor" && model && INCLUDED.test(model) && !REFUSED.test(model)) allow("included");
+if (tool === "cursor") {
+  if (model && INCLUDED.test(model) && !REFUSED.test(model)) allow("included");
+}
+
 const pinned = JUDGMENT.test(prompt) ? "grok-4.7" : "composer-2.5";
 const key = process.env.CURSOR_API_KEY || String(config.cursorKey || "");
 const repo = process.env.RELAY_REPO || String(config.repo || "") || repoFromGit();
 const branch = process.env.RELAY_BRANCH || String(config.branch || "main");
 let handoff = "";
 let sent = false;
-if (key.startsWith("crsr_") && /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/.test(repo)) { try { const response = await fetch("https://api.cursor.com/v1/agents", { method: "POST", headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" }, body: JSON.stringify({ prompt: { text: prompt.slice(0, 12000) }, model: pinned.startsWith("composer") ? { id: pinned, params: [{ id: "fast", value: "false" }] } : { id: pinned }, repos: [{ url: repo.replace(/\/$/, ""), startingRef: branch }], autoCreatePR: false }) }); const data = await response.json().catch(() => ({})); sent = response.ok; handoff = response.ok ? ` Handed to ${pinned}. ${data.agent?.url || data.agent?.id || "Cursor accepted it."}` : ` Cursor did not take it (${response.status}).`; } catch { handoff = " Cursor could not be reached."; } } else { handoff = key.startsWith("crsr_") ? " Not sent. The repo in ~/.relay/config.json is missing or not a github.com URL." : repo ? " Not sent. The Cursor key is not in CURSOR_API_KEY or cursorKey." : " Not sent. Set repo and the Cursor key in ~/.relay/config.json."; }
+
+if (key.startsWith("crsr_") && /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/.test(repo)) {
+  try {
+    const response = await fetch("https://api.cursor.com/v1/agents", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: { text: prompt.slice(0, 12000) },
+        model: pinned.startsWith("composer")
+          ? { id: pinned, params: [{ id: "fast", value: "false" }] }
+          : { id: pinned },
+        repos: [{ url: repo.replace(/\/$/, ""), startingRef: branch }],
+        autoCreatePR: false,
+      }),
+    });
+    const data = await response.json().catch(() => ({}));
+    sent = response.ok;
+    handoff = response.ok
+      ? ` Handed to ${pinned}. ${data.agent?.url || data.agent?.id || "Cursor accepted it."}`
+      : ` Cursor did not take it (${response.status}).`;
+  } catch {
+    handoff = " Cursor could not be reached.";
+  }
+} else {
+  handoff = key.startsWith("crsr_")
+    ? " Not sent. The repo in ~/.relay/config.json is missing or not a github.com URL."
+    : repo
+      ? " Not sent. The Cursor key is not in CURSOR_API_KEY or cursorKey."
+      : " Not sent. Set repo and the Cursor key in ~/.relay/config.json.";
+}
+
 note({ action: "hold", pinned, sent, savedUsd: sent ? estimate(prompt) : 0 });
 const saved = totals();
 const added = sent ? estimate(prompt) : 0;
 const message = `Held for your Cursor subscription (${pinned}).${handoff} This prompt kept ${money(added)} off Sonnet 5's list price. This week ${money(saved.week)}. Since the router was installed ${money(saved.all)}. Estimate, not a bill.${poolWarning(config)} Write "bill this model" only if you mean to spend this tool.`;
-if (tool === "cursor") { process.stdout.write(JSON.stringify({ continue: false, user_message: message })); process.exit(0); }
+
+if (tool === "cursor") {
+  process.stdout.write(JSON.stringify({ continue: false, user_message: message }));
+  process.exit(0);
+}
+
 process.stderr.write(`${message}\n`);
 process.exit(2);

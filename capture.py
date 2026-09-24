@@ -790,8 +790,12 @@ def main():
         "getComputedStyle(document.getElementById('pl-ctls')).display") == "none")
     check("no-js: altitude frames exist as details",
           "zoom down — the surface" in html and "one event, in full" in html)
+    # The corner line is static HTML on purpose: with scripts off, window II
+    # never fills, so the terminal itself has to say what the engine is.
+    # CSS still positions .term-state; the phrase is the one this check names.
+    term_html = html.split('id="terminal"', 1)[-1].split("</section>", 1)[0]
     check("no-js: state honesty on terminal",
-          "engine v0 — retrieval only" in html and f"korpus {KORPUS_VERSION}" in html)
+          "engine v0 — retrieval only" in term_html and f"korpus {KORPUS_VERSION}" in term_html)
     check("no-js: thunderbolt readable", "Owners do." in html)
     check("no-js: canon line readable", "Minimal seeds. Maximum emergence." in html)
     tab.eval("document.documentElement.style.scrollBehavior='auto';"
