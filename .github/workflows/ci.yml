@@ -66,6 +66,23 @@ jobs:
           python tools/render_markdown_page.py
           git diff --exit-code -- plugin/ de/plugin/ hu/plugin/
 
+  play-002-psalter:
+    name: Play 002 Hebrew search writes the receipt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install test deps
+        run: pip install pytest
+      - name: Run the Psalter search tests
+        run: python -m pytest tests/test_play_002.py -v
+      - name: Fail if the committed page drifts from the receipt the function writes
+        run: |
+          python play/002/scan.py
+          git diff --exit-code -- play/002/index.html
+
   report-world-ring-staleness:
     name: Report THE WORLD ring's staleness vs. real history (informational, never fails)
     # NOT a pass/fail gate: main gains real commits/PRs/CI-ticks continuously, so a
