@@ -1,0 +1,63 @@
+{
+  "schema": "genesis.play.v0",
+  "id": "PLAY-001",
+  "claimClass": "OBSERVED_WITHIN_LIMITS",
+  "asOf": "2026-09-24T21:40:00Z",
+  "seed": "Suppose a greater intelligence already wrote the setup, and we try to follow it far enough to see whether a world, or a system, actually comes out.",
+  "thisIsNot": [
+    "a discovery",
+    "a proof or disproof of the Trinity",
+    "a collation of manuscripts by this sitting",
+    "an independent judge. The same sitting wrote the attempt and applied the rule"
+  ],
+  "text": {
+    "locus": "1 John 5:7",
+    "fixedAgainst": "printed Greek editions, not a private corpus"
+  },
+  "attempt": {
+    "who": "this sitting, playing the craft",
+    "claim": "The original Greek of 1 John 5:7 says that the Father, the Word, and the Holy Spirit are one witness in heaven.",
+    "wordsItTreatsAsTheText": "For there are three that bear record in heaven, the Father, the Word, and the Holy Ghost: and these three are one.",
+    "wordsSource": "King James Version, as displayed at https://biblehub.com/text/1_john/5-7.htm on 2026-09-24"
+  },
+  "rule": "If the attempt's words are not the line printed by the cited critical and majority editions, the leaf drops. The attempt does not get to repaint it.",
+  "verdict": "DROP",
+  "why": "On that page, Nestle 1904, Westcott and Hort 1881, the Westcott-Hort line marked with NA27 and UBS4 variants, and the Robinson-Pierpont Byzantine Majority Text 2005 all print only the short clause. The longer heavenly-witnesses clause is printed there by Stephanus 1550, Scrivener 1894, and the Greek Orthodox text. Those longer printings do not make the attempt true.",
+  "remains": {
+    "nestle1904": "ὅτι τρεῖς εἰσιν οἱ μαρτυροῦντες,",
+    "westcottHort1881": "ὅτι τρεῖς εἰσὶν οἱ μαρτυροῦντες,",
+    "rpByzantine2005": "Ὅτι τρεῖς εἰσὶν οἱ μαρτυροῦντες,"
+  },
+  "longerPrintingsNotPromoted": {
+    "stephanus1550": "ὅτι τρεῖς εἰσιν οἱ μαρτυροῦντες εν τῷ οὐρανῷ, ὁ πατήρ, ὁ λόγος, καὶ τὸ Ἅγιον Πνεῦμα· καὶ οὗτοι οἱ τρεῖς ἕν εἰσιν",
+    "scrivener1894": "ὅτι τρεῖς εἰσιν οἱ μαρτυροῦντες εν τῷ οὐρανῷ, ὁ πατήρ, ὁ λόγος, καὶ τὸ Ἅγιον Πνεῦμα· καὶ οὗτοι οἱ τρεῖς ἕν εἰσι.",
+    "greekOrthodoxAsDisplayed": "ὅτι τρεῖς εἰσιν οἱ μαρτυροῦντες ἐν τῷ οὐρανῷ, ὁ Πατὴρ, ὁ Λόγος καὶ τὸ ἅγιον Πνεῦμα, καὶ οὗτοι οἱ τρεῖς ἕν εἰσι."
+  },
+  "roots": [
+    {
+      "id": "biblehub-1john-5-7",
+      "seen": "2026-09-24",
+      "url": "https://biblehub.com/text/1_john/5-7.htm",
+      "holds": "The edition lines quoted above, as displayed that day."
+    },
+    {
+      "id": "bible-org-wallace-survey",
+      "seen": "2026-09-24",
+      "url": "https://bible.org/article/textual-problem-1-john-57-8",
+      "holds": "A secondary survey. It says there is no sure evidence of this reading in any Greek manuscript until the 1500s, that the longer reading is in eight late manuscripts (four of them marginal), that codex 221 (10th century) has it in a later marginal note, and that no Greek witness of any kind is cited before a 1215 Greek translation of the Latin Acts of the Lateran Council. It says Erasmus omitted the clause in 1516 because he had no Greek manuscript of it, and included it in 1522 after codex 61. This receipt does not use the article's guesses about his motives."
+    }
+  ],
+  "notSeen": [
+    "Codex Sinaiticus",
+    "Codex Vaticanus",
+    "codex 61",
+    "any Latin manuscript"
+  ],
+  "doesNotClaim": [
+    "that the doctrine of the Trinity is false",
+    "that no Latin witness carries these words",
+    "that the longer Greek printings do not exist",
+    "that this absence was found for the first time here",
+    "that a model held the whole book at once"
+  ]
+}
