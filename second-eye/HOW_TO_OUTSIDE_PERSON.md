@@ -49,8 +49,8 @@ Eine kurze Antwort an den **Owner-Posteingang** (Kanal unten):
 - Würden Sie **diese eine Aktion** auf dieser Quittung stützen? (**rely** / **not-rely**)
 - Was fehlt?
 
-**Owner inbox (Kanal — Owner füllt aus):** `[OWNER_INBOX_CHANNEL]`  
-Beispiel-Platzhalter: E-Mail / Signal / Thread — nur Owner setzt den echten Kanal.
+**Owner inbox (channel):** `memoria-recovery@agentmail.to`
+Shared AgentMail inbox (also Memoria Discord recovery). Subject line example: `Second Eye OBSERVED-001 rely/not-rely`.
 
 ---
 
