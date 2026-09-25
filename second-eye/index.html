@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Second Eye — synthetic receipt replay</title>
-  <meta name="description" content="A static, synthetic replay of bounded agent-action receipts. No people, credentials, access or payments.">
+  <title>Second Eye — attestation receipt verify</title>
+  <meta name="description" content="Verify one bounded agent-action attestation. Synthetic toy stays SIMULATED_NOT_OBSERVED; real receipts use OBSERVED.">
   <link rel="stylesheet" href="garden.css">
 </head>
 <body>
   <header class="masthead">
-    <a class="wordmark" href="#top" aria-label="Second Eye home">SECOND EYE <span>/ 001</span></a>
-    <p class="watermark">SIMULATED_NOT_OBSERVED</p>
+    <a class="wordmark" href="#top" aria-label="Second Eye home">SECOND EYE <span>/ G2</span></a>
+    <p class="watermark" id="claim-watermark">SIMULATED_NOT_OBSERVED</p>
   </header>
 
   <main id="top">
     <section class="hero" aria-labelledby="title">
-      <p class="eyebrow">An inert Genesis Institution Garden replay</p>
+      <p class="eyebrow">Trust Spine · compose, do not extend</p>
       <h1 id="title">Sell verifiable<br>statements, <em>never verdicts.</em></h1>
       <p class="lede">This receipt says what was observed. The company decides access outside the receipt.</p>
       <div class="boundary" role="note">
@@ -27,6 +27,14 @@
     </section>
 
     <section class="console" aria-labelledby="receipt-heading">
+      <div class="case-picker source-picker">
+        <label for="source-select">Source</label>
+        <select id="source-select" aria-label="Select receipt source">
+          <option value="synthetic">Synthetic toy (SIMULATED_NOT_OBSERVED)</option>
+          <option value="observed:OBSERVED-001">Observed dry-run OBSERVED-001</option>
+        </select>
+      </div>
+
       <nav class="modes" aria-label="Trace view">
         <button class="mode active" data-mode="ALL" aria-pressed="true">All trace</button>
         <button class="mode" data-mode="EVIDENCE" aria-pressed="false">Evidence</button>
@@ -36,8 +44,8 @@
       </nav>
 
       <div class="case-picker">
-        <label for="case-select">Synthetic replay</label>
-        <select id="case-select" aria-label="Select synthetic replay"></select>
+        <label for="case-select">Case</label>
+        <select id="case-select" aria-label="Select case"></select>
       </div>
 
       <article class="receipt" aria-labelledby="receipt-heading">
@@ -48,6 +56,7 @@
           </div>
           <p id="result" class="result">UNKNOWN</p>
         </div>
+        <p class="claim-line">claimClass · <strong id="claim-class">UNKNOWN</strong></p>
         <dl class="receipt-grid">
           <div><dt>Who</dt><dd id="who">Unknown</dd></div>
           <div><dt>Authorized to</dt><dd id="delegation">Unknown</dd></div>
@@ -57,8 +66,23 @@
           <div><dt>Verified by + independence</dt><dd id="verified">Unknown</dd></div>
           <div class="decision"><dt>Decided by outside receipt</dt><dd id="decided">Unknown — no access decision lives in this receipt.</dd></div>
         </dl>
+
+        <section class="digest-panel" aria-labelledby="digest-title">
+          <h3 id="digest-title">Digest check</h3>
+          <dl class="digest-grid">
+            <div><dt>inputDigest</dt><dd id="input-digest" class="mono">—</dd></div>
+            <div><dt>outputDigest</dt><dd id="output-digest" class="mono">—</dd></div>
+            <div><dt>local evidence match</dt><dd id="digest-match">n/a for synthetic toy</dd></div>
+          </dl>
+        </section>
+
+        <section class="limits-panel" aria-labelledby="limits-title">
+          <h3 id="limits-title">Limitations (always visible)</h3>
+          <ul id="limitation-list" class="limitation-list"></ul>
+        </section>
+
         <p class="does-not-claim"><strong>Does not claim</strong> general quality · general safety · legitimacy · company authorization · recognized certification</p>
-        <noscript><p class="no-script">Interactive replay unavailable because JavaScript is off. The boundary above remains valid; no result, activity or authority is inferred. Open <code>replay.v1.json</code> to inspect the synthetic source directly.</p></noscript>
+        <noscript><p class="no-script">Interactive verify unavailable because JavaScript is off. Open <code>replay.v1.json</code> or <code>observed/OBSERVED-001/bundle.json</code> directly.</p></noscript>
       </article>
 
       <section class="ledger" aria-labelledby="ledger-title">
@@ -77,17 +101,15 @@
       <div class="state-row"><span>Institution seed</span><strong id="seed-state">CANDIDATE_ONLY</strong></div>
     </section>
 
-    <section class="port" aria-labelledby="port-title">
-      <p class="eyebrow">Future direction — not implemented</p>
-      <h2 id="port-title">Agent Port</h2>
-      <p>Versioned identity, delegated scope, content-addressed artifacts and receipt transport—so agents can feel present without humans shuttling files. Unknown, offline and last-evidence-at stay visible. No runtime or fake live presence exists here.</p>
-      <p><strong>Human attention is reserved for judgment, not transport.</strong> Files remain inspectable evidence, not the user's coordination workflow. Refusal, failure, expiry, revoked tools and awaiting-human-decision must remain as visible as success.</p>
-      <p class="rpg">Quest = proof request · Party = temporary crew · Character sheet = evidence-bound capability · Inventory = scoped tools · Skill tree = decaying, contestable evidence</p>
+    <section class="howto" aria-labelledby="howto-title">
+      <p class="eyebrow">Outside person</p>
+      <h2 id="howto-title">One receipt, five steps</h2>
+      <p>Short how-to: <a href="HOW_TO_OUTSIDE_PERSON.md">HOW_TO_OUTSIDE_PERSON.md</a>. Operator composes; you keep digests and the rely/not-rely answer.</p>
     </section>
   </main>
 
   <footer>
-    <p>Static local candidate · no telemetry · no visitor data · no real agents · no credentials · no access · no payment</p>
+    <p>Static local candidate · no telemetry · no visitor data · Chair A claimClass unlock (OBSERVED | SIMULATED_NOT_OBSERVED) · no access grant from Second Eye</p>
   </footer>
   <script src="garden.js" defer></script>
 </body>

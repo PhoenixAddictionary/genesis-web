@@ -1,0 +1,22 @@
+{
+  "schema": "genesis.second-eye-claim-class.v1",
+  "title": "Second Eye claimClass enumeration",
+  "chairDecision": "A",
+  "decidedAt": "2026-09-26T00:45:00+02:00",
+  "decidedBy": "Owner/Chair (overnight unlock \u2014 full G2 build)",
+  "rationale": "Frozen G2 acceptance requires one OBSERVED receipt while the live synthetic fixture remains SIMULATED_NOT_OBSERVED. Prior schema/docs only exercised the simulated class. Chair A authorizes a controlled enum expansion; no other fields change.",
+  "enum": [
+    "SIMULATED_NOT_OBSERVED",
+    "OBSERVED"
+  ],
+  "meanings": {
+    "SIMULATED_NOT_OBSERVED": "Synthetic toy / replay only. No real agent action was observed.",
+    "OBSERVED": "One real, bounded agent action was observed under stated conditions. Still not certification, access, or general quality."
+  },
+  "nonGoals": [
+    "No new product surface",
+    "No access-token grant semantics",
+    "No extension of result.verdict cardinality",
+    "Compose with existing genesis.proof-request.v1 / genesis.agent-attestation.v1 shapes"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "genesis.proof-request.v1",
+  "requestId": "PRQ-OBSERVED-001",
+  "claimClass": "OBSERVED",
+  "requester": {
+    "id": "PERSONA-OUTSIDE-DRY-RUN-001",
+    "role": "OUTSIDE_PERSON",
+    "credentialRef": "outside:dry-run:persona-001",
+    "dataDisclosure": "Opaque outside-person reference only; no secrets."
+  },
+  "relyingParty": {
+    "id": "ORG-OUTSIDE-RELYING-PARTY-DRY-RUN",
+    "role": "COMPANY_RELYING_PARTY",
+    "credentialRef": "outside:dry-run:relying-party",
+    "dataDisclosure": "Opaque relying-party reference only."
+  },
+  "delegation": {
+    "credentialId": "DELEG-OUTSIDE-001",
+    "authorizedBy": "PERSONA-OUTSIDE-DRY-RUN-001",
+    "delegateAgentId": "agent:outside.dry-run.brief.01",
+    "scope": [
+      "read:evidence/input_task.txt",
+      "write:evidence/output_brief.txt"
+    ],
+    "notBefore": "2026-09-26T00:35:00Z",
+    "expiresAt": "2026-09-26T01:00:00Z",
+    "budget": {
+      "maxToolCalls": 4,
+      "maxDurationSeconds": 120,
+      "maxExternalSpend": 0
+    },
+    "revocation": {
+      "status": "ACTIVE",
+      "statusRef": "outside:delegation-status:observed-001"
+    },
+    "continuity": {
+      "keyRotationAllowed": false,
+      "predecessorKeyRef": null,
+      "continuityProofState": "NOT_REQUIRED"
+    }
+  },
+  "requestedProof": {
+    "task": "Summarize Second Eye non-claims in exactly 5 bullet lines for a relying party.",
+    "capabilityClaim": "This exact agent instance can produce a hash-bound 5-line non-claim brief under the declared delegation.",
+    "environment": "local-dry-run-sandbox-no-network-v1",
+    "successCriteria": [
+      "Output has exactly 5 lines.",
+      "Each line starts with '- '.",
+      "No secrets are present.",
+      "Input and output digests match the supplied artifacts."
+    ],
+    "failureCriteria": [
+      "Network was used.",
+      "Secrets were read.",
+      "Digests do not match supplied artifacts.",
+      "Delegation scope or time window exceeded."
+    ],
+    "evidenceRequirements": [
+      "input digest",
+      "output digest",
+      "tool trace digest"
+    ],
+    "receiptExpiry": "2026-09-27T00:00:00Z",
+    "generalizationProhibited": true
+  },
+  "authority": {
+    "companyRetainsToolAuthorization": true,
+    "genesisRole": "NONE",
+    "accessGrant": "DISABLED",
+    "certification": "NOT_A_CAPABILITY",
+    "realWorldAction": "NONE"
+  }
+}

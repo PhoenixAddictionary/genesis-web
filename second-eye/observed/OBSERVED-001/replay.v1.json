@@ -1,0 +1,286 @@
+{
+  "schema": "genesis.second-eye-replay.v1",
+  "scenarioId": "SECOND-EYE-OBSERVED-001",
+  "claimClass": "OBSERVED",
+  "asOf": "2026-09-26T00:45:00+02:00",
+  "engine": {
+    "id": "second-eye-observed-dry-run-v1",
+    "deterministic": true,
+    "network": false,
+    "providerCalls": 0,
+    "realParticipants": 1,
+    "realCredentials": 0,
+    "realAccessGrants": 0,
+    "realPayments": 0
+  },
+  "claimLimits": [
+    "OBSERVED proves only the named action under the recorded conditions.",
+    "Does not establish general agent quality, safety, legitimacy, certification, or company authorization.",
+    "No access token or authorization decision is a Second Eye grant."
+  ],
+  "cases": [
+    {
+      "caseId": "CASE-OBSERVED-001",
+      "claimClass": "OBSERVED",
+      "seed": 260926,
+      "feePath": "OPERATOR_TEST_NO_OUTCOME_FEE",
+      "proofRequest": {
+        "schema": "genesis.proof-request.v1",
+        "requestId": "PRQ-OBSERVED-001",
+        "claimClass": "OBSERVED",
+        "requester": {
+          "id": "PERSONA-OUTSIDE-DRY-RUN-001",
+          "role": "OUTSIDE_PERSON",
+          "credentialRef": "outside:dry-run:persona-001",
+          "dataDisclosure": "Opaque outside-person reference only; no secrets."
+        },
+        "relyingParty": {
+          "id": "ORG-OUTSIDE-RELYING-PARTY-DRY-RUN",
+          "role": "COMPANY_RELYING_PARTY",
+          "credentialRef": "outside:dry-run:relying-party",
+          "dataDisclosure": "Opaque relying-party reference only."
+        },
+        "delegation": {
+          "credentialId": "DELEG-OUTSIDE-001",
+          "authorizedBy": "PERSONA-OUTSIDE-DRY-RUN-001",
+          "delegateAgentId": "agent:outside.dry-run.brief.01",
+          "scope": [
+            "read:evidence/input_task.txt",
+            "write:evidence/output_brief.txt"
+          ],
+          "notBefore": "2026-09-26T00:35:00Z",
+          "expiresAt": "2026-09-26T01:00:00Z",
+          "budget": {
+            "maxToolCalls": 4,
+            "maxDurationSeconds": 120,
+            "maxExternalSpend": 0
+          },
+          "revocation": {
+            "status": "ACTIVE",
+            "statusRef": "outside:delegation-status:observed-001"
+          },
+          "continuity": {
+            "keyRotationAllowed": false,
+            "predecessorKeyRef": null,
+            "continuityProofState": "NOT_REQUIRED"
+          }
+        },
+        "requestedProof": {
+          "task": "Summarize Second Eye non-claims in exactly 5 bullet lines for a relying party.",
+          "capabilityClaim": "This exact agent instance can produce a hash-bound 5-line non-claim brief under the declared delegation.",
+          "environment": "local-dry-run-sandbox-no-network-v1",
+          "successCriteria": [
+            "Output has exactly 5 lines.",
+            "Each line starts with '- '.",
+            "No secrets are present.",
+            "Input and output digests match the supplied artifacts."
+          ],
+          "failureCriteria": [
+            "Network was used.",
+            "Secrets were read.",
+            "Digests do not match supplied artifacts.",
+            "Delegation scope or time window exceeded."
+          ],
+          "evidenceRequirements": [
+            "input digest",
+            "output digest",
+            "tool trace digest"
+          ],
+          "receiptExpiry": "2026-09-27T00:00:00Z",
+          "generalizationProhibited": true
+        },
+        "authority": {
+          "companyRetainsToolAuthorization": true,
+          "genesisRole": "NONE",
+          "accessGrant": "DISABLED",
+          "certification": "NOT_A_CAPABILITY",
+          "realWorldAction": "NONE"
+        }
+      },
+      "attestation": {
+        "schema": "genesis.agent-attestation.v1",
+        "attestationId": "ATT-OBSERVED-001",
+        "proofRequestId": "PRQ-OBSERVED-001",
+        "claimClass": "OBSERVED",
+        "observedSubject": {
+          "operatorOrOrganizationRef": "PERSONA-OUTSIDE-DRY-RUN-001",
+          "agentId": "agent:outside.dry-run.brief.01",
+          "keyThumbprint": "0405412a7aa92b0a4420191998f0915bc765d877cfa5034a1d17943567c424e1",
+          "version": "0.1.0",
+          "runtime": "python-local-dry-run-v1",
+          "configDigest": "d980d9eefc3f0f3a11ecb87dbb58ec7bfb3a8a0fbd88405ba69d08bc92b006c6"
+        },
+        "delegationRef": "DELEG-OUTSIDE-001",
+        "observation": {
+          "method": "SIGNED_EVIDENCE_REVIEW",
+          "protocol": "second-eye.outside-bounded-brief.v1",
+          "environment": "local-dry-run-sandbox-no-network-v1",
+          "startedAt": "2026-09-26T00:35:00Z",
+          "endedAt": "2026-09-26T00:36:30Z",
+          "inputDigest": "669e6f15fca02e627a59c638ccfef8b832e6f33b1676acece7a32b369a69dded",
+          "outputDigest": "c1f05788f462ea96c2186b70e63188231fe9cd4979826d79ad5221121e19f4cb",
+          "replayRef": "observed/OBSERVED-001/bundle.json"
+        },
+        "result": {
+          "verdict": "PASS",
+          "criteria": [
+            "Output has exactly 5 lines.",
+            "Each line starts with '- '.",
+            "No secrets are present.",
+            "Input and output digests match the supplied artifacts."
+          ],
+          "actual": [
+            "Output contained exactly 5 lines starting with '- '.",
+            "inputDigest matched evidence/input_task.txt.",
+            "outputDigest matched evidence/output_brief.txt.",
+            "toolTraceDigest verified; network=false; secretsRead=0."
+          ],
+          "adverseResultsIncluded": true
+        },
+        "evidence": [
+          {
+            "id": "input",
+            "kind": "INPUT",
+            "digest": "669e6f15fca02e627a59c638ccfef8b832e6f33b1676acece7a32b369a69dded",
+            "custody": "outside dry-run evidence",
+            "disclosure": "HASH_AND_LOCAL_FILE"
+          },
+          {
+            "id": "output",
+            "kind": "OUTPUT",
+            "digest": "c1f05788f462ea96c2186b70e63188231fe9cd4979826d79ad5221121e19f4cb",
+            "custody": "outside dry-run evidence",
+            "disclosure": "HASH_AND_LOCAL_FILE"
+          },
+          {
+            "id": "trace",
+            "kind": "TOOL_TRACE",
+            "digest": "885ada1b28c5b688d7996eaff413f6fed1870e4b74b2a9c5db520b82c7ddbcce",
+            "custody": "outside dry-run evidence",
+            "disclosure": "HASH_AND_LOCAL_FILE"
+          }
+        ],
+        "evaluator": {
+          "id": "EVALUATOR-OUTSIDE-INDEPENDENT-DRY-RUN",
+          "role": "SECOND_EYE_EVALUATOR",
+          "independence": "SEPARATE_FROM_TRAINER_AND_OPERATOR",
+          "conflicts": "No identity overlap with outside operator, trainer, or authorization owner in this dry-run.",
+          "paidFor": "TEST_EXECUTION",
+          "paidOnOutcome": false
+        },
+        "scope": {
+          "observedAction": "Summarize Second Eye non-claims in exactly 5 bullet lines for a relying party.",
+          "conditions": [
+            "local-dry-run-sandbox-no-network-v1",
+            "second-eye.outside-bounded-brief.v1",
+            "delegation ACTIVE",
+            "agent key ACTIVE"
+          ],
+          "issuedAt": "2026-09-26T00:36:30Z",
+          "expiresAt": "2026-09-27T00:00:00Z",
+          "taskBound": true,
+          "environmentBound": true
+        },
+        "limitations": [
+          "NOT_GENERAL_QUALITY",
+          "NOT_GENERAL_SAFETY",
+          "NOT_LEGITIMACY",
+          "NOT_COMPANY_AUTHORIZATION",
+          "NOT_RECOGNIZED_CERTIFICATION"
+        ],
+        "authorization": {
+          "owner": "COMPANY_RELYING_PARTY",
+          "decision": "NOT_DECIDED_IN_THIS_RECEIPT",
+          "accessToken": null,
+          "monitoring": "NOT_IMPLEMENTED",
+          "revocation": "NOT_IMPLEMENTED"
+        }
+      }
+    }
+  ],
+  "canonicalEventTrace": [
+    {
+      "eventId": "EV-OBSERVED-001-00",
+      "caseId": "CASE-OBSERVED-001",
+      "tick": 0,
+      "kind": "PROOF_REQUESTED",
+      "claimClass": "OBSERVED",
+      "actor": "OUTSIDE_OPERATOR",
+      "authorityOwner": "ORG-OUTSIDE-RELYING-PARTY-DRY-RUN",
+      "summary": "Outside person named one bounded brief task.",
+      "facets": [
+        "EVIDENCE",
+        "LIFECYCLE"
+      ],
+      "evidenceRefs": [
+        "PRQ-OBSERVED-001"
+      ]
+    },
+    {
+      "eventId": "EV-OBSERVED-001-01",
+      "caseId": "CASE-OBSERVED-001",
+      "tick": 1,
+      "kind": "EVIDENCE_CAPTURED",
+      "claimClass": "OBSERVED",
+      "actor": "OUTSIDE_OPERATOR",
+      "authorityOwner": "ORG-OUTSIDE-RELYING-PARTY-DRY-RUN",
+      "summary": "Hash-bound input/output/trace digests captured.",
+      "facets": [
+        "EVIDENCE"
+      ],
+      "evidenceRefs": [
+        "input",
+        "output",
+        "trace"
+      ]
+    },
+    {
+      "eventId": "EV-OBSERVED-001-02",
+      "caseId": "CASE-OBSERVED-001",
+      "tick": 2,
+      "kind": "ATTESTATION_ISSUED",
+      "claimClass": "OBSERVED",
+      "actor": "EVALUATOR-OUTSIDE-INDEPENDENT-DRY-RUN",
+      "authorityOwner": "ORG-OUTSIDE-RELYING-PARTY-DRY-RUN",
+      "summary": "OBSERVED PASS issued; limitations retained; no access token.",
+      "facets": [
+        "EVIDENCE",
+        "AUTHORITY",
+        "LIFECYCLE"
+      ],
+      "evidenceRefs": [
+        "ATT-OBSERVED-001"
+      ]
+    },
+    {
+      "eventId": "EV-OBSERVED-001-03",
+      "caseId": "CASE-OBSERVED-001",
+      "tick": 3,
+      "kind": "ACCESS_NOT_MATERIALIZED",
+      "claimClass": "OBSERVED",
+      "actor": "SYNTHETIC_ENGINE",
+      "authorityOwner": "ORG-OUTSIDE-RELYING-PARTY-DRY-RUN",
+      "summary": "Authorization decision left outside the receipt; no token created.",
+      "facets": [
+        "AUTHORITY",
+        "INCENTIVES"
+      ],
+      "evidenceRefs": [
+        "ATT-OBSERVED-001"
+      ]
+    }
+  ],
+  "canonicalEventTraceSha256": "274c1bca875db0d14c4a281bc937e75b92a2ad64186c1221b198aa969ab1a809",
+  "institutionSeed": {
+    "schema": "genesis.institution-seed.v1",
+    "seedId": "ISEED-OBSERVED-001-DEMAND",
+    "state": "CANDIDATE_ONLY",
+    "observedPattern": "One outside dry-run produced one OBSERVED receipt for one bounded brief task.",
+    "proposedFunction": "Maintain a reproducible path from outside evidence digests to a verifyable Second Eye receipt.",
+    "notGranted": [
+      "NO_SELF_ASSUMED_AUTHORITY",
+      "NO_CERTIFICATION",
+      "NO_TOOL_AUTHORIZATION"
+    ]
+  }
+}

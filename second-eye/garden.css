@@ -100,3 +100,16 @@ footer { padding: 2rem 0 4rem; border-top: 1px solid var(--line); color: var(--m
   .trace .summary { font-size: 8pt; }
   .emergence { padding: 8mm 0 0; break-before: auto; }
 }
+
+.claim-line { margin: 0.75rem 0 1rem; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; }
+.claim-line strong { color: var(--acid); }
+.digest-panel, .limits-panel, .howto { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.digest-panel h3, .limits-panel h3 { margin: 0 0 0.75rem; font: 650 0.8rem/1.2 var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.digest-grid { display: grid; gap: 0.75rem; margin: 0; }
+.digest-grid dt { color: var(--muted); font-size: 0.72rem; }
+.digest-grid dd { margin: 0.2rem 0 0; overflow-wrap: anywhere; }
+.limitation-list { margin: 0; padding-left: 1.1rem; color: var(--amber); }
+.limitation-list li { margin: 0.25rem 0; }
+.source-picker { margin-bottom: 1.25rem; }
+.howto { padding: 2rem 0 3rem; }
+.howto a { color: var(--acid); }
