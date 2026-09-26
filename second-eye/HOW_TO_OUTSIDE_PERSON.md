@@ -5,19 +5,22 @@ Kein Konto, keine Zertifizierung, kein Zugang (`no grant`).
 
 Chair A: `claimClass` ist `OBSERVED` **oder** `SIMULATED_NOT_OBSERVED`. Das Spielzeug (synthetic) bleibt simuliert.
 
+**Live basis (2026-09-26):** `https://openpassage.org/second-eye/` (prod; tip `1a9d533`).  
+Owner-Inbox für Schritt 5: `memoria-recovery@agentmail.to`
+
 ---
 
 ## Fünf Schritte (frozen)
 
 ### 1. Synthetisches Spielzeug öffnen
-URL: **`/second-eye/`**  
+URL: **`https://openpassage.org/second-eye/`**  
 (ohne Query = synthetic)
 
 **Prüfen:** Wasserzeichen / watermark oben = **`SIMULATED_NOT_OBSERVED`**.  
 claimClass-Zeile gleich. Digest-Match darf „n/a for synthetic toy“ sagen.
 
 ### 2. Beobachtete Quittung öffnen
-URL: **`/second-eye/?source=observed&id=OBSERVED-001`**
+URL: **`https://openpassage.org/second-eye/?source=observed&id=OBSERVED-001`**
 
 **Prüfen:** Wasserzeichen = **`OBSERVED`**.  
 Nicht mit Schritt 1 verwechseln.
@@ -49,8 +52,22 @@ Eine kurze Antwort an den **Owner-Posteingang** (Kanal unten):
 - Würden Sie **diese eine Aktion** auf dieser Quittung stützen? (**rely** / **not-rely**)
 - Was fehlt?
 
-**Owner inbox (channel):** `memoria-recovery@agentmail.to`
+**Owner inbox (channel):** `memoria-recovery@agentmail.to`  
 Shared AgentMail inbox (also Memoria Discord recovery). Subject line example: `Second Eye OBSERVED-001 rely/not-rely`.
+
+---
+
+## Outside-human checklist (Akzeptanz 4–5) — Owner forwards; Chair does not send
+
+Copy/paste for the named outside person (Owner sends G1/G2 outreach — **not** Chair):
+
+- [ ] Open synthetic URL → watermark `SIMULATED_NOT_OBSERVED`
+- [ ] Open OBSERVED-001 URL → watermark `OBSERVED`
+- [ ] Digests match the two hashes above (or evidence match confirms)
+- [ ] All five Limitations visible; Access token none / no grant
+- [ ] Reply rely / not-rely + one missing-thing sentence to `memoria-recovery@agentmail.to`
+
+Done when Owner has **at least one** rely/not-rely reply for OBSERVED-001.
 
 ---
 
@@ -59,9 +76,14 @@ Shared AgentMail inbox (also Memoria Discord recovery). Subject line example: `S
 - Keine Secrets, keine PRS-/Kundeninhalte in der Antwort.
 - Operator-Compose (neue Quittung erzeugen) ist **nicht** Aufgabe der Außenperson.
 - Kein Konto anlegen, kein Token als Zugang behandeln.
+- Chair / agents do **not** email outside humans.
 
-## Staging-Hinweis
+## Staging / local fallback
 
-Wenn die Seite noch nicht live ist: Owner gibt die Staging-Basis-URL; hängen Sie die Pfade aus Schritt 1–2 daran, z. B.  
-`https://<staging-host>/second-eye/` und  
-`https://<staging-host>/second-eye/?source=observed&id=OBSERVED-001`.
+Prod is live. If prod is down, Owner may give a staging base or run local:
+
+```
+cd second-eye && python -m http.server 8765
+# http://127.0.0.1:8765/
+# http://127.0.0.1:8765/?source=observed&id=OBSERVED-001
+```
