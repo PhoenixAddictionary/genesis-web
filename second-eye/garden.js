@@ -1,12 +1,27 @@
 "use strict";
 
-const state = { replay: null, caseIndex: 0, mode: "ALL", source: "synthetic", observedMeta: null };
+const state = { replay: null, caseIndex: 0, mode: "ALL", source: "observed:OBSERVED-001", observedMeta: null };
 const $ = (id) => document.getElementById(id);
 
 function text(id, value) { const el = $(id); if (el) el.textContent = value ?? "Unknown"; }
 
 function claimClassOf(run, replay) {
   return run?.claimClass || run?.attestation?.claimClass || replay?.claimClass || "UNKNOWN";
+}
+
+function setWatermarkClass(cc) {
+  const el = $("claim-watermark");
+  if (!el) return;
+  el.classList.toggle("watermark-observed", cc === "OBSERVED");
+  el.classList.toggle("watermark-simulated", cc === "SIMULATED_NOT_OBSERVED");
+  el.classList.toggle("watermark-unknown", cc === "UNKNOWN" || !cc);
+}
+
+function setResultClass(verdict) {
+  const el = $("result");
+  if (!el) return;
+  el.classList.toggle("result-pass", verdict === "PASS");
+  el.classList.toggle("result-fail", /FAIL|BLOCK|REFUSE|REVOKE/i.test(String(verdict || "")));
 }
 
 function renderLimitations(run) {
@@ -46,8 +61,10 @@ function renderReceipt(run) {
   const cc = claimClassOf(run, state.replay);
   text("receipt-heading", receipt.attestationId);
   text("result", receipt.result.verdict);
+  setResultClass(receipt.result.verdict);
   text("claim-class", cc);
   text("claim-watermark", cc);
+  setWatermarkClass(cc);
   text("who", `${receipt.observedSubject.agentId} · ${receipt.observedSubject.version} · ${receipt.observedSubject.runtime}`);
   text("delegation", `${request.delegation.scope.join(" · ")} until ${request.delegation.expiresAt}`);
   text("asked", request.requestedProof.task);
@@ -55,7 +72,7 @@ function renderReceipt(run) {
   text("result-detail", `${receipt.result.actual.join(" ")} Unknown beyond this task, environment, version and time window.`);
   text("verified", `${receipt.evaluator.id} · ${receipt.evaluator.independence} · outcome fee: ${receipt.evaluator.paidOnOutcome ? "yes" : "no"}`);
   const token = receipt.authorization?.accessToken;
-  text("decided", `${receipt.authorization.owner}: ${receipt.authorization.decision}. Access token: ${token ? "PRESENT (invalid for Second Eye grant)" : "none"}. No Second Eye access grant.`);
+  text("decided", `${receipt.authorization.owner}: ${receipt.authorization.decision}. Access token: ${token ? "PRESENT (invalid for Second Eye grant)" : "none"}. No Second Eye access grant. Rely or not is decided outside this receipt.`);
   renderLimitations(run);
   renderDigests(run);
 }
@@ -144,15 +161,33 @@ function loadObserved(id) {
   });
 }
 
+function syncUrl(value) {
+  const url = new URL(location.href);
+  if (value.startsWith("observed:")) {
+    url.searchParams.set("source", "observed");
+    url.searchParams.set("id", value.split(":")[1]);
+  } else {
+    url.searchParams.delete("source");
+    url.searchParams.delete("id");
+    url.searchParams.set("demo", "synthetic");
+  }
+  history.replaceState({}, "", url);
+}
+
 function applySource(value) {
+  const select = $("source-select");
+  if (select && select.value !== value) select.value = value;
+  syncUrl(value);
   const loader = value.startsWith("observed:")
     ? loadObserved(value.split(":")[1])
     : loadSynthetic();
   return loader.catch((error) => {
     text("receipt-heading", "Replay unavailable");
     text("result", "UNKNOWN");
+    setResultClass("UNKNOWN");
     text("claim-class", "UNKNOWN");
     text("claim-watermark", "UNKNOWN");
+    setWatermarkClass("UNKNOWN");
     text("result-detail", `${error.message}. No result, authority or activity is inferred.`);
   });
 }
@@ -162,24 +197,24 @@ function boot() {
   const params = new URLSearchParams(location.search);
   const sourceParam = params.get("source");
   const idParam = params.get("id") || "OBSERVED-001";
+  const demoParam = params.get("demo");
   const select = $("source-select");
-  let initial = "synthetic";
-  if (sourceParam === "observed") initial = `observed:${idParam}`;
+  // Default = OBSERVED-001 (try-one hero). Synthetic only if explicitly requested.
+  let initial = `observed:${idParam}`;
+  if (sourceParam === "synthetic" || demoParam === "synthetic") initial = "synthetic";
+  else if (sourceParam === "observed") initial = `observed:${idParam}`;
+  else if (!sourceParam && !demoParam) initial = "observed:OBSERVED-001";
+
   if (select) {
     select.value = initial;
-    select.addEventListener("change", () => {
-      const url = new URL(location.href);
-      if (select.value.startsWith("observed:")) {
-        url.searchParams.set("source", "observed");
-        url.searchParams.set("id", select.value.split(":")[1]);
-      } else {
-        url.searchParams.delete("source");
-        url.searchParams.delete("id");
-      }
-      history.replaceState({}, "", url);
-      applySource(select.value);
-    });
+    select.addEventListener("change", () => applySource(select.value));
   }
+
+  const synthBtn = $("btn-synthetic");
+  if (synthBtn) {
+    synthBtn.addEventListener("click", () => applySource("synthetic"));
+  }
+
   applySource(initial);
 }
 

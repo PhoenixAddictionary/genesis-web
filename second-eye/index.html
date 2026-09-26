@@ -4,38 +4,53 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Second Eye — attestation receipt verify</title>
-  <meta name="description" content="Verify one bounded agent-action attestation. Synthetic toy stays SIMULATED_NOT_OBSERVED; real receipts use OBSERVED.">
+  <title>Second Eye — forwardable observation receipt</title>
+  <meta name="description" content="One forwardable receipt: who did what, what was observed, with digests — so a human can decide whether to rely. Not a verdict, certificate, or access grant.">
   <link rel="stylesheet" href="garden.css">
 </head>
 <body>
   <header class="masthead">
-    <a class="wordmark" href="#top" aria-label="Second Eye home">SECOND EYE <span>/ G2</span></a>
-    <p class="watermark" id="claim-watermark">SIMULATED_NOT_OBSERVED</p>
+    <a class="wordmark" href="#top" aria-label="Second Eye home">SECOND EYE</a>
+    <p class="watermark watermark-observed" id="claim-watermark">OBSERVED</p>
   </header>
 
   <main id="top">
-    <section class="hero" aria-labelledby="title">
-      <p class="eyebrow">Trust Spine · compose, do not extend</p>
-      <h1 id="title">Sell verifiable<br>statements, <em>never verdicts.</em></h1>
-      <p class="lede">This receipt says what was observed. The company decides access outside the receipt.</p>
-      <div class="boundary" role="note">
-        <span>One bounded statement</span>
-        <span aria-hidden="true">≠</span>
-        <span>identity, safety, legitimacy, certification or authorization</span>
+    <!-- 1) One sentence + 2) Try-one hero (Chair #3 leads) -->
+    <section class="product-hero" aria-labelledby="pitch">
+      <p class="eyebrow">Forwardable receipt · not a verdict</p>
+      <h1 id="pitch" class="pitch">A receipt you can forward: who did what, what was observed, with digests — so a human can decide whether to rely.</h1>
+      <p class="pitch-de" lang="de">Weiterleitbare Quittung: wer was getan hat, was beobachtet wurde, mit Digests — damit ein Mensch entscheiden kann, ob er sich darauf stützt.</p>
+
+      <div class="try-one" role="region" aria-labelledby="try-one-title">
+        <div class="try-one-copy">
+          <p class="eyebrow acid">30-second try-one</p>
+          <h2 id="try-one-title">Open a real OBSERVED receipt now.</h2>
+          <p class="try-one-lede">Default below is <strong>OBSERVED-001</strong> — filled digests, PASS, no access grant. Zero UNKNOWN on this path.</p>
+        </div>
+        <div class="try-one-actions">
+          <a class="btn primary" href="#receipt-card">See filled receipt</a>
+          <button type="button" class="btn ghost" id="btn-synthetic" data-source="synthetic">Compare synthetic toy</button>
+        </div>
       </div>
+
+      <p class="boundary-compact" role="note">
+        <span>Observation receipt</span>
+        <span aria-hidden="true">≠</span>
+        <span>verdict · certificate · access</span>
+      </p>
     </section>
 
+    <!-- 3) Big receipt card -->
     <section class="console" aria-labelledby="receipt-heading">
-      <div class="case-picker source-picker">
+      <div class="case-picker source-picker product-source">
         <label for="source-select">Source</label>
         <select id="source-select" aria-label="Select receipt source">
+          <option value="observed:OBSERVED-001" selected>OBSERVED-001 · real dry-run (OBSERVED)</option>
           <option value="synthetic">Synthetic toy (SIMULATED_NOT_OBSERVED)</option>
-          <option value="observed:OBSERVED-001">Observed dry-run OBSERVED-001</option>
         </select>
       </div>
 
-      <nav class="modes" aria-label="Trace view">
+      <nav class="modes lab-chrome" aria-label="Trace view">
         <button class="mode active" data-mode="ALL" aria-pressed="true">All trace</button>
         <button class="mode" data-mode="EVIDENCE" aria-pressed="false">Evidence</button>
         <button class="mode" data-mode="AUTHORITY" aria-pressed="false">Authority</button>
@@ -43,36 +58,36 @@
         <button class="mode" data-mode="LIFECYCLE" aria-pressed="false">Lifecycle</button>
       </nav>
 
-      <div class="case-picker">
+      <div class="case-picker lab-chrome">
         <label for="case-select">Case</label>
         <select id="case-select" aria-label="Select case"></select>
       </div>
 
-      <article class="receipt" aria-labelledby="receipt-heading">
+      <article class="receipt" id="receipt-card" aria-labelledby="receipt-heading">
         <div class="receipt-head">
           <div>
             <p class="eyebrow">Task-bound attestation receipt</p>
-            <h2 id="receipt-heading">Replay unavailable until local data loads</h2>
+            <h2 id="receipt-heading">ATT-OBSERVED-001</h2>
           </div>
-          <p id="result" class="result">UNKNOWN</p>
+          <p id="result" class="result result-pass">PASS</p>
         </div>
-        <p class="claim-line">claimClass · <strong id="claim-class">UNKNOWN</strong></p>
+        <p class="claim-line">claimClass · <strong id="claim-class">OBSERVED</strong></p>
         <dl class="receipt-grid">
-          <div><dt>Who</dt><dd id="who">Unknown</dd></div>
-          <div><dt>Authorized to</dt><dd id="delegation">Unknown</dd></div>
-          <div><dt>Was asked</dt><dd id="asked">Unknown</dd></div>
-          <div><dt>Was observed</dt><dd id="observed">Unknown</dd></div>
-          <div><dt>Result + unknown</dt><dd id="result-detail">Unknown</dd></div>
-          <div><dt>Verified by + independence</dt><dd id="verified">Unknown</dd></div>
-          <div class="decision"><dt>Decided by outside receipt</dt><dd id="decided">Unknown — no access decision lives in this receipt.</dd></div>
+          <div><dt>Who</dt><dd id="who">agent:outside.dry-run.brief.01 · 0.1.0 · python-local-dry-run-v1</dd></div>
+          <div><dt>Authorized to</dt><dd id="delegation">Loading…</dd></div>
+          <div><dt>Was asked</dt><dd id="asked">Loading…</dd></div>
+          <div><dt>Was observed</dt><dd id="observed">SIGNED_EVIDENCE_REVIEW · second-eye.outside-bounded-brief.v1 · local-dry-run-sandbox-no-network-v1</dd></div>
+          <div><dt>Result + unknown</dt><dd id="result-detail">Loading…</dd></div>
+          <div><dt>Verified by + independence</dt><dd id="verified">Loading…</dd></div>
+          <div class="decision"><dt>Decided by outside receipt · rely or not</dt><dd id="decided">COMPANY_RELYING_PARTY: NOT_DECIDED_IN_THIS_RECEIPT. Access token: none. No Second Eye access grant.</dd></div>
         </dl>
 
         <section class="digest-panel" aria-labelledby="digest-title">
           <h3 id="digest-title">Digest check</h3>
           <dl class="digest-grid">
-            <div><dt>inputDigest</dt><dd id="input-digest" class="mono">—</dd></div>
-            <div><dt>outputDigest</dt><dd id="output-digest" class="mono">—</dd></div>
-            <div><dt>local evidence match</dt><dd id="digest-match">n/a for synthetic toy</dd></div>
+            <div><dt>inputDigest</dt><dd id="input-digest" class="mono">669e6f15fca02e627a59c638ccfef8b832e6f33b1676acece7a32b369a69dded</dd></div>
+            <div><dt>outputDigest</dt><dd id="output-digest" class="mono">c1f05788f462ea96c2186b70e63188231fe9cd4979826d79ad5221121e19f4cb</dd></div>
+            <div><dt>local evidence match</dt><dd id="digest-match">Loading OBSERVED-001…</dd></div>
           </dl>
         </section>
 
@@ -82,10 +97,10 @@
         </section>
 
         <p class="does-not-claim"><strong>Does not claim</strong> general quality · general safety · legitimacy · company authorization · recognized certification</p>
-        <noscript><p class="no-script">Interactive verify unavailable because JavaScript is off. Open <code>replay.v1.json</code> or <code>observed/OBSERVED-001/bundle.json</code> directly.</p></noscript>
+        <noscript><p class="no-script">Interactive verify unavailable because JavaScript is off. Open <code>observed/OBSERVED-001/bundle.json</code> directly for the default OBSERVED demo.</p></noscript>
       </article>
 
-      <section class="ledger" aria-labelledby="ledger-title">
+      <section class="ledger lab-chrome" aria-labelledby="ledger-title">
         <div class="section-heading">
           <div><p class="eyebrow">Canonical Ledger Line</p><h2 id="ledger-title">Nothing adverse disappears.</h2></div>
           <p id="trace-hash" class="mono">trace —</p>
@@ -94,22 +109,23 @@
       </section>
     </section>
 
-    <section class="emergence" aria-labelledby="emergence-title">
-      <p class="eyebrow">Need → proof → recurrence → optional form</p>
-      <h2 id="emergence-title">Institutions are noticed,<br>not built.</h2>
-      <p id="seed-copy">Repeated demand can emit a candidate seed. It cannot install a verifier group, board, standard, certifier or authority.</p>
-      <div class="state-row"><span>Institution seed</span><strong id="seed-state">CANDIDATE_ONLY</strong></div>
-    </section>
-
     <section class="howto" aria-labelledby="howto-title">
       <p class="eyebrow">Outside person</p>
       <h2 id="howto-title">One receipt, five steps</h2>
-      <p>Short how-to: <a href="HOW_TO_OUTSIDE_PERSON.md">HOW_TO_OUTSIDE_PERSON.md</a>. Operator composes; you keep digests and the rely/not-rely answer.</p>
+      <p>Short how-to (operator compose + your rely/not-rely): <a href="HOW_TO_OUTSIDE_PERSON.md">HOW_TO_OUTSIDE_PERSON.md</a>. Not the hero story — the filled card above is.</p>
+    </section>
+
+    <!-- Manifesto / philosophy demoted below fold -->
+    <section class="emergence below-fold" aria-labelledby="emergence-title">
+      <p class="eyebrow">Lab note · not the product pitch</p>
+      <h2 id="emergence-title">Institutions are noticed, not built.</h2>
+      <p id="seed-copy">Repeated demand can emit a candidate seed. It cannot install a verifier group, board, standard, certifier or authority.</p>
+      <div class="state-row"><span>Institution seed</span><strong id="seed-state">CANDIDATE_ONLY</strong></div>
     </section>
   </main>
 
   <footer>
-    <p>Static local candidate · no telemetry · no visitor data · Chair A claimClass unlock (OBSERVED | SIMULATED_NOT_OBSERVED) · no access grant from Second Eye</p>
+    <p>Static local candidate · no telemetry · no visitor data · Chair A claimClass (OBSERVED | SIMULATED_NOT_OBSERVED) · no access grant from Second Eye · first-screen rebuild 2026-09-26 — not prod until Owner GO</p>
   </footer>
   <script src="garden.js" defer></script>
 </body>
