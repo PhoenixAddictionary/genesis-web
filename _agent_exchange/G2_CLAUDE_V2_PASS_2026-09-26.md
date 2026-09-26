@@ -5,7 +5,7 @@
 **Worktree only:** `C:\Users\sirne\Desktop\Projekte\.claude\worktrees\g2-second-eye-smallest`
 **Branch:** `claude/g2-second-eye-smallest`
 **Parent tip (basis):** `fe14e5eed1e806ffc66bd1c1252af403994fe474` (`fe14e5e` — New Bot gap-fill)
-**New SHA:** e5810a5ff4f7bf4befc0fb33f7c521425c19a1d5 (e5810a5) — tip after amend; commit blob may cite prior self-SHA
+**New SHA (authoritative tip):** 444f7e7e55b1a0786151a66456de06bd7d0b3a4a (444f7e7) — self-SHA inside prior amend blob may lag one hash; trust this tip / git rev-parse HEAD
 **Product thesis:** Artifact-in-view = still-readable filled OBSERVED receipt (not cubes/flicker hero; not brochure Value×3/FAQ).
 
 Hard constraints honored: no prod deploy, no merge, no outreach, no mail, no outside share. Digests/tokens/claims only from OBSERVED-001. Claim classes remain OBSERVED | SIMULATED_NOT_OBSERVED. EN pitch + DE mirror kept. D3 public unfurl validate not run.
@@ -32,7 +32,7 @@ Source select is inside collapsed lab-panel details (not between pitch and recei
 | Artifact-in-view | Remove/demote digest-cubes / flicker-build / building-observation chrome | **PASS** |
 | E1 | Static HTML bake OBSERVED-001 fields; zero Loading/UNKNOWN above fold | **PASS** |
 | A3 | garden.js error path uses LOAD_ERROR / Could not load receipt / — ; documented on receipt | **PASS** |
-| A6 | CTA = Check this receipt; synthetic compare kept; no signup/waitlist/demo | **PASS** |
+| A6 | CTA = Check digests on this receipt; synthetic compare kept; no signup/waitlist/demo | **PASS** |
 | Brochure rollback | Value×3 + FAQ removed; disqualifier, proof-strip, OG, try-one, OBSERVED default kept | **PASS** |
 | OG | Tags kept; public unfurl not validated (D3 locked) | **PASS / locked** |
 | Verify | python second-eye/tools/verify_g2_local.py | **PASS** |
