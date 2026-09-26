@@ -1,7 +1,8 @@
 "use strict";
 
-const state = { replay: null, caseIndex: 0, mode: "ALL", source: "observed:OBSERVED-001", observedMeta: null };
+const state = { replay: null, caseIndex: 0, mode: "ALL", source: "observed:OBSERVED-001", observedMeta: null, buildTimer: null };
 const $ = (id) => document.getElementById(id);
+const reduceMotion = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function text(id, value) { const el = $(id); if (el) el.textContent = value ?? "Unknown"; }
 
@@ -55,6 +56,63 @@ function renderDigests(run) {
     : "FAIL — digests do not match bundle self-check");
 }
 
+function renderProofStrip(run, cc) {
+  const el = $("proof-strip");
+  if (!el) return;
+  if (state.source.startsWith("observed:")) {
+    const id = state.source.split(":")[1] || "OBSERVED-001";
+    el.textContent = `Surface · observed/${id}/ · claimClass ${cc} · digests filled · SIMULATED_NOT_OBSERVED only on synthetic`;
+  } else {
+    el.textContent = `Surface · replay.v1.json (toy) · claimClass ${cc} · not a live observation`;
+  }
+}
+
+/** Product-in-motion: digest chars as cubes that flicker then settle (transfer #1). */
+function runFlickerBuild(run) {
+  const card = $("receipt-card");
+  const row = $("digest-cubes");
+  if (!card || !row) return;
+  if (state.buildTimer) {
+    clearTimeout(state.buildTimer);
+    state.buildTimer = null;
+  }
+  const obs = run?.attestation?.observation || {};
+  const hex = String(obs.inputDigest || "OBSERVED").slice(0, 16);
+  row.replaceChildren();
+  card.classList.remove("is-ready");
+  card.classList.add("is-building");
+
+  const cubes = [...hex].map((ch) => {
+    const span = document.createElement("span");
+    span.className = "cube flicker";
+    span.textContent = ch;
+    row.append(span);
+    return span;
+  });
+
+  if (reduceMotion()) {
+    cubes.forEach((c) => { c.classList.remove("flicker"); c.classList.add("settled"); });
+    card.classList.remove("is-building");
+    card.classList.add("is-ready");
+    return;
+  }
+
+  let i = 0;
+  const tick = () => {
+    if (i < cubes.length) {
+      cubes[i].classList.remove("flicker");
+      cubes[i].classList.add("settled");
+      i += 1;
+      state.buildTimer = setTimeout(tick, 45);
+      return;
+    }
+    card.classList.remove("is-building");
+    card.classList.add("is-ready");
+    state.buildTimer = null;
+  };
+  state.buildTimer = setTimeout(tick, 180);
+}
+
 function renderReceipt(run) {
   const request = run.proofRequest;
   const receipt = run.attestation;
@@ -75,6 +133,8 @@ function renderReceipt(run) {
   text("decided", `${receipt.authorization.owner}: ${receipt.authorization.decision}. Access token: ${token ? "PRESENT (invalid for Second Eye grant)" : "none"}. No Second Eye access grant. Rely or not is decided outside this receipt.`);
   renderLimitations(run);
   renderDigests(run);
+  renderProofStrip(run, cc);
+  runFlickerBuild(run);
 }
 
 function renderTrace(run) {
@@ -105,6 +165,7 @@ function render() {
 
 function bindCaseSelect(replay) {
   const select = $("case-select");
+  if (!select) return;
   select.replaceChildren();
   replay.cases.forEach((run, index) => {
     const option = document.createElement("option");
@@ -123,7 +184,7 @@ function bindModes() {
       candidate.classList.toggle("active", selected);
       candidate.setAttribute("aria-pressed", String(selected));
     });
-    renderTrace(state.replay.cases[state.caseIndex]);
+    if (state.replay) renderTrace(state.replay.cases[state.caseIndex]);
   }));
 }
 
@@ -189,6 +250,8 @@ function applySource(value) {
     text("claim-watermark", "UNKNOWN");
     setWatermarkClass("UNKNOWN");
     text("result-detail", `${error.message}. No result, authority or activity is inferred.`);
+    const card = $("receipt-card");
+    if (card) { card.classList.remove("is-building"); card.classList.add("is-ready"); }
   });
 }
 

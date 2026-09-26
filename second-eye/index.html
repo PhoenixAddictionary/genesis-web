@@ -6,6 +6,20 @@
   <meta name="color-scheme" content="dark">
   <title>Second Eye — forwardable observation receipt</title>
   <meta name="description" content="One forwardable receipt: who did what, what was observed, with digests — so a human can decide whether to rely. Not a verdict, certificate, or access grant.">
+  <!-- Share: New Bot transfer #7 — OG 1200×630, center-safe, summary_large_image -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Second Eye">
+  <meta property="og:title" content="Second Eye — OBSERVED observation receipt">
+  <meta property="og:description" content="A receipt you can forward: who did what, what was observed, with digests. Not a verdict, not a certificate, not access.">
+  <meta property="og:url" content="https://openpassage.org/second-eye/">
+  <meta property="og:image" content="https://openpassage.org/second-eye/og-second-eye.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Second Eye OBSERVED receipt — digests and rely-or-not, not a verdict">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Second Eye — OBSERVED observation receipt">
+  <meta name="twitter:description" content="Forwardable observation receipt with digests. Not a verdict, certificate, or access grant.">
+  <meta name="twitter:image" content="https://openpassage.org/second-eye/og-second-eye.png">
   <link rel="stylesheet" href="garden.css">
 </head>
 <body>
@@ -15,11 +29,13 @@
   </header>
 
   <main id="top">
-    <!-- 1) One sentence + 2) Try-one hero (Chair #3 leads) -->
+    <!-- 1) Promise + disqualifier + try-one (OBSERVED default — tip 9690939; do not redo) -->
     <section class="product-hero" aria-labelledby="pitch">
       <p class="eyebrow">Forwardable receipt · not a verdict</p>
       <h1 id="pitch" class="pitch">A receipt you can forward: who did what, what was observed, with digests — so a human can decide whether to rely.</h1>
       <p class="pitch-de" lang="de">Weiterleitbare Quittung: wer was getan hat, was beobachtet wurde, mit Digests — damit ein Mensch entscheiden kann, ob er sich darauf stützt.</p>
+      <!-- Transfer #5 disqualifier: one sentence what it is NOT yet -->
+      <p class="disqualifier" role="note">Not a live watch. Not a verdict. Not a certificate or access grant — an observation receipt for one bounded agent action.</p>
 
       <div class="try-one" role="region" aria-labelledby="try-one-title">
         <div class="try-one-copy">
@@ -40,7 +56,7 @@
       </p>
     </section>
 
-    <!-- 3) Big receipt card -->
+    <!-- 2) Instance = product-in-motion hero (receipt + digest cubes flicker-build) -->
     <section class="console" aria-labelledby="receipt-heading">
       <div class="case-picker source-picker product-source">
         <label for="source-select">Source</label>
@@ -50,20 +66,11 @@
         </select>
       </div>
 
-      <nav class="modes lab-chrome" aria-label="Trace view">
-        <button class="mode active" data-mode="ALL" aria-pressed="true">All trace</button>
-        <button class="mode" data-mode="EVIDENCE" aria-pressed="false">Evidence</button>
-        <button class="mode" data-mode="AUTHORITY" aria-pressed="false">Authority</button>
-        <button class="mode" data-mode="INCENTIVES" aria-pressed="false">Incentives</button>
-        <button class="mode" data-mode="LIFECYCLE" aria-pressed="false">Lifecycle</button>
-      </nav>
-
-      <div class="case-picker lab-chrome">
-        <label for="case-select">Case</label>
-        <select id="case-select" aria-label="Select case"></select>
-      </div>
-
-      <article class="receipt" id="receipt-card" aria-labelledby="receipt-heading">
+      <article class="receipt product-instance" id="receipt-card" aria-labelledby="receipt-heading">
+        <div class="instance-chrome" aria-hidden="true">
+          <span class="cube-row" id="digest-cubes"></span>
+          <span class="flicker-label">building observation…</span>
+        </div>
         <div class="receipt-head">
           <div>
             <p class="eyebrow">Task-bound attestation receipt</p>
@@ -72,7 +79,8 @@
           <p id="result" class="result result-pass">PASS</p>
         </div>
         <p class="claim-line">claimClass · <strong id="claim-class">OBSERVED</strong></p>
-        <dl class="receipt-grid">
+        <p class="proof-strip" id="proof-strip">Surface · <code>observed/OBSERVED-001/</code> · claimClass OBSERVED · digests filled</p>
+        <dl class="receipt-grid reveal-grid">
           <div><dt>Who</dt><dd id="who">agent:outside.dry-run.brief.01 · 0.1.0 · python-local-dry-run-v1</dd></div>
           <div><dt>Authorized to</dt><dd id="delegation">Loading…</dd></div>
           <div><dt>Was asked</dt><dd id="asked">Loading…</dd></div>
@@ -100,13 +108,74 @@
         <noscript><p class="no-script">Interactive verify unavailable because JavaScript is off. Open <code>observed/OBSERVED-001/bundle.json</code> directly for the default OBSERVED demo.</p></noscript>
       </article>
 
-      <section class="ledger lab-chrome" aria-labelledby="ledger-title">
-        <div class="section-heading">
-          <div><p class="eyebrow">Canonical Ledger Line</p><h2 id="ledger-title">Nothing adverse disappears.</h2></div>
-          <p id="trace-hash" class="mono">trace —</p>
+      <!-- Lab chrome collapsed by default — product first, not dashboard dump -->
+      <details class="lab-panel">
+        <summary>Lab / trace (optional)</summary>
+        <nav class="modes lab-chrome" aria-label="Trace view">
+          <button class="mode active" data-mode="ALL" aria-pressed="true">All trace</button>
+          <button class="mode" data-mode="EVIDENCE" aria-pressed="false">Evidence</button>
+          <button class="mode" data-mode="AUTHORITY" aria-pressed="false">Authority</button>
+          <button class="mode" data-mode="INCENTIVES" aria-pressed="false">Incentives</button>
+          <button class="mode" data-mode="LIFECYCLE" aria-pressed="false">Lifecycle</button>
+        </nav>
+        <div class="case-picker lab-chrome">
+          <label for="case-select">Case</label>
+          <select id="case-select" aria-label="Select case"></select>
         </div>
-        <ol id="trace" class="trace" aria-live="polite"></ol>
-      </section>
+        <section class="ledger lab-chrome" aria-labelledby="ledger-title">
+          <div class="section-heading">
+            <div><p class="eyebrow">Canonical Ledger Line</p><h2 id="ledger-title">Nothing adverse disappears.</h2></div>
+            <p id="trace-hash" class="mono">trace —</p>
+          </div>
+          <ol id="trace" class="trace" aria-live="polite"></ol>
+        </section>
+      </details>
+    </section>
+
+    <!-- 3) Section grammar: 2–3 value blocks from the idea (not brochure feature wall) -->
+    <section class="value-blocks" aria-labelledby="value-title">
+      <p class="eyebrow">From the idea</p>
+      <h2 id="value-title" class="sr-only">What the receipt does</h2>
+      <div class="value-grid">
+        <article>
+          <h3>Observe one action</h3>
+          <p>Bound to a task, agent, environment, and time window — not a company-wide stamp.</p>
+        </article>
+        <article>
+          <h3>Carry digests</h3>
+          <p>inputDigest / outputDigest a stranger can check against evidence files.</p>
+        </article>
+        <article>
+          <h3>Rely outside</h3>
+          <p>The human decides rely or not. Second Eye never grants access or issues a verdict.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-band" aria-labelledby="cta-title">
+      <h2 id="cta-title">Forward the filled receipt</h2>
+      <p>Scroll up to OBSERVED-001, or open the how-to for compose + rely/not-rely.</p>
+      <div class="cta-actions">
+        <a class="btn primary" href="#receipt-card">Back to receipt</a>
+        <a class="btn ghost" href="HOW_TO_OUTSIDE_PERSON.md">Outside how-to</a>
+      </div>
+    </section>
+
+    <section class="faq" aria-labelledby="faq-title">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="faq-title">Short answers</h2>
+      <details>
+        <summary>Is this a certificate or approval?</summary>
+        <p>No. It is an observation receipt with an honest claim class (<code>OBSERVED</code> or <code>SIMULATED_NOT_OBSERVED</code>). Limitations stay visible.</p>
+      </details>
+      <details>
+        <summary>Do I need an account?</summary>
+        <p>No. The default try-one is a filled OBSERVED demo — one bounded action, zero signup.</p>
+      </details>
+      <details>
+        <summary>Is there live monitoring?</summary>
+        <p>Not yet. This surface shows a bounded dry-run observation, not a live watch.</p>
+      </details>
     </section>
 
     <section class="howto" aria-labelledby="howto-title">
@@ -115,7 +184,7 @@
       <p>Short how-to (operator compose + your rely/not-rely): <a href="HOW_TO_OUTSIDE_PERSON.md">HOW_TO_OUTSIDE_PERSON.md</a>. Not the hero story — the filled card above is.</p>
     </section>
 
-    <!-- Manifesto / philosophy demoted below fold -->
+    <!-- Manifesto / philosophy demoted below fold (9690939) -->
     <section class="emergence below-fold" aria-labelledby="emergence-title">
       <p class="eyebrow">Lab note · not the product pitch</p>
       <h2 id="emergence-title">Institutions are noticed, not built.</h2>
@@ -125,7 +194,7 @@
   </main>
 
   <footer>
-    <p>Static local candidate · no telemetry · no visitor data · Chair A claimClass (OBSERVED | SIMULATED_NOT_OBSERVED) · no access grant from Second Eye · first-screen rebuild 2026-09-26 — not prod until Owner GO</p>
+    <p>Static local candidate · no telemetry · no cookies · no visitor data · Chair A claimClass (OBSERVED | SIMULATED_NOT_OBSERVED) · no access grant from Second Eye · New Bot gap-fill 2026-09-26 — not prod until Owner GO</p>
   </footer>
   <script src="garden.js" defer></script>
 </body>
