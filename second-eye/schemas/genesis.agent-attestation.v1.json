@@ -1,0 +1,43 @@
+{
+  "schema": "genesis.agent-attestation.v1",
+  "description": "Agent attestation shape used by Second Eye (compose-only). claimClass unlocked by Chair A 2026-09-26.",
+  "required": [
+    "schema",
+    "attestationId",
+    "claimClass",
+    "observedSubject",
+    "observation",
+    "result",
+    "evaluator",
+    "limitations",
+    "authorization"
+  ],
+  "properties": {
+    "schema": {
+      "const": "genesis.agent-attestation.v1"
+    },
+    "claimClass": {
+      "enum": [
+        "SIMULATED_NOT_OBSERVED",
+        "OBSERVED"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5
+    },
+    "authorization": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Must be null for Second Eye receipts; never a grant."
+        }
+      }
+    }
+  },
+  "x-chair-a": "claimClass enum unlocked 2026-09-26; see genesis.second-eye-claim-class.v1.json"
+}

@@ -1,0 +1,20 @@
+{
+  "agentId": "agent:outside.dry-run.brief.01",
+  "version": "0.1.0",
+  "runtime": "python-local-dry-run-v1",
+  "toolCalls": [
+    {
+      "tool": "read_file",
+      "path": "evidence/input_task.txt",
+      "ok": true
+    },
+    {
+      "tool": "write_file",
+      "path": "evidence/output_brief.txt",
+      "ok": true
+    }
+  ],
+  "network": false,
+  "secretsRead": 0,
+  "finished": true
+}

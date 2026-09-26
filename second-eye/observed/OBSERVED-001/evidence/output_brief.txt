@@ -1,0 +1,5 @@
+- Does not claim general agent quality.
+- Does not claim general safety.
+- Does not claim legitimacy or identity proof.
+- Does not grant company authorization or access.
+- Does not claim recognized certification.

@@ -1,0 +1,4 @@
+# Outside-agent dry-run task (public, non-PRS)
+TASK: Summarize Second Eye non-claims in exactly 5 bullet lines.
+ENVIRONMENT: local-dry-run-sandbox-no-network-v1
+SUCCESS: exactly 5 lines; each starts with - ; no secrets.

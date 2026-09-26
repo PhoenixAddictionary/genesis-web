@@ -1,0 +1,29 @@
+{
+  "schema": "genesis.proof-request.v1",
+  "description": "Proof request shape used by Second Eye (compose-only). claimClass unlocked by Chair A 2026-09-26.",
+  "required": [
+    "schema",
+    "requestId",
+    "claimClass",
+    "requestedProof",
+    "delegation"
+  ],
+  "properties": {
+    "schema": {
+      "const": "genesis.proof-request.v1"
+    },
+    "claimClass": {
+      "enum": [
+        "SIMULATED_NOT_OBSERVED",
+        "OBSERVED"
+      ]
+    },
+    "requestedProof": {
+      "type": "object"
+    },
+    "delegation": {
+      "type": "object"
+    }
+  },
+  "x-chair-a": "claimClass enum unlocked 2026-09-26; see genesis.second-eye-claim-class.v1.json"
+}
