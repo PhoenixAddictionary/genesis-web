@@ -40,11 +40,11 @@
       <div class="try-one" role="region" aria-labelledby="try-one-title">
         <div class="try-one-copy">
           <p class="eyebrow acid">30-second try-one</p>
-          <h2 id="try-one-title">Open a real OBSERVED receipt now.</h2>
-          <p class="try-one-lede">Default below is <strong>OBSERVED-001</strong> — filled digests, PASS, no access grant. Zero UNKNOWN on this path.</p>
+          <h2 id="try-one-title">Real OBSERVED receipt — filled below.</h2>
+          <p class="try-one-lede">Default below is <strong>OBSERVED-001</strong> — filled digests, PASS, claimClass OBSERVED. Digests are checkable; no access grant.</p>
         </div>
         <div class="try-one-actions">
-          <a class="btn primary" href="#receipt-card">See filled receipt</a>
+          <a class="btn primary" href="#digest-title">Check digests on this receipt</a>
           <button type="button" class="btn ghost" id="btn-synthetic" data-source="synthetic">Compare synthetic toy</button>
         </div>
       </div>
@@ -56,21 +56,10 @@
       </p>
     </section>
 
-    <!-- 2) Instance = product-in-motion hero (receipt + digest cubes flicker-build) -->
+    <!-- 2) Artifact-in-View: filled OBSERVED receipt (lab chrome under card) -->
     <section class="console" aria-labelledby="receipt-heading">
-      <div class="case-picker source-picker product-source">
-        <label for="source-select">Source</label>
-        <select id="source-select" aria-label="Select receipt source">
-          <option value="observed:OBSERVED-001" selected>OBSERVED-001 · real dry-run (OBSERVED)</option>
-          <option value="synthetic">Synthetic toy (SIMULATED_NOT_OBSERVED)</option>
-        </select>
-      </div>
-
       <article class="receipt product-instance" id="receipt-card" aria-labelledby="receipt-heading">
-        <div class="instance-chrome" aria-hidden="true">
-          <span class="cube-row" id="digest-cubes"></span>
-          <span class="flicker-label">building observation…</span>
-        </div>
+        <!-- cubes/flicker demoted: Artifact-in-View (v2 / Owner binding) -->
         <div class="receipt-head">
           <div>
             <p class="eyebrow">Task-bound attestation receipt</p>
@@ -82,11 +71,11 @@
         <p class="proof-strip" id="proof-strip">Surface · <code>observed/OBSERVED-001/</code> · claimClass OBSERVED · digests filled</p>
         <dl class="receipt-grid reveal-grid">
           <div><dt>Who</dt><dd id="who">agent:outside.dry-run.brief.01 · 0.1.0 · python-local-dry-run-v1</dd></div>
-          <div><dt>Authorized to</dt><dd id="delegation">Loading…</dd></div>
-          <div><dt>Was asked</dt><dd id="asked">Loading…</dd></div>
+          <div><dt>Authorized to</dt><dd id="delegation">read:evidence/input_task.txt · write:evidence/output_brief.txt until 2026-09-26T01:00:00Z</dd></div>
+          <div><dt>Was asked</dt><dd id="asked">Summarize Second Eye non-claims in exactly 5 bullet lines for a relying party.</dd></div>
           <div><dt>Was observed</dt><dd id="observed">SIGNED_EVIDENCE_REVIEW · second-eye.outside-bounded-brief.v1 · local-dry-run-sandbox-no-network-v1</dd></div>
-          <div><dt>Result + unknown</dt><dd id="result-detail">Loading…</dd></div>
-          <div><dt>Verified by + independence</dt><dd id="verified">Loading…</dd></div>
+          <div><dt>Result + unknown</dt><dd id="result-detail">Output contained exactly 5 lines starting with '- '. inputDigest matched evidence/input_task.txt. outputDigest matched evidence/output_brief.txt. toolTraceDigest verified; network=false; secretsRead=0. Unknown beyond this task, environment, version and time window.</dd></div>
+          <div><dt>Verified by + independence</dt><dd id="verified">EVALUATOR-OUTSIDE-INDEPENDENT-DRY-RUN · SEPARATE_FROM_TRAINER_AND_OPERATOR · outcome fee: no</dd></div>
           <div class="decision"><dt>Decided by outside receipt · rely or not</dt><dd id="decided">COMPANY_RELYING_PARTY: NOT_DECIDED_IN_THIS_RECEIPT. Access token: none. No Second Eye access grant.</dd></div>
         </dl>
 
@@ -95,15 +84,22 @@
           <dl class="digest-grid">
             <div><dt>inputDigest</dt><dd id="input-digest" class="mono">669e6f15fca02e627a59c638ccfef8b832e6f33b1676acece7a32b369a69dded</dd></div>
             <div><dt>outputDigest</dt><dd id="output-digest" class="mono">c1f05788f462ea96c2186b70e63188231fe9cd4979826d79ad5221121e19f4cb</dd></div>
-            <div><dt>local evidence match</dt><dd id="digest-match">Loading OBSERVED-001…</dd></div>
+            <div><dt>local evidence match</dt><dd id="digest-match">PASS — page digests match bundle digestSelfCheck / evidence hashes</dd></div>
           </dl>
         </section>
 
         <section class="limits-panel" aria-labelledby="limits-title">
           <h3 id="limits-title">Limitations (always visible)</h3>
-          <ul id="limitation-list" class="limitation-list"></ul>
+          <ul id="limitation-list" class="limitation-list">
+            <li>NOT_GENERAL_QUALITY</li>
+            <li>NOT_GENERAL_SAFETY</li>
+            <li>NOT_LEGITIMACY</li>
+            <li>NOT_COMPANY_AUTHORIZATION</li>
+            <li>NOT_RECOGNIZED_CERTIFICATION</li>
+          </ul>
         </section>
 
+        <p class="load-error-note" role="note">Load failure shows <code>LOAD_ERROR</code> / — — never claimClass <code>UNKNOWN</code>. Claim classes stay OBSERVED | SIMULATED_NOT_OBSERVED.</p>
         <p class="does-not-claim"><strong>Does not claim</strong> general quality · general safety · legitimacy · company authorization · recognized certification</p>
         <noscript><p class="no-script">Interactive verify unavailable because JavaScript is off. Open <code>observed/OBSERVED-001/bundle.json</code> directly for the default OBSERVED demo.</p></noscript>
       </article>
@@ -111,6 +107,13 @@
       <!-- Lab chrome collapsed by default — product first, not dashboard dump -->
       <details class="lab-panel">
         <summary>Lab / trace (optional)</summary>
+        <div class="case-picker source-picker product-source lab-chrome">
+          <label for="source-select">Source</label>
+          <select id="source-select" aria-label="Select receipt source">
+            <option value="observed:OBSERVED-001" selected>OBSERVED-001 · real dry-run (OBSERVED)</option>
+            <option value="synthetic">Synthetic toy (SIMULATED_NOT_OBSERVED)</option>
+          </select>
+        </div>
         <nav class="modes lab-chrome" aria-label="Trace view">
           <button class="mode active" data-mode="ALL" aria-pressed="true">All trace</button>
           <button class="mode" data-mode="EVIDENCE" aria-pressed="false">Evidence</button>
@@ -132,26 +135,6 @@
       </details>
     </section>
 
-    <!-- 3) Section grammar: 2–3 value blocks from the idea (not brochure feature wall) -->
-    <section class="value-blocks" aria-labelledby="value-title">
-      <p class="eyebrow">From the idea</p>
-      <h2 id="value-title" class="sr-only">What the receipt does</h2>
-      <div class="value-grid">
-        <article>
-          <h3>Observe one action</h3>
-          <p>Bound to a task, agent, environment, and time window — not a company-wide stamp.</p>
-        </article>
-        <article>
-          <h3>Carry digests</h3>
-          <p>inputDigest / outputDigest a stranger can check against evidence files.</p>
-        </article>
-        <article>
-          <h3>Rely outside</h3>
-          <p>The human decides rely or not. Second Eye never grants access or issues a verdict.</p>
-        </article>
-      </div>
-    </section>
-
     <section class="cta-band" aria-labelledby="cta-title">
       <h2 id="cta-title">Forward the filled receipt</h2>
       <p>Scroll up to OBSERVED-001, or open the how-to for compose + rely/not-rely.</p>
@@ -159,23 +142,6 @@
         <a class="btn primary" href="#receipt-card">Back to receipt</a>
         <a class="btn ghost" href="HOW_TO_OUTSIDE_PERSON.md">Outside how-to</a>
       </div>
-    </section>
-
-    <section class="faq" aria-labelledby="faq-title">
-      <p class="eyebrow">FAQ</p>
-      <h2 id="faq-title">Short answers</h2>
-      <details>
-        <summary>Is this a certificate or approval?</summary>
-        <p>No. It is an observation receipt with an honest claim class (<code>OBSERVED</code> or <code>SIMULATED_NOT_OBSERVED</code>). Limitations stay visible.</p>
-      </details>
-      <details>
-        <summary>Do I need an account?</summary>
-        <p>No. The default try-one is a filled OBSERVED demo — one bounded action, zero signup.</p>
-      </details>
-      <details>
-        <summary>Is there live monitoring?</summary>
-        <p>Not yet. This surface shows a bounded dry-run observation, not a live watch.</p>
-      </details>
     </section>
 
     <section class="howto" aria-labelledby="howto-title">
@@ -194,7 +160,7 @@
   </main>
 
   <footer>
-    <p>Static local candidate · no telemetry · no cookies · no visitor data · Chair A claimClass (OBSERVED | SIMULATED_NOT_OBSERVED) · no access grant from Second Eye · New Bot gap-fill 2026-09-26 — not prod until Owner GO</p>
+    <p>Static local candidate · no telemetry · no cookies · no visitor data · Chair A claimClass (OBSERVED | SIMULATED_NOT_OBSERVED) · no access grant from Second Eye · Transferzettel v2 local polish 2026-09-26 — artifact-in-view — not prod until Owner GO</p>
   </footer>
   <script src="garden.js" defer></script>
 </body>

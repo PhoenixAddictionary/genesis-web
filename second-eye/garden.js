@@ -4,10 +4,10 @@ const state = { replay: null, caseIndex: 0, mode: "ALL", source: "observed:OBSER
 const $ = (id) => document.getElementById(id);
 const reduceMotion = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function text(id, value) { const el = $(id); if (el) el.textContent = value ?? "Unknown"; }
+function text(id, value) { const el = $(id); if (el) el.textContent = value ?? "—"; }
 
 function claimClassOf(run, replay) {
-  return run?.claimClass || run?.attestation?.claimClass || replay?.claimClass || "UNKNOWN";
+  return run?.claimClass || run?.attestation?.claimClass || replay?.claimClass || "—";
 }
 
 function setWatermarkClass(cc) {
@@ -15,7 +15,8 @@ function setWatermarkClass(cc) {
   if (!el) return;
   el.classList.toggle("watermark-observed", cc === "OBSERVED");
   el.classList.toggle("watermark-simulated", cc === "SIMULATED_NOT_OBSERVED");
-  el.classList.toggle("watermark-unknown", cc === "UNKNOWN" || !cc);
+  el.classList.toggle("watermark-load-error", cc === "LOAD_ERROR");
+  el.classList.toggle("watermark-unknown", cc === "UNKNOWN");
 }
 
 function setResultClass(verdict) {
@@ -67,50 +68,16 @@ function renderProofStrip(run, cc) {
   }
 }
 
-/** Product-in-motion: digest chars as cubes that flicker then settle (transfer #1). */
-function runFlickerBuild(run) {
+/** Artifact-in-View (v2): no digest-cube / flicker chrome. Mark card ready only. */
+function runFlickerBuild(_run) {
   const card = $("receipt-card");
-  const row = $("digest-cubes");
-  if (!card || !row) return;
+  if (!card) return;
   if (state.buildTimer) {
     clearTimeout(state.buildTimer);
     state.buildTimer = null;
   }
-  const obs = run?.attestation?.observation || {};
-  const hex = String(obs.inputDigest || "OBSERVED").slice(0, 16);
-  row.replaceChildren();
-  card.classList.remove("is-ready");
-  card.classList.add("is-building");
-
-  const cubes = [...hex].map((ch) => {
-    const span = document.createElement("span");
-    span.className = "cube flicker";
-    span.textContent = ch;
-    row.append(span);
-    return span;
-  });
-
-  if (reduceMotion()) {
-    cubes.forEach((c) => { c.classList.remove("flicker"); c.classList.add("settled"); });
-    card.classList.remove("is-building");
-    card.classList.add("is-ready");
-    return;
-  }
-
-  let i = 0;
-  const tick = () => {
-    if (i < cubes.length) {
-      cubes[i].classList.remove("flicker");
-      cubes[i].classList.add("settled");
-      i += 1;
-      state.buildTimer = setTimeout(tick, 45);
-      return;
-    }
-    card.classList.remove("is-building");
-    card.classList.add("is-ready");
-    state.buildTimer = null;
-  };
-  state.buildTimer = setTimeout(tick, 180);
+  card.classList.remove("is-building");
+  card.classList.add("is-ready");
 }
 
 function renderReceipt(run) {
@@ -243,13 +210,19 @@ function applySource(value) {
     ? loadObserved(value.split(":")[1])
     : loadSynthetic();
   return loader.catch((error) => {
-    text("receipt-heading", "Replay unavailable");
-    text("result", "UNKNOWN");
+    // A3: network/load failure is NOT a claimClass. Keep Chair A enum clean;
+    // show a neutral load-error state (never paint UNKNOWN as the product claim).
+    text("receipt-heading", "Could not load receipt");
+    text("result", "—");
     setResultClass("UNKNOWN");
-    text("claim-class", "UNKNOWN");
-    text("claim-watermark", "UNKNOWN");
-    setWatermarkClass("UNKNOWN");
-    text("result-detail", `${error.message}. No result, authority or activity is inferred.`);
+    text("claim-class", "—");
+    text("claim-watermark", "LOAD_ERROR");
+    setWatermarkClass("LOAD_ERROR");
+    text("result-detail", `Could not load receipt: ${error.message}. No observation, verdict, authority or access is inferred.`);
+    text("digest-match", "—");
+    text("asked", "—");
+    text("delegation", "—");
+    text("verified", "—");
     const card = $("receipt-card");
     if (card) { card.classList.remove("is-building"); card.classList.add("is-ready"); }
   });
